@@ -4,9 +4,278 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cement Creek Veterinary Hospital — Crested Butte, CO</title>
-  <meta name="description" content="Independently owned small-animal veterinary hospital serving the Gunnison Valley from Crested Butte South, Colorado." />
+  <meta name="description" content="A small-animal veterinary practice for the people and pets of the Gunnison Valley. Independently and women-owned. Now welcoming new patients in Crested Butte South, Colorado." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="icon" type="image/png" href="assets/CEMENT CREEK MAIN LOGO_BADGE.png" />
 </head>
 <body>
-  <!-- Cement Creek Veterinary Hospital - starter -->
+
+  <div id="global-header"></div>
+
+  <main>
+
+    <!-- ========================================================
+         HERO — dogs in the creek, slow Ken Burns zoom
+         Real image: creek-dogs-landscape.jpg (two dogs in shallow creek water)
+         TODO: optional swap with a longer-form web-optimized video clip
+         ======================================================== -->
+    <section class="hero" aria-label="Cement Creek Veterinary Hospital">
+      <div class="hero__media">
+        <img
+          src="assets/images/creek-dogs-landscape.jpg"
+          alt="Two dogs standing in the shallow water of Cement Creek with pine forest and mountain beyond" />
+      </div>
+
+      <div class="hero__content">
+        <div class="hero__copy" data-reveal>
+          <h1 class="hero__title">This must be the place.</h1>
+          <div class="hero__actions">
+            <a href="#" class="btn btn--primary btn--arrow" data-todo="Book an appointment URL">Book an appointment</a>
+            <a href="#everything-intentional" class="btn btn--ghost">See how we built it</a>
+          </div>
+        </div>
+
+        <div class="hero__scroll" aria-hidden="true">Scroll</div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================
+         BUILT WITH PURPOSE — founder intro
+         Primary photo: building exterior (placeholder until founder portrait arrives)
+         Secondary photo: dogs in creek portrait (small print, overlapping corner)
+         ======================================================== -->
+    <section class="section founders" aria-labelledby="founders-title">
+
+      <!-- Creek (fragment 1 of 5): emerges at top-center, curves gently right,
+           exits toward the right edge at the bottom. -->
+      <div class="section-creek" aria-hidden="true">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 50 -5 C 56 20 70 40 64 60 C 58 78 70 95 78 105" />
+        </svg>
+      </div>
+
+      <div class="container">
+        <div class="founders__grid">
+
+          <div class="founders__copy">
+            <span class="eyebrow" data-reveal>The Founders</span>
+            <h2 class="founders__title" id="founders-title" data-reveal>Built with Purpose.</h2>
+            <p class="founders__lede" data-reveal>
+              Cement Creek Vet is a small-animal practice built from scratch by Dr. Kara Erickson and Shawna Castillo, business partners and besties with over 35 combined years of experience in veterinary medicine. We each spent the last few decades working in the industry and taking notes &mdash; on what worked, what didn't, and what a really good vet visit could actually feel like for both you and your pet.
+            </p>
+            <p class="founders__mission" data-reveal>
+              Our mission is to leave every patient, client, and interaction better than we found it &mdash; through honest medicine, empathy, and real conversations.
+            </p>
+          </div>
+
+          <div class="founders__media" data-reveal>
+            <div class="founders__creek-blur" aria-hidden="true"></div>
+
+            <figure class="photo-print photo-print--landscape founders__photo-primary"
+                    data-todo="Replace with Dr. Kara & Shawna in front of the clinic. Using building exterior as placeholder.">
+              <img src="assets/images/building-exterior.jpg"
+                   alt="Cement Creek Veterinary Hospital at 60 Glacier Street, Crested Butte South — exterior view with mountains behind" />
+              <figcaption class="photo-print__caption">60 Glacier St &middot; Crested Butte South</figcaption>
+            </figure>
+
+            <figure class="photo-print photo-print--tall founders__photo-secondary">
+              <img src="assets/images/creek-dogs-portrait.jpg"
+                   alt="Two dogs stand in Cement Creek surrounded by stones and pine forest" />
+            </figure>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================
+         EVERYTHING IS INTENTIONAL — editorial flow
+         (a) Feature: Context (text-only, large)
+         (b) 6 mid principles (text only, hairline grid)
+         (c) Feature: Modern Tools (text + physical-print photo)
+         ======================================================== -->
+    <section class="section intentional" id="everything-intentional" aria-labelledby="intentional-title">
+
+      <!-- Creek (fragment 2 of 5): enters at 78%, weaves right and OFF the right edge.
+           This is the "curls around and goes out of frame" moment. -->
+      <div class="section-creek" aria-hidden="true">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 78 -5 C 88 15 102 30 108 50 C 113 65 102 85 110 105" />
+        </svg>
+      </div>
+
+      <div class="container">
+
+        <header class="intentional__head">
+          <h2 class="intentional__title" id="intentional-title" data-reveal>
+            Everything is <em>intentional.</em>
+          </h2>
+          <p class="intentional__intro" data-reveal>
+            Decades of notes on what worked, what didn't, and what a really good vet visit could actually feel like &mdash; built into how we practice every day.
+          </p>
+        </header>
+
+        <!-- 8-box asymmetric mosaic. HTML order matches CSS auto-flow placement.
+             One image lives at the top of the Modern Tools box, never under text. -->
+        <div class="mosaic" data-reveal-stagger>
+
+          <!-- 01 — Context (feature, large, 7×2) -->
+          <article class="box box--feature box--context">
+            <span class="box__index">01 &middot; Approach</span>
+            <h3 class="box__heading">Context, not just conclusions.</h3>
+            <p class="box__body">
+              When we recommend something, we tell you why &mdash; how it works, what the evidence says, what happens if you skip it. You'll never leave with an estimate you don't understand or a diagnosis without knowing what it means for your animal. Our collaborative approach to treatment plans means you won't feel bad for asking questions or cornered by the cost. We work with CareCredit, Klarna, Cherry payment plans, and even created our application-based Heart Dog &amp; Cat Fund, so that you always have options.
+            </p>
+            <a href="#" class="box__cta" data-todo="Ways-to-pay page URL — placeholder">
+              <span class="box__cta-line">Learn more about ways to pay</span>
+            </a>
+          </article>
+
+          <!-- 02 — Personalized (5 col, top right) -->
+          <article class="box box--personalized">
+            <span class="box__index">02 &middot; Care</span>
+            <h3 class="box__heading">Personalized pet care.</h3>
+            <p class="box__body">
+              Every patient is treated as an individual &mdash; their own history, their own needs, their own plan.
+            </p>
+          </article>
+
+          <!-- 03 — Gentle handling (5 col, mid right) -->
+          <article class="box box--gentle">
+            <span class="box__index">03 &middot; Handling</span>
+            <h3 class="box__heading">Gentle handling as a standard, not a specialty.</h3>
+            <p class="box__body">
+              We prioritize a low-stress experience for all, and adapt our handling techniques based on your pet's disposition, lifestyle, and personality.
+            </p>
+          </article>
+
+          <!-- 04 — Modern Tools (media box, image at top, 5×2) -->
+          <article class="box box--media box--modern">
+            <div class="box__image-wrap">
+              <img src="assets/images/fishbowl-framing.jpg"
+                   alt="Wood framing of the 'fishbowl' — the central glass observation room — during construction at Cement Creek Veterinary Hospital" />
+            </div>
+            <p class="box__image-caption">The fishbowl, mid-build.</p>
+            <div class="box__inner">
+              <span class="box__index">04 &middot; Tools</span>
+              <h3 class="box__heading">Modern tools and technology support.</h3>
+              <p class="box__body">
+                In-house labwork, advanced diagnostic imaging, dedicated dental and surgical suites, and our personal favorite &mdash; a glass observation room affectionately called the &ldquo;fishbowl,&rdquo; so your pet is never out of our sight during their time here.
+              </p>
+              <a href="services.html" class="box__cta">
+                <span class="box__cta-line">See how we built it</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- 05 — Cat space (3 col) -->
+          <article class="box box--cat">
+            <span class="box__index">05 &middot; Cats</span>
+            <h3 class="box__heading">A quiet space, built just for cats.</h3>
+            <p class="box__body">
+              A separate room where cats can relax and recover with calming music and their own condo.
+            </p>
+          </article>
+
+          <!-- 06 — Happy visits (4 col, with CTA) -->
+          <article class="box box--happy">
+            <span class="box__index">06 &middot; Visits</span>
+            <h3 class="box__heading">Happy visits, because we care about your experience.</h3>
+            <p class="box__body">
+              Schedule time to share the space for a bit. Meet the team, get some treats, let your pet sniff around and decide we're okay.
+            </p>
+            <a href="services.html#happy-visits" class="box__cta">
+              <span class="box__cta-line">Learn more</span>
+            </a>
+          </article>
+
+          <!-- 07 — Culture-first team (4 col, with CTA) -->
+          <article class="box box--culture">
+            <span class="box__index">07 &middot; Team</span>
+            <h3 class="box__heading">A team hired for culture first.</h3>
+            <p class="box__body">
+              We all love what we do and actually want to come to work. Running into you on the trails or around town is a bonus &mdash; there's a good chance we'll recognize your pet before you.
+            </p>
+            <a href="team.html" class="box__cta">
+              <span class="box__cta-line">Meet our team</span>
+            </a>
+          </article>
+
+          <!-- 08 — Separate entrance for hard days (3 col) -->
+          <article class="box box--hard">
+            <span class="box__index">08 &middot; Goodbyes</span>
+            <h3 class="box__heading">A separate entrance for hard days.</h3>
+            <p class="box__body">
+              Because saying goodbye sucks, and your pet deserves a peaceful passing.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ========================================================
+         CLOSER
+         ======================================================== -->
+    <section class="closer" aria-labelledby="closer-title">
+
+      <!-- Creek (fragment 3 of 5): re-enters from off the right edge,
+           curves back to center-bottom. The "comes back into frame" moment. -->
+      <div class="section-creek section-creek--on-dark" aria-hidden="true">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 110 -5 L 96 15 C 82 30 62 55 55 80 C 52 92 50 100 50 105" />
+        </svg>
+      </div>
+
+      <div class="container container--narrow">
+        <p class="closer__service-area" data-reveal>
+          Proudly serving the local and visiting pets of CB&nbsp;South, Crested Butte, Mt.&nbsp;Crested Butte, Almont, Gunnison, and surrounding areas of the Gunnison Valley.
+        </p>
+        <h2 class="closer__title" id="closer-title" data-reveal>
+          Where pets are neighbors <em>and neighbors are friends.</em>
+        </h2>
+        <div data-reveal>
+          <a href="#" class="btn closer__cta btn--primary btn--arrow" data-todo="Book your visit URL">Book your visit</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================
+         AFTER-HOURS EMERGENCY CALLOUT
+         ======================================================== -->
+    <aside class="after-hours" aria-label="After-hours emergency information">
+
+      <!-- Creek (fragment 4 of 5): short section, creek passes through center. -->
+      <div class="section-creek" aria-hidden="true">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 50 -5 C 47 30 53 70 50 105" />
+        </svg>
+      </div>
+
+      <div class="container">
+        <div class="after-hours__inner">
+          <span class="after-hours__label">After-hours emergencies</span>
+          <p class="after-hours__text">Call <a href="tel:" class="after-hours__phone" data-todo="Mountain Legacy Veterinary Center phone number">Mountain Legacy Veterinary Center</a></p>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <div id="global-footer"></div>
+
+  <script src="includes/load-partials.js"></script>
+  <script src="scripts/main.js"></script>
 </body>
 </html>

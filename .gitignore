@@ -1,0 +1,14 @@
+# Playwright test artifacts
+.playwright-cli/
+
+# Screenshots from design reviews — local-only
+ccv-*.png
+ccv2-*.png
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
