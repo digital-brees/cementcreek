@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero options — Cement Creek</title>
+  <meta name="description" content="Four hero options for review. Internal preview page." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="icon" type="image/png" href="assets/CEMENT CREEK MAIN LOGO_BADGE.png" />
+
+  <style>
+    /* ============================================================
+       Preview-only styles. Scoped to .opt-N so they don't pollute
+       the main site. Each block reuses the design system tokens
+       (--paper, --ink, etc.) so what you see here is what you get
+       when we drop the winning option into index.html.
+       ============================================================ */
+
+    /* Label band between options so it's obvious which is which */
+    .preview-divider {
+      background: var(--ink-deep);
+      color: var(--paper);
+      padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem);
+      font-family: var(--font-body);
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .preview-divider__num {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.6rem;
+      color: var(--creek);
+    }
+    .preview-divider__name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+    }
+    .preview-divider__note {
+      font-size: 0.85rem;
+      opacity: 0.75;
+      letter-spacing: 0.02em;
+    }
+
+    /* ----- Option 1: Split (photo right, intro left) ----- */
+    .opt-1 {
+      min-height: 60vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      align-items: stretch;
+      background: var(--paper);
+      overflow: hidden;
+    }
+    .opt-1__copy {
+      padding: clamp(2.5rem, 5vw, 5rem) clamp(1.5rem, 4vw, 4rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+      max-width: 620px;
+      margin-left: auto;
+    }
+    .opt-1__eyebrow {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--creek-deep);
+    }
+    .opt-1__title {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0;
+    }
+    .opt-1__lede {
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: var(--charcoal);
+      margin: 0;
+      max-width: 46ch;
+    }
+    .opt-1__actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-top: 0.5rem; }
+    .opt-1__photo {
+      position: relative;
+      overflow: hidden;
+      min-height: 60vh;
+    }
+    .opt-1__photo img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    @media (max-width: 800px) {
+      .opt-1 { grid-template-columns: 1fr; }
+      .opt-1__photo { min-height: 36vh; order: 1; }
+      .opt-1__copy { order: 2; margin-left: 0; }
+    }
+
+
+    /* ----- Option 2: Compact full-bleed ----- */
+    .opt-2 {
+      position: relative;
+      height: 60vh;
+      min-height: 460px;
+      overflow: hidden;
+      background: var(--ink-deep);
+    }
+    .opt-2__photo { position: absolute; inset: 0; }
+    .opt-2__photo img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.04); }
+    .opt-2::after {
+      /* soft scrim bottom-left only, so the text reads but the photo isn't muddied */
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top right, rgba(13, 37, 72, 0.55), rgba(13, 37, 72, 0.08) 55%, transparent 75%);
+      pointer-events: none;
+    }
+    .opt-2__copy {
+      position: absolute;
+      left: clamp(1.5rem, 4vw, 3.5rem);
+      right: auto;
+      bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+      color: var(--paper);
+      max-width: 540px;
+      z-index: 2;
+    }
+    .opt-2__title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem);
+      line-height: 1.04;
+      letter-spacing: -0.015em;
+      color: var(--paper);
+      margin: 0 0 1rem;
+    }
+    .opt-2__actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+    .opt-2 .btn--ghost { color: var(--paper); border-color: var(--paper); }
+
+
+    /* ----- Option 3: Letterbox + intro band ----- */
+    .opt-3 { background: var(--paper); }
+    .opt-3__photo {
+      height: 40vh;
+      min-height: 280px;
+      max-height: 380px;
+      overflow: hidden;
+      position: relative;
+    }
+    .opt-3__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .opt-3__band {
+      padding: clamp(2rem, 4vw, 3.5rem) clamp(1.25rem, 4vw, 2.5rem);
+      max-width: 920px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .opt-3__eyebrow {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--creek-deep);
+      display: inline-block;
+      margin-bottom: 0.85rem;
+    }
+    .opt-3__title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(2rem, 1.4rem + 2.2vw, 3.25rem);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0 0 1.25rem;
+    }
+    .opt-3__lede {
+      font-size: 1.08rem;
+      line-height: 1.55;
+      color: var(--charcoal);
+      margin: 0 auto 1.5rem;
+      max-width: 56ch;
+    }
+    .opt-3__actions { display: inline-flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; justify-content: center; }
+
+
+    /* ----- Option 4: Editorial cover ----- */
+    .opt-4 {
+      min-height: 70vh;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      background: var(--paper);
+      gap: 0;
+      overflow: hidden;
+    }
+    .opt-4__copy {
+      padding: clamp(2.5rem, 5vw, 5rem) clamp(1.5rem, 4vw, 4rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .opt-4__masthead {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .opt-4__masthead::after {
+      content: ''; flex: 1; height: 1px; background: var(--ink); opacity: 0.25;
+    }
+    .opt-4__title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(2.5rem, 1.5rem + 3.5vw, 4.5rem);
+      line-height: 0.98;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin: 1.5rem 0 1.25rem;
+    }
+    .opt-4__lede {
+      font-size: 1.08rem;
+      line-height: 1.55;
+      color: var(--charcoal);
+      max-width: 38ch;
+      margin: 0 0 1.5rem;
+    }
+    .opt-4__actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.5rem; }
+    .opt-4__byline {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--stone);
+      letter-spacing: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .opt-4__byline::before {
+      content: ''; width: 32px; height: 1px; background: var(--stone); opacity: 0.6;
+    }
+    .opt-4__photo {
+      position: relative;
+      overflow: hidden;
+      min-height: 70vh;
+    }
+    .opt-4__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    @media (max-width: 800px) {
+      .opt-4 { grid-template-columns: 1fr; }
+      .opt-4__photo { min-height: 40vh; order: 1; }
+      .opt-4__copy { order: 2; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="global-header"></div>
+
+  <main>
+
+    <!-- ====== OPTION 1 — Split ====== -->
+    <div class="preview-divider">
+      <span class="preview-divider__num">01</span>
+      <span class="preview-divider__name">Split &mdash; photo right, intro left</span>
+      <span class="preview-divider__note">~60vh &middot; lands on real content; no giant headline</span>
+    </div>
+    <section class="opt-1" aria-label="Option 1: Split hero">
+      <div class="opt-1__copy">
+        <span class="opt-1__eyebrow">Cement Creek Veterinary Hospital</span>
+        <h1 class="opt-1__title">This must be the place.</h1>
+        <p class="opt-1__lede">
+          A small-animal vet practice for the people and pets of the Gunnison Valley. Independently and women-owned, now welcoming new patients in Crested Butte South.
+        </p>
+        <div class="opt-1__actions">
+          <a href="#" class="btn btn--primary btn--arrow">Book an appointment</a>
+          <a href="#" class="btn btn--ghost">See how we built it</a>
+        </div>
+      </div>
+      <div class="opt-1__photo">
+        <img src="assets/images/creek-dogs-landscape.jpg" alt="Two dogs in Cement Creek" />
+      </div>
+    </section>
+
+
+    <!-- ====== OPTION 2 — Compact full-bleed ====== -->
+    <div class="preview-divider">
+      <span class="preview-divider__num">02</span>
+      <span class="preview-divider__name">Compact full-bleed</span>
+      <span class="preview-divider__note">~60vh &middot; same dramatic photo, smaller headline tucked bottom-left</span>
+    </div>
+    <section class="opt-2" aria-label="Option 2: Compact full-bleed hero">
+      <div class="opt-2__photo">
+        <img src="assets/images/creek-dogs-landscape.jpg" alt="Two dogs in Cement Creek" />
+      </div>
+      <div class="opt-2__copy">
+        <h1 class="opt-2__title">This must be the place.</h1>
+        <div class="opt-2__actions">
+          <a href="#" class="btn btn--primary btn--arrow">Book an appointment</a>
+          <a href="#" class="btn btn--ghost">See how we built it</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====== OPTION 3 — Letterbox + immediate intro ====== -->
+    <div class="preview-divider">
+      <span class="preview-divider__num">03</span>
+      <span class="preview-divider__name">Letterbox + immediate intro</span>
+      <span class="preview-divider__note">40vh cinematic photo + 35vh intro band &middot; atmosphere + personality in one viewport</span>
+    </div>
+    <section class="opt-3" aria-label="Option 3: Letterbox hero with intro band">
+      <div class="opt-3__photo">
+        <img src="assets/images/creek-dogs-landscape.jpg" alt="Two dogs in Cement Creek" />
+      </div>
+      <div class="opt-3__band">
+        <span class="opt-3__eyebrow">Crested Butte South &middot; Independently &amp; women-owned</span>
+        <h1 class="opt-3__title">This must be the place.</h1>
+        <p class="opt-3__lede">
+          A small-animal vet practice for the people and pets of the Gunnison Valley &mdash; built from scratch by Dr. Kara Erickson and Shawna Castillo, with 35 combined years of taking notes on what really good care should feel like.
+        </p>
+        <div class="opt-3__actions">
+          <a href="#" class="btn btn--primary btn--arrow">Book an appointment</a>
+          <a href="#" class="btn btn--ghost">See how we built it</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====== OPTION 4 — Editorial cover ====== -->
+    <div class="preview-divider">
+      <span class="preview-divider__num">04</span>
+      <span class="preview-divider__name">Editorial cover</span>
+      <span class="preview-divider__note">~70vh &middot; magazine-style, deliberate, founders byline included</span>
+    </div>
+    <section class="opt-4" aria-label="Option 4: Editorial cover hero">
+      <div class="opt-4__copy">
+        <div>
+          <div class="opt-4__masthead">Cement Creek &middot; Vol. 01</div>
+          <h1 class="opt-4__title">This must<br/>be the place.</h1>
+          <p class="opt-4__lede">
+            A small-animal veterinary practice for the people and pets of the Gunnison Valley. Independently and women-owned. Welcoming new patients in Crested Butte South.
+          </p>
+          <div class="opt-4__actions">
+            <a href="#" class="btn btn--primary btn--arrow">Book an appointment</a>
+            <a href="#" class="btn btn--ghost">See how we built it</a>
+          </div>
+        </div>
+        <div class="opt-4__byline">By Dr.&nbsp;Kara Erickson &amp; Shawna Castillo</div>
+      </div>
+      <div class="opt-4__photo">
+        <img src="assets/images/creek-dogs-landscape.jpg" alt="Two dogs in Cement Creek" />
+      </div>
+    </section>
+
+    <div class="preview-divider" style="background: var(--paper-warm); color: var(--ink);">
+      <span class="preview-divider__num" style="color: var(--ink);">END</span>
+      <span class="preview-divider__name">That's all four. Tell me which one to drop into index.html.</span>
+    </div>
+
+  </main>
+
+  <script src="includes/load-partials.js"></script>
+</body>
+</html>

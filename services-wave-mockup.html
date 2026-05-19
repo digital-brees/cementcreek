@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — wave-mask mockup — Cement Creek</title>
+  <meta name="description" content="Mockup of a wave-shaped mask over the services strip, inspired by tricks-menu-slider.webflow.io. Internal preview." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="icon" type="image/png" href="assets/CEMENT CREEK MAIN LOGO_BADGE.png" />
+
+  <style>
+    /* ============================================================
+       Mockup-only styles. Two versions stacked on the page so you
+       can compare:
+         1) Current auto-marquee (what's live in index.html)
+         2) Wave-mask carousel (the new direction)
+
+       Wave mask is built the same way the reference site does it:
+       a real carousel underneath, with two SVG overlays in the
+       page bg color stacked on top to "carve" the wave shape.
+       No CSS clip-path on the cards themselves, so they stay
+       crisp and interactive.
+       ============================================================ */
+
+    .mockup-divider {
+      background: var(--ink-deep);
+      color: var(--paper);
+      padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem);
+      font-family: var(--font-body);
+      display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+    }
+    .mockup-divider__num {
+      font-family: var(--font-display); font-style: italic;
+      font-size: 1.6rem; color: var(--creek);
+    }
+    .mockup-divider__name { font-size: 1.1rem; font-weight: 600; }
+    .mockup-divider__note { font-size: 0.85rem; opacity: 0.75; }
+
+    /* ----- Wave-mask carousel ----- */
+    .wave-services {
+      position: relative;
+      background: var(--paper);
+      padding-block: clamp(2rem, 4vw, 3.25rem);
+      overflow: hidden;
+    }
+    .wave-services__head {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+      margin-bottom: clamp(1rem, 2vw, 1.5rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .wave-services__title {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(1.75rem, 1.2rem + 1.5vw, 2.4rem);
+      letter-spacing: -0.015em; line-height: 1.05;
+      color: var(--ink);
+      margin: 0.35rem 0 0;
+    }
+    .wave-services__cta {
+      font-family: var(--font-body); font-weight: 600; font-size: 0.92rem;
+      color: var(--ink);
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
+    }
+
+    /* The "stage" is the carousel area that the waves clip into. */
+    .wave-stage {
+      position: relative;
+      height: clamp(280px, 36vh, 360px);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    /* The carousel sits behind the wave overlays. Real horizontal
+       scroll with snap; works with mouse drag, touch swipe, and the
+       prev/next buttons. */
+    .wave-track {
+      position: absolute; inset: 0;
+      display: flex;
+      gap: clamp(1.25rem, 2.2vw, 2rem);
+      padding-inline: clamp(1.5rem, 4vw, 3rem);
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-behavior: smooth;
+      align-items: center;
+    }
+    .wave-track::-webkit-scrollbar { display: none; }
+    .wave-track .service-card {
+      flex: 0 0 auto;
+      width: clamp(180px, 18vw, 230px);
+      scroll-snap-align: center;
+    }
+    /* keep cards from being un-tilted by photo-print hover when paused */
+    .wave-track .service-card.photo-print:hover {
+      transform: rotate(var(--tilt, -1.2deg)) translateY(-3px);
+    }
+    .wave-track .service-card:nth-child(5n)   { --tilt:  1.6deg; }
+    .wave-track .service-card:nth-child(5n+1) { --tilt: -1.2deg; }
+    .wave-track .service-card:nth-child(5n+2) { --tilt:  0.4deg; }
+    .wave-track .service-card:nth-child(5n+3) { --tilt: -1.8deg; }
+    .wave-track .service-card:nth-child(5n+4) { --tilt:  1.0deg; }
+
+    /* Wave overlays — painted in the page bg color so they look
+       like a curved cutout. preserveAspectRatio="none" lets them
+       stretch to fill the section width on any viewport. */
+    .wave-mask {
+      position: absolute; left: 0; right: 0; width: 100%;
+      height: clamp(70px, 9vw, 110px);
+      pointer-events: none;
+      z-index: 4;
+      display: block;
+    }
+    .wave-mask--top    { top: 0; }
+    .wave-mask--bottom { bottom: 0; transform: scaleY(-1); }
+    .wave-mask path { fill: var(--paper); }
+
+    /* Prev/Next buttons */
+    .wave-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      z-index: 5;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--paper);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 6px 18px rgba(13, 37, 72, 0.2);
+      transition: background 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+    }
+    .wave-nav:hover { background: var(--creek-deep); transform: translateY(-50%) scale(1.06); }
+    .wave-nav--prev { left: clamp(0.75rem, 2vw, 1.5rem); }
+    .wave-nav--next { right: clamp(0.75rem, 2vw, 1.5rem); }
+
+    /* Pagination dots */
+    .wave-dots {
+      display: flex; justify-content: center; gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .wave-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(22, 59, 108, 0.25);
+      border: none; cursor: pointer;
+      transition: background 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+    }
+    .wave-dot[aria-current="true"] { background: var(--ink); transform: scale(1.3); }
+    .wave-dot:hover { background: var(--ink); }
+  </style>
+</head>
+<body>
+
+  <div id="global-header"></div>
+
+  <main>
+
+    <!-- ====== Current live version (auto-marquee) ====== -->
+    <div class="mockup-divider">
+      <span class="mockup-divider__num">01</span>
+      <span class="mockup-divider__name">Current &mdash; auto-marquee, no mask</span>
+      <span class="mockup-divider__note">What's live in index.html now</span>
+    </div>
+    <section class="services-strip" aria-labelledby="m1-title">
+      <header class="services-strip__head">
+        <div>
+          <span class="eyebrow">Services</span>
+          <h2 class="services-strip__title" id="m1-title">Care we provide.</h2>
+        </div>
+        <a href="#" class="services-strip__cta">See all services &rarr;</a>
+      </header>
+      <div class="marquee" data-marquee>
+        <div class="marquee__track">
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Happy+Visits" alt="" /><figcaption class="photo-print__caption">Happy Visits</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Wellness" alt="" /><figcaption class="photo-print__caption">Wellness &amp; Prevention</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Dentistry" alt="" /><figcaption class="photo-print__caption">Dentistry</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Surgery" alt="" /><figcaption class="photo-print__caption">Surgery</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Diagnostics" alt="" /><figcaption class="photo-print__caption">Diagnostics</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Therapeutic+Laser" alt="" /><figcaption class="photo-print__caption">Therapeutic Laser</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Urgent+Care" alt="" /><figcaption class="photo-print__caption">Urgent Care</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Microchipping" alt="" /><figcaption class="photo-print__caption">Microchipping</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=End+of+Life" alt="" /><figcaption class="photo-print__caption">End-of-Life Care</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Pharmacy" alt="" /><figcaption class="photo-print__caption">Pharmacy</figcaption></article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====== Wave-mask carousel ====== -->
+    <div class="mockup-divider">
+      <span class="mockup-divider__num">02</span>
+      <span class="mockup-divider__name">Wave-mask carousel</span>
+      <span class="mockup-divider__note">Cards scroll through a wave-shaped viewport &middot; drag, swipe, scroll-wheel, or use the side arrows</span>
+    </div>
+    <section class="wave-services" aria-labelledby="m2-title">
+      <header class="wave-services__head">
+        <div>
+          <span class="eyebrow">Services</span>
+          <h2 class="wave-services__title" id="m2-title">Care we provide.</h2>
+        </div>
+        <a href="services.html" class="wave-services__cta">See all services &rarr;</a>
+      </header>
+
+      <div class="wave-stage">
+
+        <button class="wave-nav wave-nav--prev" aria-label="Previous service" data-wave-prev>&larr;</button>
+        <button class="wave-nav wave-nav--next" aria-label="Next service" data-wave-next>&rarr;</button>
+
+        <!-- TOP wave overlay. Same color as section bg so it "carves"
+             a wavy bottom contour out of the top of the stage. -->
+        <svg class="wave-mask wave-mask--top" viewBox="0 0 1440 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 0 0
+                   L 0 60
+                   Q 90 110, 180 60
+                   T 360 60
+                   T 540 60
+                   T 720 60
+                   T 900 60
+                   T 1080 60
+                   T 1260 60
+                   T 1440 60
+                   L 1440 0 Z" />
+        </svg>
+
+        <div class="wave-track" data-wave-track>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Happy+Visits" alt="" /><figcaption class="photo-print__caption">Happy Visits</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Wellness" alt="" /><figcaption class="photo-print__caption">Wellness &amp; Prevention</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Dentistry" alt="" /><figcaption class="photo-print__caption">Dentistry</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Surgery" alt="" /><figcaption class="photo-print__caption">Surgery</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Diagnostics" alt="" /><figcaption class="photo-print__caption">Diagnostics</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Therapeutic+Laser" alt="" /><figcaption class="photo-print__caption">Therapeutic Laser</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Urgent+Care" alt="" /><figcaption class="photo-print__caption">Urgent Care</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Microchipping" alt="" /><figcaption class="photo-print__caption">Microchipping</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=End+of+Life" alt="" /><figcaption class="photo-print__caption">End-of-Life Care</figcaption></article>
+          <article class="service-card photo-print photo-print--landscape"><img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Pharmacy" alt="" /><figcaption class="photo-print__caption">Pharmacy</figcaption></article>
+        </div>
+
+        <!-- BOTTOM wave overlay. Same shape, mirrored vertically via transform: scaleY(-1). -->
+        <svg class="wave-mask wave-mask--bottom" viewBox="0 0 1440 110" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 0 0
+                   L 0 60
+                   Q 90 110, 180 60
+                   T 360 60
+                   T 540 60
+                   T 720 60
+                   T 900 60
+                   T 1080 60
+                   T 1260 60
+                   T 1440 60
+                   L 1440 0 Z" />
+        </svg>
+      </div>
+
+      <div class="wave-dots" data-wave-dots aria-hidden="true"></div>
+    </section>
+
+
+    <div class="mockup-divider" style="background: var(--paper-warm); color: var(--ink);">
+      <span class="mockup-divider__num" style="color: var(--ink);">END</span>
+      <span class="mockup-divider__name">Two takes side-by-side. Tell me if you want to keep iterating on the wave (amplitude, frequency, asymmetry) or merge it into index.html.</span>
+    </div>
+
+  </main>
+
+  <script src="includes/load-partials.js"></script>
+  <script>
+    // ----------------------------------------------------------
+    // Wave-mask carousel — drives the scroll-snap track via
+    // prev/next buttons + builds the pagination dots so users
+    // know where they are in the list.
+    // ----------------------------------------------------------
+    (function () {
+      const stage = document.querySelector('.wave-stage');
+      if (!stage) return;
+      const track = stage.querySelector('[data-wave-track]');
+      const prev = stage.querySelector('[data-wave-prev]');
+      const next = stage.querySelector('[data-wave-next]');
+      const dotsWrap = document.querySelector('[data-wave-dots]');
+      if (!track) return;
+
+      const cards = Array.from(track.querySelectorAll('.service-card'));
+
+      // Build dots
+      cards.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'wave-dot';
+        dot.setAttribute('aria-label', `Go to service ${i + 1}`);
+        if (i === 0) dot.setAttribute('aria-current', 'true');
+        dot.addEventListener('click', () => scrollToIndex(i));
+        dotsWrap.appendChild(dot);
+      });
+      const dots = Array.from(dotsWrap.children);
+
+      function cardStep() {
+        // Distance from one card's center to the next, including gap.
+        const a = cards[0].getBoundingClientRect();
+        const b = cards[1]?.getBoundingClientRect();
+        return b ? b.left - a.left : a.width;
+      }
+
+      function activeIndex() {
+        const center = track.scrollLeft + track.clientWidth / 2;
+        let best = 0, bestDist = Infinity;
+        cards.forEach((c, i) => {
+          const cx = c.offsetLeft + c.offsetWidth / 2;
+          const d = Math.abs(cx - center);
+          if (d < bestDist) { bestDist = d; best = i; }
+        });
+        return best;
+      }
+
+      function updateDots() {
+        const i = activeIndex();
+        dots.forEach((d, di) => {
+          if (di === i) d.setAttribute('aria-current', 'true');
+          else d.removeAttribute('aria-current');
+        });
+      }
+
+      function scrollToIndex(i) {
+        const target = cards[i];
+        if (!target) return;
+        const trackRect = track.getBoundingClientRect();
+        const cardRect = target.getBoundingClientRect();
+        const delta = (cardRect.left + cardRect.width / 2) -
+                      (trackRect.left + trackRect.width / 2);
+        track.scrollBy({ left: delta, behavior: 'smooth' });
+      }
+
+      prev?.addEventListener('click', () => {
+        const i = activeIndex();
+        scrollToIndex(Math.max(0, i - 1));
+      });
+      next?.addEventListener('click', () => {
+        const i = activeIndex();
+        scrollToIndex(Math.min(cards.length - 1, i + 1));
+      });
+
+      let ticking = false;
+      track.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateDots();
+          ticking = false;
+        });
+      }, { passive: true });
+
+      updateDots();
+    })();
+  </script>
+</body>
+</html>

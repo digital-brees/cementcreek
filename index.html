@@ -21,27 +21,52 @@
   <main>
 
     <!-- ========================================================
-         HERO — dogs in the creek, slow Ken Burns zoom
-         Real image: creek-dogs-landscape.jpg (two dogs in shallow creek water)
-         TODO: optional swap with a longer-form web-optimized video clip
+         PAGE CREEK — one continuous SVG watermark spanning <main>.
+         The path is built dynamically in scripts/main.js from each
+         section's actual position so the line truly flows as one
+         creek through founders → intentional → closer → after-hours.
+         The footer has its own small page-creek that continues the
+         line straight down to the pool. Sections are tagged with
+         data-creek-x-top / data-creek-x-bot to drive the path.
+         Two stacked paths blend via multiply/screen so the creek
+         reads on both warm-paper and dark-ink sections.
          ======================================================== -->
-    <section class="hero" aria-label="Cement Creek Veterinary Hospital">
-      <div class="hero__media">
-        <img
-          src="assets/images/creek-dogs-landscape.jpg"
-          alt="Two dogs standing in the shallow water of Cement Creek with pine forest and mountain beyond" />
+    <div class="page-creek page-creek--main" aria-hidden="true">
+      <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="page-creek__path page-creek__path--light" />
+        <path class="page-creek__path page-creek__path--dark" />
+      </svg>
+    </div>
+
+    <!-- ========================================================
+         HERO — editorial split (text left, video right)
+         The creek SVG enters from the left-center of the hero,
+         waves toward the headline, loops around it, then
+         continues down into the founders section. Path math
+         lives in scripts/main.js → buildHeroLoopPath().
+
+         The right column is a placeholder still today; it should
+         be swapped for a short looping muted hero video.
+         ======================================================== -->
+    <section class="hero" aria-label="Cement Creek Veterinary Hospital"
+             data-creek-x-top="50" data-creek-x-bot="50"
+             data-creek-pattern="hero-loop">
+
+      <div class="hero__copy" data-reveal>
+        <h1 class="hero__title">This must<br />be the place.</h1>
+        <p class="hero__lede">
+          A small-animal veterinary practice for the people and pets of the Gunnison Valley. Independently and women-owned. Welcoming new patients in Crested Butte South.
+        </p>
+        <div class="hero__actions">
+          <a href="#" class="btn btn--primary btn--arrow" data-todo="Book an appointment URL">Book an appointment</a>
+          <a href="#everything-intentional" class="btn btn--ghost">See how we built it</a>
+        </div>
       </div>
 
-      <div class="hero__content">
-        <div class="hero__copy" data-reveal>
-          <h1 class="hero__title">This must be the place.</h1>
-          <div class="hero__actions">
-            <a href="#" class="btn btn--primary btn--arrow" data-todo="Book an appointment URL">Book an appointment</a>
-            <a href="#everything-intentional" class="btn btn--ghost">See how we built it</a>
-          </div>
-        </div>
-
-        <div class="hero__scroll" aria-hidden="true">Scroll</div>
+      <div class="hero__media"
+           data-todo="Replace with a short looping muted hero video (60vh-ish, autoplay, muted, playsinline). Keep the still as poster.">
+        <img src="assets/images/creek-dogs-landscape.jpg"
+             alt="Two dogs in the shallow water of Cement Creek with pine forest and mountain beyond" />
       </div>
     </section>
 
@@ -51,15 +76,8 @@
          Primary photo: building exterior (placeholder until founder portrait arrives)
          Secondary photo: dogs in creek portrait (small print, overlapping corner)
          ======================================================== -->
-    <section class="section founders" aria-labelledby="founders-title">
-
-      <!-- Creek (fragment 1 of 5): emerges at top-center, curves gently right,
-           exits toward the right edge at the bottom. -->
-      <div class="section-creek" aria-hidden="true">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 50 -5 C 56 20 70 40 64 60 C 58 78 70 95 78 105" />
-        </svg>
-      </div>
+    <section class="section founders" aria-labelledby="founders-title"
+             data-creek-x-top="50" data-creek-x-bot="70">
 
       <div class="container">
         <div class="founders__grid">
@@ -97,20 +115,14 @@
 
 
     <!-- ========================================================
-         EVERYTHING IS INTENTIONAL — editorial flow
-         (a) Feature: Context (text-only, large)
-         (b) 6 mid principles (text only, hairline grid)
-         (c) Feature: Modern Tools (text + physical-print photo)
+         EVERYTHING IS INTENTIONAL — tabbed pills + single focus
+         8 numbered pills at the top. One detail panel below.
+         Compact (~one-half viewport) so the page reads short even
+         though there's a lot to say. Click a pill to swap the
+         visible panel. Keyboard arrow nav supported.
          ======================================================== -->
-    <section class="section intentional" id="everything-intentional" aria-labelledby="intentional-title">
-
-      <!-- Creek (fragment 2 of 5): enters at 78%, weaves right and OFF the right edge.
-           This is the "curls around and goes out of frame" moment. -->
-      <div class="section-creek" aria-hidden="true">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 78 -5 C 88 15 102 30 108 50 C 113 65 102 85 110 105" />
-        </svg>
-      </div>
+    <section class="section intentional" id="everything-intentional" aria-labelledby="intentional-title"
+             data-creek-x-top="70" data-creek-x-bot="88">
 
       <div class="container">
 
@@ -123,99 +135,157 @@
           </p>
         </header>
 
-        <!-- 8-box asymmetric mosaic. HTML order matches CSS auto-flow placement.
-             One image lives at the top of the Modern Tools box, never under text. -->
-        <div class="mosaic" data-reveal-stagger>
+        <div class="tab-strip" role="tablist"
+             aria-label="What makes Cement Creek intentional"
+             data-reveal>
+          <button class="tab" role="tab" id="t-approach" aria-controls="p-approach"
+                  aria-selected="true">
+            <span class="tab__index">01</span><span class="tab__label">Approach</span>
+          </button>
+          <button class="tab" role="tab" id="t-care" aria-controls="p-care"
+                  aria-selected="false" tabindex="-1">
+            <span class="tab__index">02</span><span class="tab__label">Care</span>
+          </button>
+          <button class="tab" role="tab" id="t-handling" aria-controls="p-handling"
+                  aria-selected="false" tabindex="-1">
+            <span class="tab__index">03</span><span class="tab__label">Handling</span>
+          </button>
+          <button class="tab" role="tab" id="t-tools" aria-controls="p-tools"
+                  aria-selected="false" tabindex="-1">
+            <span class="tab__index">04</span><span class="tab__label">Tools</span>
+          </button>
+          <button class="tab" role="tab" id="t-cats" aria-controls="p-cats"
+                  aria-selected="false" tabindex="-1">
+            <span class="tab__index">05</span><span class="tab__label">Cats</span>
+          </button>
+          <button class="tab" role="tab" id="t-visits" aria-controls="p-visits"
+                  aria-selected="false" tabindex="-1">
+            <span class="tab__index">06</span><span class="tab__label">Visits</span>
+          </button>
+          <button class="tab" role="tab" id="t-team" aria-controls="p-team"
+                  aria-selected="false" tabindex="-1">
+            <span class="tab__index">07</span><span class="tab__label">Team</span>
+          </button>
+          <button class="tab" role="tab" id="t-goodbyes" aria-controls="p-goodbyes"
+                  aria-selected="false" tabindex="-1">
+            <span class="tab__index">08</span><span class="tab__label">Goodbyes</span>
+          </button>
+        </div>
 
-          <!-- 01 — Context (feature, large, 7×2) -->
-          <article class="box box--feature box--context">
-            <span class="box__index">01 &middot; Approach</span>
-            <h3 class="box__heading">Context, not just conclusions.</h3>
-            <p class="box__body">
-              When we recommend something, we tell you why &mdash; how it works, what the evidence says, what happens if you skip it. You'll never leave with an estimate you don't understand or a diagnosis without knowing what it means for your animal. Our collaborative approach to treatment plans means you won't feel bad for asking questions or cornered by the cost. We work with CareCredit, Klarna, Cherry payment plans, and even created our application-based Heart Dog &amp; Cat Fund, so that you always have options.
-            </p>
-            <a href="#" class="box__cta" data-todo="Ways-to-pay page URL — placeholder">
-              <span class="box__cta-line">Learn more about ways to pay</span>
-            </a>
-          </article>
+        <div class="tab-panels" data-reveal>
 
-          <!-- 02 — Personalized (5 col, top right) -->
-          <article class="box box--personalized">
-            <span class="box__index">02 &middot; Care</span>
-            <h3 class="box__heading">Personalized pet care.</h3>
-            <p class="box__body">
-              Every patient is treated as an individual &mdash; their own history, their own needs, their own plan.
-            </p>
-          </article>
-
-          <!-- 03 — Gentle handling (5 col, mid right) -->
-          <article class="box box--gentle">
-            <span class="box__index">03 &middot; Handling</span>
-            <h3 class="box__heading">Gentle handling as a standard, not a specialty.</h3>
-            <p class="box__body">
-              We prioritize a low-stress experience for all, and adapt our handling techniques based on your pet's disposition, lifestyle, and personality.
-            </p>
-          </article>
-
-          <!-- 04 — Modern Tools (media box, image at top, 5×2) -->
-          <article class="box box--media box--modern">
-            <div class="box__image-wrap">
-              <img src="assets/images/fishbowl-framing.jpg"
-                   alt="Wood framing of the 'fishbowl' — the central glass observation room — during construction at Cement Creek Veterinary Hospital" />
-            </div>
-            <p class="box__image-caption">The fishbowl, mid-build.</p>
-            <div class="box__inner">
-              <span class="box__index">04 &middot; Tools</span>
-              <h3 class="box__heading">Modern tools and technology support.</h3>
-              <p class="box__body">
-                In-house labwork, advanced diagnostic imaging, dedicated dental and surgical suites, and our personal favorite &mdash; a glass observation room affectionately called the &ldquo;fishbowl,&rdquo; so your pet is never out of our sight during their time here.
+          <!-- 01 · Approach — default visible -->
+          <article class="tab-panel is-active" role="tabpanel"
+                   id="p-approach" aria-labelledby="t-approach">
+            <div class="tab-panel__display" aria-hidden="true">01</div>
+            <div class="tab-panel__body">
+              <span class="tab-panel__index">01 &middot; Approach</span>
+              <h3 class="tab-panel__heading">Context, not just conclusions.</h3>
+              <p class="tab-panel__copy">
+                When we recommend something, we tell you why &mdash; how it works, what the evidence says, what happens if you skip it. You'll never leave with an estimate you don't understand or a diagnosis without knowing what it means for your animal. Our collaborative approach to treatment plans means you won't feel bad for asking questions or cornered by the cost. We work with CareCredit, Klarna, Cherry payment plans, and even created our application-based Heart Dog &amp; Cat Fund, so you always have options.
               </p>
-              <a href="services.html" class="box__cta">
-                <span class="box__cta-line">See how we built it</span>
+              <a href="#" class="tab-panel__cta" data-todo="Ways-to-pay URL — placeholder">
+                Learn more about ways to pay &rarr;
               </a>
             </div>
           </article>
 
-          <!-- 05 — Cat space (3 col) -->
-          <article class="box box--cat">
-            <span class="box__index">05 &middot; Cats</span>
-            <h3 class="box__heading">A quiet space, built just for cats.</h3>
-            <p class="box__body">
-              A separate room where cats can relax and recover with calming music and their own condo.
-            </p>
+          <!-- 02 · Care -->
+          <article class="tab-panel" role="tabpanel"
+                   id="p-care" aria-labelledby="t-care" hidden>
+            <div class="tab-panel__display" aria-hidden="true">02</div>
+            <div class="tab-panel__body">
+              <span class="tab-panel__index">02 &middot; Care</span>
+              <h3 class="tab-panel__heading">Personalized pet care.</h3>
+              <p class="tab-panel__copy">
+                Every patient is treated as an individual &mdash; their own history, their own needs, their own plan. We take the time to know your animal the way you do, so the care we recommend fits the life you're actually living together.
+              </p>
+            </div>
           </article>
 
-          <!-- 06 — Happy visits (4 col, with CTA) -->
-          <article class="box box--happy">
-            <span class="box__index">06 &middot; Visits</span>
-            <h3 class="box__heading">Happy visits, because we care about your experience.</h3>
-            <p class="box__body">
-              Schedule time to share the space for a bit. Meet the team, get some treats, let your pet sniff around and decide we're okay.
-            </p>
-            <a href="services.html#happy-visits" class="box__cta">
-              <span class="box__cta-line">Learn more</span>
-            </a>
+          <!-- 03 · Handling -->
+          <article class="tab-panel" role="tabpanel"
+                   id="p-handling" aria-labelledby="t-handling" hidden>
+            <div class="tab-panel__display" aria-hidden="true">03</div>
+            <div class="tab-panel__body">
+              <span class="tab-panel__index">03 &middot; Handling</span>
+              <h3 class="tab-panel__heading">Gentle handling as a standard, not a specialty.</h3>
+              <p class="tab-panel__copy">
+                We prioritize a low-stress experience for all, and adapt our handling techniques based on your pet's disposition, lifestyle, and personality. Calm pet, calm visit, better medicine.
+              </p>
+            </div>
           </article>
 
-          <!-- 07 — Culture-first team (4 col, with CTA) -->
-          <article class="box box--culture">
-            <span class="box__index">07 &middot; Team</span>
-            <h3 class="box__heading">A team hired for culture first.</h3>
-            <p class="box__body">
-              We all love what we do and actually want to come to work. Running into you on the trails or around town is a bonus &mdash; there's a good chance we'll recognize your pet before you.
-            </p>
-            <a href="team.html" class="box__cta">
-              <span class="box__cta-line">Meet our team</span>
-            </a>
+          <!-- 04 · Tools (has photo) -->
+          <article class="tab-panel tab-panel--has-photo" role="tabpanel"
+                   id="p-tools" aria-labelledby="t-tools" hidden>
+            <figure class="tab-panel__photo photo-print photo-print--landscape">
+              <img src="assets/images/fishbowl-framing.jpg"
+                   alt="Wood framing of the 'fishbowl' glass observation room mid-build at Cement Creek." />
+              <figcaption class="photo-print__caption">The fishbowl, mid-build.</figcaption>
+            </figure>
+            <div class="tab-panel__body">
+              <span class="tab-panel__index">04 &middot; Tools</span>
+              <h3 class="tab-panel__heading">Modern tools and technology support.</h3>
+              <p class="tab-panel__copy">
+                In-house labwork, advanced diagnostic imaging, dedicated dental and surgical suites, and our personal favorite &mdash; a glass observation room affectionately called the &ldquo;fishbowl,&rdquo; so your pet is never out of our sight during their time here.
+              </p>
+              <a href="services.html" class="tab-panel__cta">See how we built it &rarr;</a>
+            </div>
           </article>
 
-          <!-- 08 — Separate entrance for hard days (3 col) -->
-          <article class="box box--hard">
-            <span class="box__index">08 &middot; Goodbyes</span>
-            <h3 class="box__heading">A separate entrance for hard days.</h3>
-            <p class="box__body">
-              Because saying goodbye sucks, and your pet deserves a peaceful passing.
-            </p>
+          <!-- 05 · Cats -->
+          <article class="tab-panel" role="tabpanel"
+                   id="p-cats" aria-labelledby="t-cats" hidden>
+            <div class="tab-panel__display" aria-hidden="true">05</div>
+            <div class="tab-panel__body">
+              <span class="tab-panel__index">05 &middot; Cats</span>
+              <h3 class="tab-panel__heading">A quiet space, built just for cats.</h3>
+              <p class="tab-panel__copy">
+                A separate room where cats can relax and recover with calming music and their own condo. The waiting room, the smells, the dogs &mdash; the usual stressors stay out so your cat can stay themselves.
+              </p>
+            </div>
+          </article>
+
+          <!-- 06 · Visits -->
+          <article class="tab-panel" role="tabpanel"
+                   id="p-visits" aria-labelledby="t-visits" hidden>
+            <div class="tab-panel__display" aria-hidden="true">06</div>
+            <div class="tab-panel__body">
+              <span class="tab-panel__index">06 &middot; Visits</span>
+              <h3 class="tab-panel__heading">Happy visits, because we care about your experience.</h3>
+              <p class="tab-panel__copy">
+                Schedule time to share the space for a bit. Meet the team, get some treats, let your pet sniff around and decide we're okay &mdash; no exam, no treatment, no pressure.
+              </p>
+              <a href="services.html#happy-visits" class="tab-panel__cta">Learn more about happy visits &rarr;</a>
+            </div>
+          </article>
+
+          <!-- 07 · Team -->
+          <article class="tab-panel" role="tabpanel"
+                   id="p-team" aria-labelledby="t-team" hidden>
+            <div class="tab-panel__display" aria-hidden="true">07</div>
+            <div class="tab-panel__body">
+              <span class="tab-panel__index">07 &middot; Team</span>
+              <h3 class="tab-panel__heading">A team hired for culture first.</h3>
+              <p class="tab-panel__copy">
+                We all love what we do and actually want to come to work. Running into you on the trails or around town is a bonus &mdash; there's a good chance we'll recognize your pet before you.
+              </p>
+              <a href="team.html" class="tab-panel__cta">Meet our team &rarr;</a>
+            </div>
+          </article>
+
+          <!-- 08 · Goodbyes -->
+          <article class="tab-panel" role="tabpanel"
+                   id="p-goodbyes" aria-labelledby="t-goodbyes" hidden>
+            <div class="tab-panel__display" aria-hidden="true">08</div>
+            <div class="tab-panel__body">
+              <span class="tab-panel__index">08 &middot; Goodbyes</span>
+              <h3 class="tab-panel__heading">A separate entrance for hard days.</h3>
+              <p class="tab-panel__copy">
+                Because saying goodbye sucks, and your pet deserves a peaceful passing. A quiet entry, a quiet exit, time to be with them without an audience.
+              </p>
+            </div>
           </article>
 
         </div>
@@ -225,17 +295,102 @@
 
 
     <!-- ========================================================
+         SERVICES — auto-scrolling polaroid marquee
+         Compact horizontal strip (~50vh max) that teases the full
+         list of services. Cards drift sideways on their own;
+         hovering or focusing the strip pauses the motion.
+         Real photos go in via data-todo TODOs as they arrive.
+         ======================================================== -->
+    <section class="services-strip" aria-labelledby="services-strip-title"
+             data-creek-x-top="88" data-creek-x-bot="105">
+
+      <header class="services-strip__head">
+        <div>
+          <span class="eyebrow" data-reveal>Services</span>
+          <h2 class="services-strip__title" id="services-strip-title" data-reveal>
+            Care we provide.
+          </h2>
+        </div>
+        <a href="services.html" class="services-strip__cta" data-reveal>
+          See all services &rarr;
+        </a>
+      </header>
+
+      <!-- Marquee. scripts/main.js clones the cards once on init so the
+           keyframe loop (translateX 0 → -50%) appears seamless. -->
+      <div class="marquee" data-marquee>
+        <div class="marquee__track">
+
+          <article class="service-card photo-print photo-print--landscape">
+            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Happy+Visits"
+                 alt="" data-todo="Real photo: an anxious or curious pet on a happy visit" />
+            <figcaption class="photo-print__caption">Happy Visits</figcaption>
+          </article>
+
+          <article class="service-card photo-print photo-print--landscape">
+            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Wellness"
+                 alt="" data-todo="Real photo: a dog or cat during a wellness exam" />
+            <figcaption class="photo-print__caption">Wellness &amp; Prevention</figcaption>
+          </article>
+
+          <article class="service-card photo-print photo-print--landscape">
+            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Dentistry"
+                 alt="" data-todo="Real photo: dental suite or before/after teeth" />
+            <figcaption class="photo-print__caption">Dentistry</figcaption>
+          </article>
+
+          <article class="service-card photo-print photo-print--landscape">
+            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Surgery"
+                 alt="" data-todo="Real photo: surgical suite (no faces / no gloves rules)" />
+            <figcaption class="photo-print__caption">Surgery</figcaption>
+          </article>
+
+          <article class="service-card photo-print photo-print--landscape">
+            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Diagnostics"
+                 alt="" data-todo="Real photo: ultrasound, lab, or imaging in use" />
+            <figcaption class="photo-print__caption">Diagnostics</figcaption>
+          </article>
+
+          <article class="service-card photo-print photo-print--landscape">
+            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Therapeutic+Laser"
+                 alt="" data-todo="Real photo: laser therapy on an older dog or cat" />
+            <figcaption class="photo-print__caption">Therapeutic Laser</figcaption>
+          </article>
+
+          <article class="service-card photo-print photo-print--landscape">
+            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Urgent+Care"
+                 alt="" data-todo="Real photo: urgent care moment (could be the exam room)" />
+            <figcaption class="photo-print__caption">Urgent Care</figcaption>
+          </article>
+
+          <article class="service-card photo-print photo-print--landscape">
+            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Microchipping"
+                 alt="" data-todo="Real photo: microchip moment (or a pet's profile)" />
+            <figcaption class="photo-print__caption">Microchipping</figcaption>
+          </article>
+
+          <article class="service-card photo-print photo-print--landscape">
+            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=End+of+Life"
+                 alt="" data-todo="Real photo: separate entrance / quiet room" />
+            <figcaption class="photo-print__caption">End-of-Life Care</figcaption>
+          </article>
+
+          <article class="service-card photo-print photo-print--landscape">
+            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Pharmacy"
+                 alt="" data-todo="Real photo: in-house pharmacy shelves" />
+            <figcaption class="photo-print__caption">Pharmacy</figcaption>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================
          CLOSER
          ======================================================== -->
-    <section class="closer" aria-labelledby="closer-title">
-
-      <!-- Creek (fragment 3 of 5): re-enters from off the right edge,
-           curves back to center-bottom. The "comes back into frame" moment. -->
-      <div class="section-creek section-creek--on-dark" aria-hidden="true">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 110 -5 L 96 15 C 82 30 62 55 55 80 C 52 92 50 100 50 105" />
-        </svg>
-      </div>
+    <section class="closer" aria-labelledby="closer-title"
+             data-creek-x-top="105" data-creek-x-bot="50">
 
       <div class="container container--narrow">
         <p class="closer__service-area" data-reveal>
@@ -254,14 +409,8 @@
     <!-- ========================================================
          AFTER-HOURS EMERGENCY CALLOUT
          ======================================================== -->
-    <aside class="after-hours" aria-label="After-hours emergency information">
-
-      <!-- Creek (fragment 4 of 5): short section, creek passes through center. -->
-      <div class="section-creek" aria-hidden="true">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 50 -5 C 47 30 53 70 50 105" />
-        </svg>
-      </div>
+    <aside class="after-hours" aria-label="After-hours emergency information"
+           data-creek-x-top="50" data-creek-x-bot="50">
 
       <div class="container">
         <div class="after-hours__inner">
