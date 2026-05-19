@@ -5,7 +5,7 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-19
-**Status:** Homepage v6 — tabbed Intentional, services strip, scroll-driven creek, editorial hero. Iterating on a creek-shaped video mask for the hero that bleeds into the founders section.
+**Status:** Homepage v7 — creek-shaped video mask bleeds across hero/founders, founders swapped to image-left/text-right with single rounded image, wavy eyebrow dash, animated creek line behind video. Mask outline iterated multiple times to match Brees' annotated screenshots.
 
 ---
 
@@ -23,15 +23,19 @@ Independently and women-owned small-animal vet hospital. Founded by Dr. Kara Eri
 - **Primary CTA:** "Book an appointment" with placeholder `href="#"` and `data-todo` flags — launch swap.
 - **Logo:** `assets/CEMENT CREEK MAIN LOGO.png` (lockup) + `assets/CEMENT CREEK MAIN LOGO_BADGE.png` (circular badge used in header + footer).
 - **Heart Dog & Cat Fund CTAs:** placeholder `#` with TODO note, designed for future swap.
-- **Hero shape:** Editorial split, ~70vh max. NOT a huge top banner (Shawna's note — "I don't like landing and seeing that huge top banner"). Quickly establishes personality + bleeds smoothly into the next section.
-- **Services strip:** Max 50vh. NO polaroids (client likes border-radius). Direction: **Tall pill cards** (very rounded, photo-fill, overlay text) — pending build.
+- **Hero:** Editorial split, text LEFT (pulled inward via larger `margin-left`), video on RIGHT clipped to creek-shaped silhouette. Video bleeds across the hero/founders boundary so the two sections feel like one block.
+- **Founders layout:** Image LEFT (single rounded photo, no polaroid styling), text RIGHT — swapped per Brees' annotation.
+- **Services strip:** Max 50vh. PENDING: tall pill cards (rounded, photo-fill, overlay text). Currently still the polaroid auto-marquee from v6 — needs rebuild.
 - **Intentional section:** Tabbed pills + single focus panel (compact, ~50-60vh).
+- **No black border between sections** — confirmed by Brees. The video's bleed unifies hero + founders.
+- **Animated creek line is BEHIND the video** — z-index ordered so the photo paints on top wherever they overlap.
+- **Wavy eyebrow dash** — `.eyebrow::before` is an inline SVG sine wave (32×8px, 2.5 humps) instead of a straight 28×1px dash. Echoes the creek motif.
 
 ---
 
 ## Design System
 
-**Palette** (derived from logo, with warm counter-surfaces — no gradients per Brees' rule)
+**Palette** (derived from logo, no gradients per Brees' rule)
 - `--paper` `#F4EBDA` — primary page bg, warm cream
 - `--paper-warm` `#ECDFC8` — alt section bg
 - `--ink` `#163B6C` — primary headings, CTAs, dark sections
@@ -47,30 +51,68 @@ Independently and women-owned small-animal vet hospital. Founded by Dr. Kara Eri
 
 **Material treatments**
 - Subtle paper-grain SVG noise overlay on body (multiply blend, ~42% opacity)
-- Photos in founders section treated as "prints" with white border, soft shadow, slight rotation (`.photo-print` utility)
-- Hand-drawn marker underline (creek-cyan SVG stroke) under "intentional" in the section title (currently unused after Intentional rebuild — may resurface)
+- Founders single image: rounded corners (radius 20px), soft drop shadow, no tilt, no border — replaces the previous polaroid stack
+- Eyebrow dash is now wavy (SVG sine wave) instead of a straight line
 
 **Motion**
 - Slow Ken Burns zoom on hero media (22s alternating)
 - IntersectionObserver scroll reveals (`data-reveal`, `data-reveal-stagger`)
 - Sticky transparent-to-cream header
-- Auto-scrolling services marquee (70s linear, hover/focus pauses) — TO BE REPLACED with tall pill cards (clean strip, no wave mask)
-- **Scroll-driven creek draw** — `stroke-dashoffset` is mapped to scroll progress so the creek "flows" downward as the user scrolls
+- Auto-scrolling services marquee (will be replaced with tall pill cards)
+- **Scroll-driven creek draw** — `stroke-dashoffset` mapped to scroll progress so the creek "flows" downward as the user scrolls
 - Respects `prefers-reduced-motion`
 
 ---
 
-## The Creek — Through-line of the Homepage
+## The Hero Video Mask — Creek Silhouette
+
+**Architecture:**
+- `<aside class="hero-media-mask">` sits between `<section class="hero">` and `<section class="founders">` in the DOM.
+- On desktop, the aside is `position: absolute; top: 0; right: 0;` with `width: 68%` (mask left edge at ~32% from page left) and `height: 92vh`. This makes it overlap the hero AND slightly into the founders section.
+- A `<clipPath id="creek-mask" clipPathUnits="objectBoundingBox">` defined in inline SVG at the top of `<body>` shapes the visible region of the photo. The path uses 0-1 coordinates so the mask scales with the element.
+- The video itself is currently a still image (`assets/images/creek-dogs-landscape.jpg`) with a `data-todo` flag to swap to a looping muted video later.
+- On mobile (`max-width: 800px`), the mask drops to `position: static; width: 100%; height: 36vh; clip-path: none;` — becomes a normal in-flow strip between hero text and founders, with the clip disabled.
+
+**Current clip-path** (matches Brees' image #7 annotated screenshot):
+```
+M 0.16 0
+C 0.21 0.04, 0.13 0.09, 0.18 0.13
+C 0.23 0.17, 0.12 0.21, 0.17 0.25
+C 0.22 0.29, 0.10 0.32, 0.16 0.36
+C 0.21 0.40, 0.13 0.44, 0.17 0.48
+C 0.24 0.52, 0.12 0.55, 0.18 0.58
+C 0.21 0.62, 0.15 0.65, 0.20 0.68
+C 0.28 0.71, 0.40 0.73, 0.54 0.74
+C 0.72 0.75, 0.88 0.76, 1.00 0.77
+L 1.00 0
+Z
+```
+
+7 organic creek-bank bumps in the upper portion (amplitudes ±0.04-0.07), then a quick sweep right at the bottom (y=0.71-0.77 of element). The right edge exit is at element-y 0.77, which is just past the section seam (modest bleed into founders).
+
+**Z-index hierarchy** (within main's stacking context):
+- `.hero-media-mask`: z-index 2 (above founders bg)
+- `.page-creek`: z-index 1 (below the mask, so the creek line goes BEHIND the photo)
+- Section content containers (`.container`, etc.): z-index 3 (above mask + creek)
+- `.hero__copy`: z-index 4 (above everything)
+
+This solved a critical bug where founders' background was painting OVER the mask because positioned z-index auto and z-index 0 are treated the same in CSS and founders came later in DOM. Bumping mask to z-index 2 ensured the photo paints on top of founders' background while staying behind text content.
+
+---
+
+## The Animated Creek — Through-line of the Homepage
 
 **Single continuous SVG path** spanning all of `<main>`, behind content as a watermark. Path is built dynamically in `scripts/main.js` (`buildPageCreek`) from each section's real pixel position, so the line truly flows as ONE creek regardless of section heights or viewport size. Two stacked paths blend via `mix-blend-mode` (multiply on light, screen on dark) so the line reads on cream AND on dark ink.
 
 **Width:** 11px (5x the original 2.2px — client wanted thicker)
 
-**Footer creek:** Removed. The main page-creek terminates at the bottom of `<main>`; the footer's dark band sits on top of where the line ends, giving the impression the creek slips behind the footer.
+**Hero treatment:** Animated creek does NOT start in the hero. Starts at the top of the founders section (first section with `data-creek-x-top` attributes). The hero has no `data-creek-*` attrs.
 
-**Scroll animation:** `stroke-dasharray` set to total path length, `stroke-dashoffset` driven by `scroll + viewport * 0.65` against `creekStartY → creekEndY`. Result: creek "draws" downward as you scroll. `prefers-reduced-motion` skips the animation and shows full path.
+**Footer creek:** Removed. The main page-creek terminates at the bottom of `<main>`; the footer's dark band sits on top of where the line ends.
 
-**Hero loop (DEPRECATED / being reverted):** Briefly tried a `data-creek-pattern="hero-loop"` on the hero that emerged from the left edge, looped around the headline, then descended into founders. Per Brees, **revert this** — animated creek should start at founders again (the old narrative).
+**Z-index:** The page-creek SVG is at z-index 1, BELOW the hero video mask (z-index 2), so the creek line goes behind the photo where they overlap. The line is fully visible elsewhere on the page.
+
+**Scroll animation:** `stroke-dasharray` set to total path length, `stroke-dashoffset` driven by `scroll + viewport * 0.65` against `creekStartY → creekEndY`. Creek "draws" downward as you scroll. `prefers-reduced-motion` skips the animation and shows full path.
 
 **x-positions (creek narrative through main):**
 - Founders: x 50 → 70
@@ -84,14 +126,14 @@ Independently and women-owned small-animal vet hospital. Founded by Dr. Kara Eri
 ## Homepage Section Order
 
 1. **Topbar** — Mon–Fri · 8am–5pm · Welcoming new patients · CB South · Independently & women-owned (chips on ink-blue band)
-2. **Sticky header** — badge logo · nav · phone-icon · Book CTA · mobile hamburger. Transparent over hero, glassy cream on scroll.
-3. **Hero** — editorial split. Left column: tagline + intro paragraph + 2 CTAs (paper bg, ink text). Right column: video/photo. ~70vh max. **Next:** wrap the video in a creek-shaped clip-path and have it bleed into the founders section.
-4. **Founders — Built with Purpose** — founder copy left, two photo prints stacked on right (building exterior + creek-dogs portrait). Creek path emerges here and weaves right.
-5. **Everything is intentional** — 8 numbered tab-pills at the top, one detail panel below. Click a pill (or arrow-key navigate) to swap. ~one viewport.
-6. **Services strip** — max 50vh. CURRENT: auto-scrolling polaroid marquee. PENDING: tall pill cards (very rounded, photo-fill, overlay text), clean strip with no wave mask.
-7. **Closer** — deep ink-blue band with soft cyan glow. "*Where pets are neighbors and neighbors are friends.*" Book your visit CTA. Creek fragment 3 enters from off-frame right.
-8. **After-hours** — warm cream band, Mountain Legacy callout. Creek passes through center.
-9. **Footer** — 4-column ink footer (brand · visit · reach · site) + service-area band + legal. No creek inside (creek terminates at top of footer).
+2. **Sticky header** — badge logo · nav · phone-icon · Book CTA · mobile hamburger
+3. **Hero** — text LEFT (pulled inward via margin-left: clamp(4rem, 9vw, 9rem), max-width 36%), creek-clipped video on RIGHT (~68% width, 92vh tall). Video bleeds across the section seam into the founders area.
+4. **Founders — Built with Purpose** — single rounded image on LEFT, text on RIGHT (eyebrow with wavy dash + headline + body + mission). Padding-top clears the modest founders-side bleed of the hero video.
+5. **Everything is intentional** — 8 numbered tab-pills, one detail panel below
+6. **Services strip** — max 50vh. CURRENT: auto-scrolling polaroid marquee. PENDING: tall pill cards rebuild
+7. **Closer** — deep ink-blue band. "*Where pets are neighbors and neighbors are friends.*"
+8. **After-hours** — warm cream band, Mountain Legacy callout
+9. **Footer** — 4-column ink footer + service-area band + legal. No creek inside.
 
 ---
 
@@ -100,19 +142,19 @@ Independently and women-owned small-animal vet hospital. Founded by Dr. Kara Eri
 **Client Drive folder:** [Cement Creek Veterinary Hospital (cementcreekvet.com)](https://drive.google.com/drive/folders/1Eum_XXk2LhvZg1bZsF8GD2CEp3S45EL9) — folder ID `1Eum_XXk2LhvZg1bZsF8GD2CEp3S45EL9`
 
 **Pulled and optimized in `assets/images/`** (max 1600px, JPEG 85):
-- `creek-dogs-landscape.jpg` — hero (two dogs in shallow creek water, mountains)
-- `creek-dogs-portrait.jpg` — founders secondary thumb
-- `building-exterior.jpg` — founders primary (placeholder until founder portrait arrives)
-- `fishbowl-framing.jpg` — Tools panel inside Intentional tabs (wood framing of the central observation room)
-- `interior-buildout-1/2/3.jpg`, `interior-hallway.jpg` — reserve, available for Services/Team pages
+- `creek-dogs-landscape.jpg` — hero photo (clipped via creek mask)
+- `creek-dogs-portrait.jpg` — no longer used (was secondary polaroid; now replaced by single image)
+- `building-exterior.jpg` — founders single image (LEFT column)
+- `fishbowl-framing.jpg` — Tools panel inside Intentional tabs
+- `interior-buildout-1/2/3.jpg`, `interior-hallway.jpg` — reserve
 
-**Pulled but not yet used:** `assets/videos/hero-dogs.mp4` (5.6 MB — actually `golden-jumping.mp4` from Drive). Likely candidate for the new clipped-mask hero video.
+**Pulled but not yet used:** `assets/videos/hero-dogs.mp4` (5.6 MB). Likely candidate for the looping hero video when ready.
 
 ---
 
 ## TODOs flagged in code (`data-todo` attributes)
 
-- Hero video — currently using still + Ken Burns; **next** is to swap to optimized Drive video and apply a creek-shaped clip-path so it bleeds into founders
+- Hero video — currently using still + clip-path; next is to swap to optimized Drive video
 - Founder portrait — Dr. Kara & Shawna in front of clinic (using building exterior as placeholder)
 - Phone, text, email, pet portal, online pharmacy URLs
 - Mountain Legacy Veterinary Center phone number
@@ -126,28 +168,28 @@ Independently and women-owned small-animal vet hospital. Founded by Dr. Kara Eri
 
 ```
 Cement Creek/
-├── index.html
-├── hero-preview.html              ← internal mockup: 4 hero options stacked (Brees picked #4 = editorial)
-├── services-wave-mockup.html      ← internal mockup: wave-shaped mask carousel (rejected; polaroids out, going to tall pill cards instead)
+├── index.html                      ← contains the inline <clipPath id="creek-mask"> SVG defs
+├── hero-preview.html               ← internal mockup: 4 hero options (Brees picked editorial split)
+├── services-wave-mockup.html       ← internal mockup: wave-mask carousel (rejected)
 ├── .gitignore
-├── robots.txt              (blocking — preview/staging)
-├── robots.production.txt   (allow-all — launch swap)
+├── robots.txt
+├── robots.production.txt
 ├── session-notes.md
 ├── styles/
-│   └── main.css            (all design tokens + sections)
+│   └── main.css
 ├── scripts/
-│   └── main.js             (scroll reveals + hero video handling + creek builder + tabs + marquee)
+│   └── main.js
 ├── includes/
-│   ├── header.html         (topbar + sticky header + mobile menu)
-│   ├── footer.html         (4-col footer, no creek inside)
+│   ├── header.html
+│   ├── footer.html
 │   └── load-partials.js
 └── assets/
     ├── CEMENT CREEK MAIN LOGO.png
     ├── CEMENT CREEK MAIN LOGO_BADGE.png
-    ├── brief/              (Cement Creek Brief.pdf)
-    ├── copy/               (homepage, services, FAQ PDFs)
-    ├── images/             (real Drive photos, optimized)
-    └── videos/             (hero-dogs.mp4, available)
+    ├── brief/
+    ├── copy/
+    ├── images/
+    └── videos/
 ```
 
 ---
@@ -155,41 +197,39 @@ Cement Creek/
 ## Preview & Deploy
 
 - **Local preview:** `py -3 -m http.server 4322 --directory "C:/Users/brees/Claude Projects/Cement Creek"` → http://localhost:4322/
-- **GitHub:** `digital-brees/cementcreek` — standalone repo, ignored by home monorepo
-- **Vercel:** Not yet connected. Step to do: vercel.com → Add New Project → Import `digital-brees/cementcreek` → Framework: Other → Deploy
+- **GitHub:** `digital-brees/cementcreek`
+- **Vercel:** Not yet connected.
 
 ---
 
 ## Iteration History
 
-**v1 (initial):** Built full homepage scaffold with placeholders. Hero, founders, intentional (with dark/cream tile mosaic), closer, after-hours, footer.
+**v1–v5:** See git history. Foundational scaffolding, mosaic intentional, real Drive imagery, creek watermark fragments.
 
-**v2:** Editorial flow with hairline 6-tile grid, Modern Tools photo-print. Pulled real Drive imagery. Paper-grain texture body overlay.
+**v6 (2026-05-18):** Tabbed Intentional, services strip with auto-marquee polaroids, scroll-driven creek (11px stroke, dashoffset animated), editorial-split hero (Option 4 from preview).
 
-**v3 (intentional revisit):** 8 white notecards on warm-paper bg. Modern Tools is a media box with the fishbowl image stacked at top, text below.
-
-**v4 (creek attempt 1):** Added 5 animated wave dividers between sections. Brees flagged "poorly executed" + clarified the actual intent. **Ripped out all 5 dividers.**
-
-**v5:** Single continuous creek as 5 SVG fragments inside founders / intentional / closer / after-hours / footer. Static, watermark-style.
-
-**v6 (current — 2026-05-19):** Major iteration day:
-- Replaced the per-section creek fragments with ONE continuous SVG path spanning all of `<main>` (dynamic from real section positions). True visual continuity.
-- Bumped creek width 2.2 → 11px (client wanted thicker)
-- Removed footer creek (creek slips behind footer)
-- Added scroll-driven `stroke-dashoffset` animation — creek flows downward as you scroll
-- Replaced Intentional 8-box mosaic with **tabbed pills + single focus panel** (compact, ~50-60vh)
-- Added **Services strip** with auto-marquee + polaroid placeholders (TO BE REPLACED with tall pill rounded cards)
-- Replaced 92vh full-bleed photo hero with **editorial split** (~70vh, text left, photo/video right) — Shawna disliked the giant top banner
-- Briefly tried `hero-loop` creek pattern (creek emerged from left of hero and looped around the headline) — **being reverted** so the animated creek starts at founders as before
-- Internal mockup pages: `hero-preview.html` (4 hero options), `services-wave-mockup.html` (wave-mask carousel — rejected)
+**v7 (2026-05-19, this session):** Multiple iterations on a creek-shaped video mask:
+- Started with `data-creek-pattern="hero-loop"` (creek emerged from left of hero and looped around the headline) — reverted
+- Built `<aside class="hero-media-mask">` with `clip-path: url(#creek-mask)` and inline `<clipPath>` SVG defs
+- Iterated path many times trying to match Brees' annotated screenshots:
+  - Sawtooth zigzag (too geometric) → rejected
+  - Smooth waves (too soft) → rejected
+  - Mixed C + L commands (organic curves with occasional sharp jut) → closer
+  - Multiple passes adjusting mask height, bleed depth, bump amplitude, sweep angle
+- **Critical fix mid-session:** Discovered the founders section background was painting OVER the mask because of CSS stacking quirks (positioned z-index auto behaves like z-index 0 in painting order, and founders came later in DOM). Re-ordered z-indexes: mask 2, page-creek 1, section content 3, hero__copy 4.
+- Hero text moved inward (`max-width: 36%`, `margin-left: clamp(4rem, 9vw, 9rem)`)
+- Founders layout swapped: single rounded image LEFT, text RIGHT (was text LEFT, polaroid stack RIGHT)
+- Eyebrow dash replaced with wavy SVG sine wave
+- Removed black section divider border
+- Final path matches Brees' image #7 — organic creek-bank with 7 bumps descending through the hero, then sweeping right to exit just past the section seam
 
 ---
 
 ## What's Next
 
-1. **Revert hero-loop creek** — remove `data-creek-pattern="hero-loop"` from the hero. Animated creek starts at founders again.
-2. **Creek-shaped video mask** — wrap the hero video in an SVG clip-path that gives it an organic creek-bank silhouette on the left edge, and extend it visually down into the founders section so it bleeds across the boundary.
-3. **Services strip rebuild** — replace polaroid auto-marquee with tall pill cards (very rounded, photo-fill, overlay text), clean strip with no wave mask.
-4. **Continue tightening overall page length** — Intentional and Founders sections still ~85-88vh each; could go tighter.
-5. Once homepage is locked: Team page, Services single-page, Contact page.
-6. Vercel deploy.
+1. **Services strip rebuild** — replace polaroid auto-marquee with tall pill cards (very rounded, photo-fill, overlay text). Clean strip, no wave mask. Direction was locked in but not yet built.
+2. **Hero video** — swap the still image for an optimized looping muted video
+3. **Founder portrait** — swap building exterior for an actual photo of Dr. Kara + Shawna
+4. **Page length pass** — Intentional, closer still ~85-88vh each. May want to tighten.
+5. Once homepage is locked: Team page, Services single-page, Contact page
+6. Vercel deploy

@@ -125,8 +125,16 @@ p:last-child { margin-bottom: 0; }
   display: inline-flex; align-items: center; gap: 0.625rem;
 }
 .eyebrow::before {
-  content: ''; width: 28px; height: 1px; background: var(--ink);
+  /* Wavy creek-mark instead of a straight dash — echoes the
+     creek motif used elsewhere on the page. Inline SVG sine wave
+     with 2.5 humps across 28px. */
+  content: '';
+  width: 32px; height: 8px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 8' preserveAspectRatio='none'><path d='M0 4 Q 4 0, 8 4 T 16 4 T 24 4 T 32 4' stroke='%23163B6C' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   display: inline-block;
+  align-self: center;
 }
 
 /* -----------------------------------------------------------
@@ -294,6 +302,9 @@ p:last-child { margin-bottom: 0; }
   inset: 0;
   pointer-events: none;
   overflow: hidden;
+  /* z-index 1 — below the hero video mask so the creek line goes
+     BEHIND the photo where they overlap. Above section backgrounds
+     so it's still visible everywhere else. */
   z-index: 1;
 }
 .page-creek svg {
@@ -324,42 +335,44 @@ p:last-child { margin-bottom: 0; }
   mix-blend-mode: screen;
 }
 
-/* Section content stays above the creek inside main */
+/* Section content stays above the creek + mask inside main */
 .founders > .container,
 .intentional > .container,
 .closer > .container,
 .after-hours > .container,
 .site-footer > .site-footer__inner,
 .site-footer > .site-footer__service-area,
-.site-footer > .site-footer__legal { position: relative; z-index: 2; }
+.site-footer > .site-footer__legal { position: relative; z-index: 3; }
 
 /* -----------------------------------------------------------
-   07 — Hero (editorial split: text left, video right)
-   Intentionally compact (~70vh). No giant headline block, no
-   excessive top banner. The creek SVG emerges from the left
-   edge and loops around the headline before continuing down
-   into the founders section. See scripts/main.js → buildHeroLoopPath
-   for the path math behind the loop.
+   07 — Hero (text-only column, video lives in sibling aside)
+   Compact ~70vh band. The text column sits on the left ~42% of
+   the page. The right side is reserved for the .hero-media-mask
+   element below, which is absolutely positioned to span across
+   the hero and the top of the founders section.
    ----------------------------------------------------------- */
 .hero {
   position: relative;
   min-height: clamp(540px, 70vh, 720px);
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
   background: var(--paper);
-  overflow: hidden;
+  overflow: visible;       /* let .hero-media-mask peek past the bottom */
   isolation: isolate;
 }
 .hero__copy {
   position: relative;
-  z-index: 3;            /* sits above .page-creek (z-index 1) */
-  padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 4vw, 4rem);
+  z-index: 4;              /* above .hero-media-mask (1), .page-creek (2), section content (3) */
+  max-width: 36%;
+  min-width: 320px;
+  /* Pulled inward from the page edge per Brees' annotation —
+     the headline + intro should sit comfortably inside the
+     creek-bank silhouette, not flush against the left edge. */
+  margin-left: clamp(4rem, 9vw, 9rem);
+  padding-block: clamp(2.5rem, 6vw, 5rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1.35rem;
-  max-width: 600px;
-  margin-left: auto;
+  min-height: clamp(540px, 70vh, 720px);
 }
 .hero__title {
   font-family: var(--font-display);
@@ -386,15 +399,45 @@ p:last-child { margin-bottom: 0; }
   margin-top: 0.35rem;
 }
 
-/* Right column — video or photo, full column height */
-.hero__media {
-  position: relative;
+/* -----------------------------------------------------------
+   07.5 — Hero media mask (creek-shaped video that bleeds into
+   the founders section). Absolutely positioned over the right
+   side of <main>, top-aligned with the hero. Height extends
+   past the bottom of the hero into the top ~25vh of founders.
+   The clip-path SVG defined in index.html gives it the
+   organic creek-bank silhouette on the left + bottom edges.
+   ----------------------------------------------------------- */
+.hero-media-mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  /* Wide enough that the photo's left edge starts at ~32% from
+     the page's left edge, giving the creek-bank silhouette room
+     to bump into the cream area. */
+  width: clamp(64%, 68%, 74%);
+  /* Tall enough that the photo fills the right side of the hero,
+     with the creek-bank sweeping right just past the section seam.
+     The bleed into founders is modest — photo crosses the seam then
+     exits the right edge, like Brees' latest annotated screenshot. */
+  height: clamp(820px, 92vh, 1100px);
+  /* z-index 2 — above the founders section's background AND
+     above the .page-creek (z-index 1) so the animated creek
+     line goes BEHIND the photo where they overlap. Section
+     content containers at z-index 3 still sit above the mask. */
+  z-index: 2;
+  pointer-events: none;
   overflow: hidden;
-  min-height: clamp(540px, 70vh, 720px);
+  -webkit-clip-path: url(#creek-mask);
+          clip-path: url(#creek-mask);
 }
-.hero__media video,
-.hero__media img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+.hero-media-mask__inner {
+  width: 100%; height: 100%;
+}
+.hero-media-mask img,
+.hero-media-mask video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
   animation: heroZoom 22s var(--ease-out) infinite alternate;
 }
 @keyframes heroZoom {
@@ -402,34 +445,34 @@ p:last-child { margin-bottom: 0; }
   to   { transform: scale(1.08); }
 }
 
+/* On mobile, abandon the cross-section bleed: the mask sits as a
+   normal in-flow strip between the hero text and the founders
+   section, with no clip-path so the image reads cleanly. */
 @media (max-width: 800px) {
-  .hero {
-    grid-template-columns: 1fr;
+  .hero { min-height: 0; }
+  .hero__copy {
+    max-width: none;
+    min-width: 0;
+    margin-left: 0;
+    padding-inline: clamp(1.25rem, 4vw, 2rem);
     min-height: 0;
   }
-  .hero__media {
-    order: 1;
-    min-height: 40vh;
-  }
-  .hero__copy {
-    order: 2;
-    padding-block: clamp(2rem, 5vw, 3rem);
-    margin-left: 0;
+  .hero-media-mask {
+    position: relative;
+    width: 100%;
+    height: 36vh;
+    -webkit-clip-path: none;
+            clip-path: none;
   }
 }
-@keyframes scrollPulse {
-  0%, 100% { transform: scaleY(0.4); transform-origin: top; opacity: 0.4; }
-  50% { transform: scaleY(1); opacity: 1; }
-}
-
-@media (max-width: 720px) {
-  .hero__content { grid-template-columns: 1fr; }
-  .hero__scroll { display: none; }
-}
-
 /* -----------------------------------------------------------
    08 — Built with Purpose (founder intro)
-   Primary photo (founders or building) + secondary print thumb
+   Primary photo (founders or building) + secondary print thumb.
+
+   The hero-media-mask above bleeds ~25vh into the top of this
+   section, so the photo column on the right is offset down via
+   padding-top so it doesn't compete with the video bleed.
+   The text column on the left flows from the top as normal.
    ----------------------------------------------------------- */
 .founders {
   background: var(--paper);
@@ -439,11 +482,19 @@ p:last-child { margin-bottom: 0; }
 }
 .founders__grid {
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
+  /* Image LEFT, text RIGHT (swapped from the previous layout). */
+  grid-template-columns: 1fr 1.05fr;
   gap: clamp(2rem, 5vw, 5rem);
   align-items: center;
+  /* Modest offset to clear the small founders-side bleed of the
+     hero-media-mask. The mask exits the right edge ~30-40px past
+     the seam; this gives the content breathing room below. */
+  padding-top: clamp(4rem, 9vh, 7rem);
 }
-.founders__copy { max-width: 560px; }
+.founders__copy {
+  max-width: 540px;
+  margin-left: 0;
+}
 .founders__title { font-size: var(--fs-h2); margin: 1.25rem 0 1.75rem; }
 .founders__lede { font-size: var(--fs-body-lg); line-height: 1.6; color: var(--charcoal); }
 .founders__mission {
@@ -453,27 +504,38 @@ p:last-child { margin-bottom: 0; }
   font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
   line-height: 1.4; color: var(--ink);
 }
+/* Single image on the left (replaces the stacked polaroids).
+   Rounded corners + soft shadow — no polaroid tilt or border. */
 .founders__media {
   position: relative;
-  padding: clamp(1rem, 3vw, 2.5rem) clamp(0.5rem, 2vw, 1.5rem);
 }
-.founders__photo-primary { --tilt: -1.6deg; max-width: 100%; }
-.founders__photo-secondary {
-  position: absolute; right: -1.5%; bottom: -3%;
-  width: 44%;
-  --tilt: 3.5deg;
-  z-index: 2;
+.founders__image {
+  margin: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 1px 2px rgba(13, 37, 72, 0.06),
+    0 18px 36px rgba(13, 37, 72, 0.10),
+    0 40px 90px rgba(13, 37, 72, 0.08);
+  aspect-ratio: 4 / 5;
+  background: var(--paper-warm);
 }
-.founders__creek-blur {
-  position: absolute; inset: auto -10px -10px auto;
-  width: 38%; aspect-ratio: 1;
-  background: var(--creek);
-  border-radius: 50%; filter: blur(50px); opacity: 0.45; z-index: 0;
+.founders__image img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s var(--ease-out);
 }
+.founders__image:hover img { transform: scale(1.03); }
 
 @media (max-width: 880px) {
-  .founders__grid { grid-template-columns: 1fr; }
-  .founders__photo-secondary { width: 50%; right: 0; bottom: -2rem; }
+  .founders__grid {
+    grid-template-columns: 1fr;
+    padding-top: clamp(2rem, 5vw, 4rem);
+  }
+  .founders__media { order: 2; }
+  .founders__copy { order: 1; }
+  .founders__image { aspect-ratio: 4 / 3; }
 }
 
 /* -----------------------------------------------------------

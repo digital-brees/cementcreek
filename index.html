@@ -16,6 +16,33 @@
 </head>
 <body>
 
+  <!-- Inline SVG defs — the creek-shaped clip-path that masks
+       the hero video. Path starts at (0, 0) so the photo is
+       visible across the FULL element width. The left edge
+       has organic creek-bank curves with occasional sharp juts
+       INTO the photo (creating the "creek-bank" effect — bumps
+       of cream poking into the photo from the left). The bottom
+       edge has creek-shape curves that bleed deep into founders. -->
+  <svg width="0" height="0" style="position: absolute; pointer-events: none;" aria-hidden="true">
+    <defs>
+      <clipPath id="creek-mask" clipPathUnits="objectBoundingBox">
+        <path d="
+          M 0.16 0
+          C 0.21 0.04, 0.13 0.09, 0.18 0.13
+          C 0.23 0.17, 0.12 0.21, 0.17 0.25
+          C 0.22 0.29, 0.10 0.32, 0.16 0.36
+          C 0.21 0.40, 0.13 0.44, 0.17 0.48
+          C 0.24 0.52, 0.12 0.55, 0.18 0.58
+          C 0.21 0.62, 0.15 0.65, 0.20 0.68
+          C 0.28 0.71, 0.40 0.73, 0.54 0.74
+          C 0.72 0.75, 0.88 0.76, 1.00 0.77
+          L 1.00 0
+          Z
+        " />
+      </clipPath>
+    </defs>
+  </svg>
+
   <div id="global-header"></div>
 
   <main>
@@ -39,19 +66,17 @@
     </div>
 
     <!-- ========================================================
-         HERO — editorial split (text left, video right)
-         The creek SVG enters from the left-center of the hero,
-         waves toward the headline, loops around it, then
-         continues down into the founders section. Path math
-         lives in scripts/main.js → buildHeroLoopPath().
+         HERO — text only (left column). The video lives in the
+         sibling <aside class="hero-media-mask"> directly below,
+         which is absolutely positioned so it spans across both
+         the hero AND the top of the founders section, with a
+         creek-shaped clip-path on its left edge.
 
-         The right column is a placeholder still today; it should
-         be swapped for a short looping muted hero video.
+         The hero no longer has data-creek attrs — the animated
+         SVG creek starts at the founders section (where it
+         emerges, drifts right, weaves through the page, etc).
          ======================================================== -->
-    <section class="hero" aria-label="Cement Creek Veterinary Hospital"
-             data-creek-x-top="50" data-creek-x-bot="50"
-             data-creek-pattern="hero-loop">
-
+    <section class="hero" aria-label="Cement Creek Veterinary Hospital">
       <div class="hero__copy" data-reveal>
         <h1 class="hero__title">This must<br />be the place.</h1>
         <p class="hero__lede">
@@ -62,13 +87,25 @@
           <a href="#everything-intentional" class="btn btn--ghost">See how we built it</a>
         </div>
       </div>
-
-      <div class="hero__media"
-           data-todo="Replace with a short looping muted hero video (60vh-ish, autoplay, muted, playsinline). Keep the still as poster.">
-        <img src="assets/images/creek-dogs-landscape.jpg"
-             alt="Two dogs in the shallow water of Cement Creek with pine forest and mountain beyond" />
-      </div>
     </section>
+
+
+    <!-- ========================================================
+         HERO MEDIA MASK — video, clipped to a creek silhouette
+         and positioned to bleed across the hero/founders boundary.
+         Sits BETWEEN hero and founders in the DOM so:
+           - on desktop: position:absolute makes it overlap both
+             sections (top of hero through ~25vh of founders)
+           - on mobile: position:static, normal flow, sits between
+             the hero text and the founders text without the clip
+         ======================================================== -->
+    <aside class="hero-media-mask" aria-hidden="true"
+           data-todo="Replace the placeholder <img> with a looping muted hero video (autoplay, muted, playsinline). Keep the still as poster.">
+      <div class="hero-media-mask__inner">
+        <img src="assets/images/creek-dogs-landscape.jpg"
+             alt="" />
+      </div>
+    </aside>
 
 
     <!-- ========================================================
@@ -82,6 +119,17 @@
       <div class="container">
         <div class="founders__grid">
 
+          <!-- IMAGE on the LEFT — single rounded photo of the clinic
+               or the founders. Replaces the previous stacked polaroids. -->
+          <div class="founders__media" data-reveal>
+            <figure class="founders__image"
+                    data-todo="Replace with Dr. Kara & Shawna in front of the clinic. Building exterior used as placeholder.">
+              <img src="assets/images/building-exterior.jpg"
+                   alt="Cement Creek Veterinary Hospital at 60 Glacier Street, Crested Butte South — exterior view with mountains behind" />
+            </figure>
+          </div>
+
+          <!-- TEXT on the RIGHT — founders intro + mission. -->
           <div class="founders__copy">
             <span class="eyebrow" data-reveal>The Founders</span>
             <h2 class="founders__title" id="founders-title" data-reveal>Built with Purpose.</h2>
@@ -91,22 +139,6 @@
             <p class="founders__mission" data-reveal>
               Our mission is to leave every patient, client, and interaction better than we found it &mdash; through honest medicine, empathy, and real conversations.
             </p>
-          </div>
-
-          <div class="founders__media" data-reveal>
-            <div class="founders__creek-blur" aria-hidden="true"></div>
-
-            <figure class="photo-print photo-print--landscape founders__photo-primary"
-                    data-todo="Replace with Dr. Kara & Shawna in front of the clinic. Using building exterior as placeholder.">
-              <img src="assets/images/building-exterior.jpg"
-                   alt="Cement Creek Veterinary Hospital at 60 Glacier Street, Crested Butte South — exterior view with mountains behind" />
-              <figcaption class="photo-print__caption">60 Glacier St &middot; Crested Butte South</figcaption>
-            </figure>
-
-            <figure class="photo-print photo-print--tall founders__photo-secondary">
-              <img src="assets/images/creek-dogs-portrait.jpg"
-                   alt="Two dogs stand in Cement Creek surrounded by stones and pine forest" />
-            </figure>
           </div>
 
         </div>
