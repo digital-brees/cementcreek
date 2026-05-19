@@ -286,22 +286,41 @@
   }
 
   // ----------------------------------------------------------
-  // Services marquee — duplicate the track's cards once so the
-  // CSS keyframe (translateX 0 → -50%) loops seamlessly. Cloned
-  // cards are aria-hidden so screen readers don't read them twice.
+  // Services rail — manual horizontal scroll (no auto-motion).
+  // The old auto-marquee was retired in the polaroid-removal pass.
+  // Native drag/swipe + scroll-snap handle pan. Header arrow
+  // buttons scroll the rail by one card's width and update their
+  // own disabled state at each end.
   // ----------------------------------------------------------
-  function initServicesMarquee() {
-    document.querySelectorAll('[data-marquee] .marquee__track').forEach((track) => {
-      if (track.dataset.cloned) return; // idempotent
-      const originals = Array.from(track.children);
-      originals.forEach((card) => {
-        const clone = card.cloneNode(true);
-        clone.setAttribute('aria-hidden', 'true');
-        clone.setAttribute('tabindex', '-1');
-        track.appendChild(clone);
-      });
-      track.dataset.cloned = 'true';
-    });
+  function initServicesMarquee() { /* legacy no-op */ }
+
+  function initServicesRail() {
+    const rail = document.querySelector('.services-rail');
+    const prev = document.querySelector('[data-rail-prev]');
+    const next = document.querySelector('[data-rail-next]');
+    if (!rail || !prev || !next) return;
+
+    // Step = one card's width + the rail's gap, so each click
+    // advances by exactly one card (snap-aligned).
+    const step = () => {
+      const card = rail.querySelector('.service-card');
+      if (!card) return rail.clientWidth * 0.8;
+      const gap = parseFloat(getComputedStyle(rail).columnGap || '0') || 0;
+      return card.getBoundingClientRect().width + gap;
+    };
+
+    const updateButtons = () => {
+      const max = rail.scrollWidth - rail.clientWidth;
+      // 2px tolerance to handle subpixel rounding
+      prev.disabled = rail.scrollLeft <= 1;
+      next.disabled = rail.scrollLeft >= max - 1;
+    };
+
+    prev.addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => rail.scrollBy({ left:  step(), behavior: 'smooth' }));
+    rail.addEventListener('scroll', updateButtons, { passive: true });
+    window.addEventListener('resize', updateButtons);
+    updateButtons();
   }
 
   // Hero video soft autoplay handling (in case autoplay is blocked, swap to poster)
@@ -317,13 +336,20 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function boot() {
     initReveals();
     initHeroVideo();
     initIntentionalTabs();
     initServicesMarquee();
+    initServicesRail();
     initPageCreek();
-  });
+  }
+  // Run now if DOM is already parsed (script at end of body); otherwise wait.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
 
   // Re-run after partials mount — header/footer reveals + creek
   // rebuild now that footer has injected and the document height has

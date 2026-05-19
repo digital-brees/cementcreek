@@ -5,7 +5,7 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-19
-**Status:** Homepage v7.1 — creek-shaped video mask retuned. Replaced 8 tight zigzag bumps with 3 broad meanders on the left edge (smooth organic creek-bank), pushed bottom-left of the path from y=0.77 → y=0.87 so the photo bleeds ~80px deeper into founders, and bumped founders grid `padding-top` from 9vh → 12vh to keep the image column clear of the deeper bleed. Brees confirmed "much better" — locked.
+**Status:** Homepage v8 — major commit. Two big changes locked together: (1) polaroid retired sitewide, services rebuilt as tall pill cards with horizontal scroll + arrow nav; (2) hero mask rebuilt to match Brees' image #8 mockup — 150vh mask, left meander wave + multi-wave descending bottom that runs past the founders content on the right side. "Closest we've gotten" — committed.
 
 ---
 
@@ -25,7 +25,8 @@ Independently and women-owned small-animal vet hospital. Founded by Dr. Kara Eri
 - **Heart Dog & Cat Fund CTAs:** placeholder `#` with TODO note, designed for future swap.
 - **Hero:** Editorial split, text LEFT (pulled inward via larger `margin-left`), video on RIGHT clipped to creek-shaped silhouette. Video bleeds across the hero/founders boundary so the two sections feel like one block.
 - **Founders layout:** Image LEFT (single rounded photo, no polaroid styling), text RIGHT — swapped per Brees' annotation.
-- **Services strip:** Max 50vh. PENDING: tall pill cards (rounded, photo-fill, overlay text). Currently still the polaroid auto-marquee from v6 — needs rebuild.
+- **Services strip:** REBUILT in v8. Tall pill cards (3:4 portrait, 32px radius, photo-fill, solid ink scrim caption overlay). Horizontal scroll with **prev/next arrow buttons** in the section header (next to "See all services →"). Scrollbar hidden. Drag/swipe + scroll-snap also work. Arrows auto-disable at start/end. Card width clamped 260-340px so ~4-5 fit on a wide desktop.
+- **Polaroid retired sitewide.** `.photo-print` was the polaroid treatment (rotation, white border, asymmetric padding) — now reworked as a clean rounded photo card (32px corners, soft shadow, photo fills edge-to-edge). Captions overlay the bottom with a SOLID ink scrim (no gradient — per Brees' rule). Affects services + tab-panel "Tools" photo + any future use.
 - **Intentional section:** Tabbed pills + single focus panel (compact, ~50-60vh).
 - **No black border between sections** — confirmed by Brees. The video's bleed unifies hero + founders.
 - **Animated creek line is BEHIND the video** — z-index ordered so the photo paints on top wherever they overlap.
@@ -223,18 +224,29 @@ Cement Creek/
 - Removed black section divider border
 - Final v7 path matched Brees' image #7 — organic creek-bank with 7 bumps descending through the hero, then sweeping right to exit just past the section seam
 
-**v7.1 (2026-05-19, this session, locked):** Retuned the mask outline per Brees' red-line annotation:
+**v7.1 (2026-05-19):** Retuned the mask outline per Brees' red-line annotation:
 - Replaced the toothy 8-bump zigzag with a clean **3-broad-meander** path that reads as one continuous creek bank instead of multiple sharp juts
-- Subtle dip-right-then-back near the top (matching the bulge in Brees' drawing), two gentle S-curves in the middle, then a bottom curve out at y=0.87 sweeping up to y=0.74 at the right edge
-- Bottom-left of the path pushed from y=0.77 → y=0.87, putting the photo's bottom ~80px deeper into the founders section (was only ~10px in). The mask now visibly "goes into the founder section"
-- Founders grid `padding-top` increased from `clamp(4rem, 9vh, 7rem)` → `clamp(6rem, 12vh, 9rem)` to keep the building-exterior image clear of the deeper bleed
-- Brees confirmed "much better" — mask shape now locked
+- Subtle dip-right-then-back near the top, two gentle S-curves in the middle, then a bottom curve out at y=0.87 sweeping up to y=0.74 at the right edge
+- Bottom-left of the path pushed from y=0.77 → y=0.87
+- Founders grid `padding-top` increased to clear the deeper bleed
+- Brees confirmed "much better"
+
+**v7.2 – v7.12 (2026-05-19, scratchwork):** Many iterations attempting to match further annotations from Brees (image #3 through image #7). Tried: uniform horizontal bottom, slope-to-point at (1.0, 1.0), valley shape, drop-then-flat, increasingly tall masks (110vh → 150vh) with bigger founders padding. None landed. Reverted to v7.1 before v8 took over from a new mockup.
+
+**v8 (2026-05-19, locked / committed):** Two changes shipped together — Brees confirmed "closest we've gotten":
+- **Hero mask v8 — match for image #8 mockup.** Path: left meander wave preserved (0.15,0 → 0.12,0.46), then bottom descends with multi-wave organic curves through (0.20, 0.54) → (0.42, 0.62) → (0.62, 0.72) → (0.82, 0.86) → (1.00, 0.97). Right edge straight up. Mask height: 92vh → **150vh**, so the descending bottom runs deep past the founders content on the right side; the photo's right edge extends down off the bottom of typical viewports. Founders content is positioned to clear the photo on the left side; on the right side the photo overlaps the text column with z-index keeping text legible on top.
+- **Services strip rebuild + polaroid retired sitewide.**
+  - `.photo-print` was the polaroid treatment (rotation, white border, asymmetric padding). Now reworked as a CLEAN ROUNDED CARD: 32px corners, soft shadow, photo fills edge-to-edge, no rotation, no border. Captions overlay the bottom with a SOLID ink scrim (rgba(13,37,72,0.72)) — no gradient per Brees' rule.
+  - Services strip: tall pill cards (3:4 portrait), width clamp(260px, 23vw, 340px) so ~4-5 fit on wide desktop. Horizontal scroll, **scrollbar HIDDEN**. Prev/next arrow buttons in the section header (next to "See all services →") — 44px circular outlined buttons with chevron icons, auto-disabled at start/end. Drag/swipe also works natively.
+  - Tab-panel "Tools" photo inherits the new clean rounded treatment automatically.
+  - Legacy `initServicesMarquee` retired; new `initServicesRail` wires arrow clicks to `scrollBy({ left: cardWidth + gap, behavior: 'smooth' })` and listens for scroll/resize to update disabled state.
+- **JS reliability fix:** `boot()` now runs immediately if `document.readyState` is past 'loading', falling back to `DOMContentLoaded` listener. Fixes case where the script ran after DOMContentLoaded had already fired (which silently lost the listener attachment).
 
 ---
 
 ## What's Next
 
-1. **Services strip rebuild** — replace polaroid auto-marquee with tall pill cards (very rounded, photo-fill, overlay text). Clean strip, no wave mask. Direction was locked in but not yet built.
+1. **Hero mask polish** — fine-tune the multi-wave bottom curve character; address dog-on-right cropping (object-position) now that mask is much taller.
 2. **Hero video** — swap the still image for an optimized looping muted video
 3. **Founder portrait** — swap building exterior for an actual photo of Dr. Kara + Shawna
 4. **Page length pass** — Intentional, closer still ~85-88vh each. May want to tighten.

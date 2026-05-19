@@ -17,13 +17,13 @@
 <body>
 
   <!-- Inline SVG defs — the creek-shaped clip-path that masks
-       the hero video. Path is a SMOOTH MEANDERING CREEK BANK:
-       gentle organic waves on the left edge (no zigzag, no teeth)
-       that flow continuously from top to bottom, then sweep
-       out to the right at the bottom — bleeding deep into the
-       top of the founders section so the photo feels like it
-       crosses the seam, not stops at it. Matches Brees'
-       2026-05-19 v7.1 annotation (red-line outline). -->
+       the hero video. v8 path matches Brees' image #8 mockup:
+       left meander wave preserved, then the bottom edge descends
+       diagonally rightward across the width with multiple gentle
+       organic curves (no single smooth slope, no sharp point),
+       continuing past the founders content area. The right edge
+       reaches near the bottom-right of the mask box so the photo
+       extends deep down the right side of the page. -->
   <svg width="0" height="0" style="position: absolute; pointer-events: none;" aria-hidden="true">
     <defs>
       <clipPath id="creek-mask" clipPathUnits="objectBoundingBox">
@@ -31,9 +31,11 @@
           M 0.15 0
           C 0.20 0.06, 0.22 0.13, 0.16 0.20
           C 0.10 0.28, 0.14 0.37, 0.12 0.46
-          C 0.10 0.55, 0.16 0.63, 0.13 0.72
-          C 0.10 0.80, 0.20 0.87, 0.34 0.87
-          C 0.55 0.87, 0.78 0.80, 1.00 0.74
+          C 0.10 0.50, 0.14 0.53, 0.20 0.54
+          C 0.30 0.58, 0.36 0.64, 0.42 0.62
+          C 0.50 0.61, 0.56 0.68, 0.62 0.72
+          C 0.70 0.76, 0.76 0.82, 0.82 0.86
+          C 0.88 0.90, 0.94 0.94, 1.00 0.97
           L 1.00 0
           Z
         " />
@@ -341,77 +343,96 @@
             Care we provide.
           </h2>
         </div>
-        <a href="services.html" class="services-strip__cta" data-reveal>
-          See all services &rarr;
-        </a>
+        <div class="services-strip__actions">
+          <div class="services-strip__nav" role="group" aria-label="Scroll services">
+            <button type="button"
+                    class="services-strip__nav-btn"
+                    data-rail-prev
+                    aria-label="Previous services">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <polyline points="15 6 9 12 15 18" />
+              </svg>
+            </button>
+            <button type="button"
+                    class="services-strip__nav-btn"
+                    data-rail-next
+                    aria-label="Next services">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <polyline points="9 6 15 12 9 18" />
+              </svg>
+            </button>
+          </div>
+          <a href="services.html" class="services-strip__cta" data-reveal>
+            See all services &rarr;
+          </a>
+        </div>
       </header>
 
-      <!-- Marquee. scripts/main.js clones the cards once on init so the
-           keyframe loop (translateX 0 → -50%) appears seamless. -->
-      <div class="marquee" data-marquee>
-        <div class="marquee__track">
+      <!-- Horizontal scroll rail — no auto-motion. Drag, swipe, or
+           use the visible scrollbar to pan through services.
+           Cards are tall rounded pills with photo-fill + overlay caption. -->
+      <div class="services-rail" aria-label="Services available at Cement Creek">
 
-          <article class="service-card photo-print photo-print--landscape">
-            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Happy+Visits"
-                 alt="" data-todo="Real photo: an anxious or curious pet on a happy visit" />
-            <figcaption class="photo-print__caption">Happy Visits</figcaption>
-          </article>
+        <article class="service-card photo-print">
+          <img src="https://placehold.co/600x800/5BA8C0/F4EBDA/png?text=+"
+               alt="" data-todo="Real photo: an anxious or curious pet on a happy visit" />
+          <figcaption class="photo-print__caption">Happy Visits</figcaption>
+        </article>
 
-          <article class="service-card photo-print photo-print--landscape">
-            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Wellness"
-                 alt="" data-todo="Real photo: a dog or cat during a wellness exam" />
-            <figcaption class="photo-print__caption">Wellness &amp; Prevention</figcaption>
-          </article>
+        <article class="service-card photo-print">
+          <img src="https://placehold.co/600x800/9DD7E5/163B6C/png?text=+"
+               alt="" data-todo="Real photo: a dog or cat during a wellness exam" />
+          <figcaption class="photo-print__caption">Wellness &amp; Prevention</figcaption>
+        </article>
 
-          <article class="service-card photo-print photo-print--landscape">
-            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Dentistry"
-                 alt="" data-todo="Real photo: dental suite or before/after teeth" />
-            <figcaption class="photo-print__caption">Dentistry</figcaption>
-          </article>
+        <article class="service-card photo-print">
+          <img src="https://placehold.co/600x800/163B6C/F4EBDA/png?text=+"
+               alt="" data-todo="Real photo: dental suite or before/after teeth" />
+          <figcaption class="photo-print__caption">Dentistry</figcaption>
+        </article>
 
-          <article class="service-card photo-print photo-print--landscape">
-            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Surgery"
-                 alt="" data-todo="Real photo: surgical suite (no faces / no gloves rules)" />
-            <figcaption class="photo-print__caption">Surgery</figcaption>
-          </article>
+        <article class="service-card photo-print">
+          <img src="https://placehold.co/600x800/8A8275/F4EBDA/png?text=+"
+               alt="" data-todo="Real photo: surgical suite (no faces / no gloves rules)" />
+          <figcaption class="photo-print__caption">Surgery</figcaption>
+        </article>
 
-          <article class="service-card photo-print photo-print--landscape">
-            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Diagnostics"
-                 alt="" data-todo="Real photo: ultrasound, lab, or imaging in use" />
-            <figcaption class="photo-print__caption">Diagnostics</figcaption>
-          </article>
+        <article class="service-card photo-print">
+          <img src="https://placehold.co/600x800/5BA8C0/F4EBDA/png?text=+"
+               alt="" data-todo="Real photo: ultrasound, lab, or imaging in use" />
+          <figcaption class="photo-print__caption">Diagnostics</figcaption>
+        </article>
 
-          <article class="service-card photo-print photo-print--landscape">
-            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Therapeutic+Laser"
-                 alt="" data-todo="Real photo: laser therapy on an older dog or cat" />
-            <figcaption class="photo-print__caption">Therapeutic Laser</figcaption>
-          </article>
+        <article class="service-card photo-print">
+          <img src="https://placehold.co/600x800/9DD7E5/163B6C/png?text=+"
+               alt="" data-todo="Real photo: laser therapy on an older dog or cat" />
+          <figcaption class="photo-print__caption">Therapeutic Laser</figcaption>
+        </article>
 
-          <article class="service-card photo-print photo-print--landscape">
-            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Urgent+Care"
-                 alt="" data-todo="Real photo: urgent care moment (could be the exam room)" />
-            <figcaption class="photo-print__caption">Urgent Care</figcaption>
-          </article>
+        <article class="service-card photo-print">
+          <img src="https://placehold.co/600x800/163B6C/F4EBDA/png?text=+"
+               alt="" data-todo="Real photo: urgent care moment (could be the exam room)" />
+          <figcaption class="photo-print__caption">Urgent Care</figcaption>
+        </article>
 
-          <article class="service-card photo-print photo-print--landscape">
-            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Microchipping"
-                 alt="" data-todo="Real photo: microchip moment (or a pet's profile)" />
-            <figcaption class="photo-print__caption">Microchipping</figcaption>
-          </article>
+        <article class="service-card photo-print">
+          <img src="https://placehold.co/600x800/8A8275/F4EBDA/png?text=+"
+               alt="" data-todo="Real photo: microchip moment (or a pet's profile)" />
+          <figcaption class="photo-print__caption">Microchipping</figcaption>
+        </article>
 
-          <article class="service-card photo-print photo-print--landscape">
-            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=End+of+Life"
-                 alt="" data-todo="Real photo: separate entrance / quiet room" />
-            <figcaption class="photo-print__caption">End-of-Life Care</figcaption>
-          </article>
+        <article class="service-card photo-print">
+          <img src="https://placehold.co/600x800/5BA8C0/F4EBDA/png?text=+"
+               alt="" data-todo="Real photo: separate entrance / quiet room" />
+          <figcaption class="photo-print__caption">End-of-Life Care</figcaption>
+        </article>
 
-          <article class="service-card photo-print photo-print--landscape">
-            <img src="https://placehold.co/600x450/F4EBDA/163B6C/png?text=Pharmacy"
-                 alt="" data-todo="Real photo: in-house pharmacy shelves" />
-            <figcaption class="photo-print__caption">Pharmacy</figcaption>
-          </article>
+        <article class="service-card photo-print">
+          <img src="https://placehold.co/600x800/9DD7E5/163B6C/png?text=+"
+               alt="" data-todo="Real photo: in-house pharmacy shelves" />
+          <figcaption class="photo-print__caption">Pharmacy</figcaption>
+        </article>
 
-        </div>
       </div>
     </section>
 

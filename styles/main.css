@@ -138,32 +138,47 @@ p:last-child { margin-bottom: 0; }
 }
 
 /* -----------------------------------------------------------
-   04 — Photo "print" treatment
-   White border, soft drop shadow, slight rotation.
-   Feels like a real printed photograph laid down on the page.
+   04 — Photo card treatment (rounded, no polaroid)
+   Clean rounded photo with soft shadow. Photo fills the card
+   edge-to-edge. Captions sit as an overlay band at the bottom
+   with a soft scrim so they read against any image.
    ----------------------------------------------------------- */
 .photo-print {
-  background: var(--white);
-  padding: 10px 10px 36px; /* asymmetric padding — looks like polaroid-style print */
-  box-shadow: var(--shadow-print);
   display: block;
   position: relative;
-  transform: rotate(var(--tilt, -1.4deg));
-  transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+  overflow: hidden;
+  border-radius: var(--radius-lg);   /* 32px — generous rounded corners */
+  box-shadow: var(--shadow-md);
+  background: var(--paper-warm);     /* fallback while image loads */
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+  margin: 0;
 }
-.photo-print:hover { transform: rotate(0) translateY(-4px); box-shadow: var(--shadow-lg); }
+.photo-print:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
 .photo-print img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
 }
 .photo-print--square > img { aspect-ratio: 1 / 1; }
 .photo-print--portrait > img { aspect-ratio: 4 / 5; }
 .photo-print--landscape > img { aspect-ratio: 16 / 10; }
 .photo-print--tall > img { aspect-ratio: 3 / 4; }
+
+/* Caption — overlay band along the bottom of the photo card.
+   Solid semi-transparent ink fill (no gradient — per design rule)
+   so the text reads clearly without painterly fading. */
 .photo-print__caption {
-  position: absolute; left: 0; right: 0; bottom: 10px;
-  text-align: center;
-  font-family: var(--font-display); font-style: italic;
-  font-size: 0.95rem; color: var(--ink);
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 1rem 1.25rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  color: var(--paper);
+  text-align: left;
+  background: rgba(13, 37, 72, 0.72);   /* --ink-deep at 72% — solid scrim */
 }
 
 /* -----------------------------------------------------------
@@ -415,11 +430,13 @@ p:last-child { margin-bottom: 0; }
      the page's left edge, giving the creek-bank silhouette room
      to bump into the cream area. */
   width: clamp(64%, 68%, 74%);
-  /* Tall enough that the photo fills the right side of the hero,
-     with the creek-bank sweeping right just past the section seam.
-     The bleed into founders is modest — photo crosses the seam then
-     exits the right edge, like Brees' latest annotated screenshot. */
-  height: clamp(820px, 92vh, 1100px);
+  /* v8 — Mask is substantially TALLER (150vh) so the photo's
+     descending wave path extends well past the founders section
+     on the right side. Per Brees' image #8 mockup, the photo
+     drops across the entire founders content area, with the
+     right edge of the photo running down the right side of the
+     page deep into the section. */
+  height: clamp(1300px, 150vh, 1700px);
   /* z-index 2 — above the founders section's background AND
      above the .page-creek (z-index 1) so the animated creek
      line goes BEHIND the photo where they overlap. Section
@@ -861,17 +878,17 @@ p:last-child { margin-bottom: 0; }
 }
 
 /* -----------------------------------------------------------
-   09.75 — SERVICES STRIP — auto-scrolling polaroid marquee
-   Capped at ~50vh. Cards drift left continuously; hover/focus
-   pauses the motion. scripts/main.js clones the cards once on
-   init so the keyframe loop from translateX 0 → -50% is seamless.
+   09.75 — SERVICES STRIP — tall pill cards, horizontal scroll
+   Cards are tall portrait pills (3:4 aspect), heavily rounded
+   (32px radius), photo fills the card edge-to-edge, service
+   name overlays the bottom on a solid ink scrim. The row scrolls
+   horizontally — drag, swipe, or use the scrollbar to pan; no
+   auto-motion. Sections breathes ~clamp(4-6rem) of padding.
    ----------------------------------------------------------- */
 .services-strip {
   background: var(--paper);
   position: relative;
-  overflow: hidden;
-  padding-block: clamp(2rem, 4vw, 3.25rem);
-  max-height: 50vh;
+  padding-block: clamp(3rem, 5vw, 4.5rem);
   display: flex;
   flex-direction: column;
 }
@@ -882,7 +899,7 @@ p:last-child { margin-bottom: 0; }
   max-width: var(--container);
   margin: 0 auto;
   padding-inline: clamp(1.25rem, 4vw, 2.5rem);
-  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  margin-bottom: clamp(1.5rem, 2.5vw, 2.25rem);
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -892,12 +909,57 @@ p:last-child { margin-bottom: 0; }
 .services-strip__title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(1.65rem, 1.2rem + 1.4vw, 2.25rem);
+  font-size: clamp(1.85rem, 1.3rem + 1.6vw, 2.6rem);
   letter-spacing: -0.015em;
   line-height: 1.05;
   margin: 0.35rem 0 0;
   color: var(--ink);
 }
+
+/* Header right cluster — nav arrows + "See all" link, aligned end. */
+.services-strip__actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 1.75vw, 1.75rem);
+  flex-wrap: wrap;
+}
+.services-strip__nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.services-strip__nav-btn {
+  width: 44px; height: 44px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background-color 0.2s var(--ease-out),
+              color 0.2s var(--ease-out),
+              transform 0.2s var(--ease-out),
+              opacity 0.2s var(--ease-out);
+  cursor: pointer;
+}
+.services-strip__nav-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-1px);
+}
+.services-strip__nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+.services-strip__nav-btn svg {
+  width: 18px; height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .services-strip__cta {
   font-family: var(--font-body); font-weight: 600; font-size: 0.92rem;
   color: var(--ink);
@@ -908,53 +970,37 @@ p:last-child { margin-bottom: 0; }
 }
 .services-strip__cta:hover { color: var(--creek-deep); gap: 0.55rem; }
 
-.marquee {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  min-height: 0;
-  /* Soft fade at left + right edges so cards don't hard-cut */
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
-          mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
+/* Horizontal scroll rail — no auto-motion, scrollbar hidden.
+   Pads the inline edges so the first/last card aligns with the
+   section's natural margin. Pan via drag/swipe/wheel, or use
+   the arrow controls in the header. */
+.services-rail {
   display: flex;
-  align-items: center;
+  gap: clamp(1rem, 1.5vw, 1.75rem);
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scroll-padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+  padding-block: 0.5rem 1.25rem;
+  -webkit-overflow-scrolling: touch;
+  /* Scrollbar HIDDEN — navigation via arrows + drag/swipe */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-.marquee__track {
-  display: flex;
-  gap: clamp(1.25rem, 2.2vw, 2rem);
-  width: max-content;
-  animation: marquee 75s linear infinite;
-  padding-block: 1rem; /* leave room for the cards' shadows + tilts */
-}
-.marquee:hover .marquee__track,
-.marquee:focus-within .marquee__track {
-  animation-play-state: paused;
-}
-@keyframes marquee {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquee__track { animation: none; }
-  .marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
-}
+.services-rail::-webkit-scrollbar { display: none; }
 
 .service-card {
   flex: 0 0 auto;
-  width: clamp(170px, 17vw, 220px);
-  /* Re-uses .photo-print (white border, soft shadow, slight tilt).
-     We just disable its hover transform so cards stay tilted while
-     the marquee is paused — the user can read them easily. */
+  /* Sized so ~4 cards fit comfortably in the container at desktop,
+     scaling down on narrower viewports. */
+  width: clamp(260px, 23vw, 340px);
+  scroll-snap-align: start;
+  /* Re-uses .photo-print (now a clean rounded card) — caption
+     overlays the photo bottom with a solid ink scrim. */
 }
-.service-card.photo-print:hover {
-  transform: rotate(var(--tilt, -1.2deg)) translateY(-3px);
-}
-/* Vary the tilt per card so the strip feels hand-laid, not robotic. */
-.service-card:nth-child(5n)   { --tilt:  1.6deg; }
-.service-card:nth-child(5n+1) { --tilt: -1.2deg; }
-.service-card:nth-child(5n+2) { --tilt:  0.4deg; }
-.service-card:nth-child(5n+3) { --tilt: -1.8deg; }
-.service-card:nth-child(5n+4) { --tilt:  1.0deg; }
+.service-card.photo-print img { aspect-ratio: 3 / 4; }   /* tall pill */
 
 
 /* -----------------------------------------------------------
