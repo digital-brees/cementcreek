@@ -5,7 +5,7 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-19
-**Status:** Homepage v8 — major commit. Two big changes locked together: (1) polaroid retired sitewide, services rebuilt as tall pill cards with horizontal scroll + arrow nav; (2) hero mask rebuilt to match Brees' image #8 mockup — 150vh mask, left meander wave + multi-wave descending bottom that runs past the founders content on the right side. "Closest we've gotten" — committed.
+**Status:** Homepage v8.1 — hero gets the real video, mask reverts to v7.1, typography switches to Poppins, creek opacity bumped. Big shifts: (1) `<video>` element replaces the placeholder `<img>` in the hero, using `2-dogs.mp4` from Drive compressed to 8.3 MB at 1280px + a 268 KB poster JPG; (2) v8 mask shape REVERTED to v7.1 (smooth meander + gentle horizontal-ish bottom, 92vh) — Brees decided the deeper bleed was too much; (3) body font Manrope → Poppins; (4) creek animation opacity 0.45 → 0.75 (more visible flow).
 
 ---
 
@@ -233,7 +233,13 @@ Cement Creek/
 
 **v7.2 – v7.12 (2026-05-19, scratchwork):** Many iterations attempting to match further annotations from Brees (image #3 through image #7). Tried: uniform horizontal bottom, slope-to-point at (1.0, 1.0), valley shape, drop-then-flat, increasingly tall masks (110vh → 150vh) with bigger founders padding. None landed. Reverted to v7.1 before v8 took over from a new mockup.
 
-**v8 (2026-05-19, locked / committed):** Two changes shipped together — Brees confirmed "closest we've gotten":
+**v8.1 (2026-05-19, locked / committed):** Hero gets the real video, v8 mask gets reverted, typography swap, creek visibility bump:
+- **Hero video shipped.** `<img>` swapped for `<video data-hero-video autoplay muted loop playsinline preload="metadata" poster="...">` pointing at `assets/videos/hero-video.mp4`. Source was `2-dogs.mp4` from Drive (78 MB at 1920×1080, 21 Mbps), compressed via ffmpeg to **8.3 MB at 1280×720, CRF 26, H.264 main, audio stripped, +faststart**. Poster frame extracted at 1s mark → `assets/videos/hero-video-poster.jpg` (268 KB). Original source deleted from the repo. Existing `initHeroVideo()` JS handles autoplay-blocked fallback (paints poster as background).
+- **v8 mask REVERTED to v7.1.** Brees decided the 150vh tall mask + multi-wave descending bottom was too much. Both `clipPath` path and `.hero-media-mask` height restored to v7.1 (smooth meander + gentle horizontal-ish bottom at y=0.84-0.89, 92vh height). Founders padding-top stays at v7.1's 12vh.
+- **Typography: Manrope → Poppins.** Updated `--font-body` token and the Google Fonts link (same weight range: 300-800).
+- **Creek animation opacity 0.45 → 0.75.** Both `.page-creek__path--light` and `--dark` more visible. Still uses mix-blend-mode multiply/screen for light/dark sections.
+
+**v8 (2026-05-19, superseded by v8.1):** Two changes shipped together — Brees confirmed "closest we've gotten":
 - **Hero mask v8 — match for image #8 mockup.** Path: left meander wave preserved (0.15,0 → 0.12,0.46), then bottom descends with multi-wave organic curves through (0.20, 0.54) → (0.42, 0.62) → (0.62, 0.72) → (0.82, 0.86) → (1.00, 0.97). Right edge straight up. Mask height: 92vh → **150vh**, so the descending bottom runs deep past the founders content on the right side; the photo's right edge extends down off the bottom of typical viewports. Founders content is positioned to clear the photo on the left side; on the right side the photo overlaps the text column with z-index keeping text legible on top.
 - **Services strip rebuild + polaroid retired sitewide.**
   - `.photo-print` was the polaroid treatment (rotation, white border, asymmetric padding). Now reworked as a CLEAN ROUNDED CARD: 32px corners, soft shadow, photo fills edge-to-edge, no rotation, no border. Captions overlay the bottom with a SOLID ink scrim (rgba(13,37,72,0.72)) — no gradient per Brees' rule.

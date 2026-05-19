@@ -23,7 +23,7 @@
 
   /* Type */
   --font-display: 'Instrument Serif', 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Fluid type scale */
   --fs-display: clamp(3rem, 2rem + 5vw, 7rem);
@@ -341,12 +341,12 @@ p:last-child { margin-bottom: 0; }
 }
 .page-creek__path--light {
   stroke: var(--creek-deep);
-  opacity: 0.45;
+  opacity: 0.75;
   mix-blend-mode: multiply;
 }
 .page-creek__path--dark {
   stroke: var(--creek);
-  opacity: 0.45;
+  opacity: 0.75;
   mix-blend-mode: screen;
 }
 
@@ -430,13 +430,11 @@ p:last-child { margin-bottom: 0; }
      the page's left edge, giving the creek-bank silhouette room
      to bump into the cream area. */
   width: clamp(64%, 68%, 74%);
-  /* v8 — Mask is substantially TALLER (150vh) so the photo's
-     descending wave path extends well past the founders section
-     on the right side. Per Brees' image #8 mockup, the photo
-     drops across the entire founders content area, with the
-     right edge of the photo running down the right side of the
-     page deep into the section. */
-  height: clamp(1300px, 150vh, 1700px);
+  /* Tall enough that the photo fills the right side of the hero,
+     with the creek-bank sweeping right just past the section seam.
+     The bleed into founders is modest — photo crosses the seam then
+     exits the right edge, like Brees' latest annotated screenshot. */
+  height: clamp(820px, 92vh, 1100px);
   /* z-index 2 — above the founders section's background AND
      above the .page-creek (z-index 1) so the animated creek
      line goes BEHIND the photo where they overlap. Section

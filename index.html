@@ -9,7 +9,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles/main.css" />
   <link rel="icon" type="image/png" href="assets/CEMENT CREEK MAIN LOGO_BADGE.png" />
@@ -17,13 +17,13 @@
 <body>
 
   <!-- Inline SVG defs — the creek-shaped clip-path that masks
-       the hero video. v8 path matches Brees' image #8 mockup:
-       left meander wave preserved, then the bottom edge descends
-       diagonally rightward across the width with multiple gentle
-       organic curves (no single smooth slope, no sharp point),
-       continuing past the founders content area. The right edge
-       reaches near the bottom-right of the mask box so the photo
-       extends deep down the right side of the page. -->
+       the hero video. Path is a SMOOTH MEANDERING CREEK BANK:
+       gentle organic waves on the left edge (no zigzag, no teeth)
+       that flow continuously from top to bottom, then sweep
+       out to the right at the bottom — bleeding deep into the
+       top of the founders section so the photo feels like it
+       crosses the seam, not stops at it. Matches Brees'
+       2026-05-19 v7.1 annotation (red-line outline). -->
   <svg width="0" height="0" style="position: absolute; pointer-events: none;" aria-hidden="true">
     <defs>
       <clipPath id="creek-mask" clipPathUnits="objectBoundingBox">
@@ -31,11 +31,9 @@
           M 0.15 0
           C 0.20 0.06, 0.22 0.13, 0.16 0.20
           C 0.10 0.28, 0.14 0.37, 0.12 0.46
-          C 0.10 0.50, 0.14 0.53, 0.20 0.54
-          C 0.30 0.58, 0.36 0.64, 0.42 0.62
-          C 0.50 0.61, 0.56 0.68, 0.62 0.72
-          C 0.70 0.76, 0.76 0.82, 0.82 0.86
-          C 0.88 0.90, 0.94 0.94, 1.00 0.97
+          C 0.10 0.55, 0.16 0.63, 0.13 0.72
+          C 0.10 0.80, 0.20 0.87, 0.34 0.87
+          C 0.55 0.87, 0.78 0.80, 1.00 0.74
           L 1.00 0
           Z
         " />
@@ -99,11 +97,20 @@
            - on mobile: position:static, normal flow, sits between
              the hero text and the founders text without the clip
          ======================================================== -->
-    <aside class="hero-media-mask" aria-hidden="true"
-           data-todo="Replace the placeholder <img> with a looping muted hero video (autoplay, muted, playsinline). Keep the still as poster.">
+    <aside class="hero-media-mask" aria-hidden="true">
       <div class="hero-media-mask__inner">
-        <img src="assets/images/creek-dogs-landscape.jpg"
-             alt="" />
+        <!-- Hero loop video. Autoplay + muted + playsinline so it
+             starts silently on every device. Poster frame is shown
+             while the video loads (and as a fallback if autoplay
+             is blocked by the browser). -->
+        <video
+          data-hero-video
+          autoplay muted loop playsinline
+          preload="metadata"
+          poster="assets/videos/hero-video-poster.jpg"
+          aria-hidden="true">
+          <source src="assets/videos/hero-video.mp4" type="video/mp4" />
+        </video>
       </div>
     </aside>
 
