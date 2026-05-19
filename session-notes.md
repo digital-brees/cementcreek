@@ -5,7 +5,7 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-19
-**Status:** Homepage v7 — creek-shaped video mask bleeds across hero/founders, founders swapped to image-left/text-right with single rounded image, wavy eyebrow dash, animated creek line behind video. Mask outline iterated multiple times to match Brees' annotated screenshots.
+**Status:** Homepage v7.1 — creek-shaped video mask retuned. Replaced 8 tight zigzag bumps with 3 broad meanders on the left edge (smooth organic creek-bank), pushed bottom-left of the path from y=0.77 → y=0.87 so the photo bleeds ~80px deeper into founders, and bumped founders grid `padding-top` from 9vh → 12vh to keep the image column clear of the deeper bleed. Brees confirmed "much better" — locked.
 
 ---
 
@@ -221,7 +221,14 @@ Cement Creek/
 - Founders layout swapped: single rounded image LEFT, text RIGHT (was text LEFT, polaroid stack RIGHT)
 - Eyebrow dash replaced with wavy SVG sine wave
 - Removed black section divider border
-- Final path matches Brees' image #7 — organic creek-bank with 7 bumps descending through the hero, then sweeping right to exit just past the section seam
+- Final v7 path matched Brees' image #7 — organic creek-bank with 7 bumps descending through the hero, then sweeping right to exit just past the section seam
+
+**v7.1 (2026-05-19, this session, locked):** Retuned the mask outline per Brees' red-line annotation:
+- Replaced the toothy 8-bump zigzag with a clean **3-broad-meander** path that reads as one continuous creek bank instead of multiple sharp juts
+- Subtle dip-right-then-back near the top (matching the bulge in Brees' drawing), two gentle S-curves in the middle, then a bottom curve out at y=0.87 sweeping up to y=0.74 at the right edge
+- Bottom-left of the path pushed from y=0.77 → y=0.87, putting the photo's bottom ~80px deeper into the founders section (was only ~10px in). The mask now visibly "goes into the founder section"
+- Founders grid `padding-top` increased from `clamp(4rem, 9vh, 7rem)` → `clamp(6rem, 12vh, 9rem)` to keep the building-exterior image clear of the deeper bleed
+- Brees confirmed "much better" — mask shape now locked
 
 ---
 

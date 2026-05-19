@@ -486,10 +486,11 @@ p:last-child { margin-bottom: 0; }
   grid-template-columns: 1fr 1.05fr;
   gap: clamp(2rem, 5vw, 5rem);
   align-items: center;
-  /* Modest offset to clear the small founders-side bleed of the
-     hero-media-mask. The mask exits the right edge ~30-40px past
-     the seam; this gives the content breathing room below. */
-  padding-top: clamp(4rem, 9vh, 7rem);
+  /* Larger offset now that the v7.1 mask bleeds deeper into
+     founders (path bottom-left at y≈0.87 vs old 0.77 — ~90px
+     into the section instead of ~10px). This keeps the founder
+     image column clear of the photo's bottom edge. */
+  padding-top: clamp(6rem, 12vh, 9rem);
 }
 .founders__copy {
   max-width: 540px;
