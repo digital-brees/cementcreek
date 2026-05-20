@@ -5,7 +5,15 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-20
-**Status:** Homepage v10 — heavy wide pass across the hero, header, intentional, services, closer, and footer.
+**Status:** Homepage v10.1 — follow-on polish pass:
+  - Header bg now solid `--paper` always (removed translucent `.is-scrolled` state that let colored sections bleed through on scroll)
+  - Nav restructured with dropdowns: **About** (Team, Gallery) and **Pet Corner** (How to Pay, Heart Dog & Cat Fund, Resources & Links). Dropdowns are hover/focus-within with chevron rotation, rounded card, soft shadow
+  - Social icons **moved** from main header to **topbar right side** — paper-colored 28px circles, hover fills creek-cyan. Topbar restructured as 3-col grid (spacer | centered chips | social) so chips stay visually centered
+  - Mobile menu updated with all nav items including sub-link variant
+  - **Wave divider on top of CTA/closer section** (same SVG pattern as founders→intentional, filled `--ink-deep`)
+  - **All 16 placeholder images replaced with real Pexels photos** — 6 tab panels (square 1:1, 1200px) + 10 service cards (3:4 portrait, 900px). Respects no-vet-faces / no-gloves rules by leaning into lifestyle pet portraits and equipment-only shots. Utility: `fetch-pexels-images.py`
+
+**Homepage v10 base:** heavy wide pass across the hero, header, intentional, services, closer, and footer.
   1. **Header right-aligned + sticky stack**: logo left, nav + actions (phone, IG, FB, Book CTA) pushed right via `margin-left:auto`. Topbar + main header wrapped in `.site-header-stack` (`position: sticky; top:0`) so both pin to the viewport on scroll. Logo +30% (58→76px). Body `overflow-x: hidden → clip` so sticky works.
   2. **Social icons**: Instagram + Facebook added to header (circular icon-links matching phone style) and to footer brand column (`.site-footer__social`, 38px outlined → fills creek-cyan on hover). Footer email wired to `ccvh@cementcreekvet.com`.
   3. **Hero rebuild**: New H1 = "Cement Creek Veterinary Hospital: Rooted in the Gunnison Valley. Built for Crested Butte pets." rendered as a two-tier hierarchy via inner spans — brand lockup (uppercase, 0.7-0.8rem, weight 600, prefixed with the wavy creek-mark dash) above an italic display tagline (clamp 2.25rem → 73px). Marker underline still under "Gunnison Valley." Lede paragraph removed. Founder signature row ("Founded by Dr. Kara Erickson & Shawna Castillo") sits below the buttons. Hairline rule trimmed to span buttons only via `align-self: flex-start` + `border-bottom` on `.hero__actions`. Hero shortened ~10% (min-height clamp 486px / 63vh / 648px; mask 738px / 83vh / 990px). Mask width back to clamp(54%, 58%, 64%). Column inset margin restored to clamp(5rem, 11vw, 11rem). Creek-mask clip-path bottom edge replaced with 4 small wave ripples.

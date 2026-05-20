@@ -9,13 +9,35 @@
 <div class="site-header-stack">
 <div class="topbar" data-reveal="fade">
   <div class="topbar__inner">
-    <span class="topbar__chip">Mon–Fri · 8am–5pm</span>
-    <span class="topbar__sep" aria-hidden="true">·</span>
-    <span class="topbar__chip">Welcoming new patients</span>
-    <span class="topbar__sep" aria-hidden="true">·</span>
-    <span class="topbar__chip">CB South</span>
-    <span class="topbar__sep" aria-hidden="true">·</span>
-    <span class="topbar__chip topbar__chip--accent">Independently &amp; women-owned</span>
+    <!-- Spacer column (left) keeps the chips centered relative to the
+         topbar even though the social cluster sits on the right. -->
+    <div class="topbar__spacer" aria-hidden="true"></div>
+
+    <div class="topbar__chips">
+      <span class="topbar__chip">Mon–Fri · 8am–5pm</span>
+      <span class="topbar__sep" aria-hidden="true">·</span>
+      <span class="topbar__chip">Welcoming new patients</span>
+      <span class="topbar__sep" aria-hidden="true">·</span>
+      <span class="topbar__chip">CB South</span>
+      <span class="topbar__sep" aria-hidden="true">·</span>
+      <span class="topbar__chip topbar__chip--accent">Independently &amp; women-owned</span>
+    </div>
+
+    <!-- Social icons — right edge of the topbar -->
+    <div class="topbar__social" aria-label="Cement Creek on social">
+      <a href="https://www.instagram.com/cementcreekvet" target="_blank" rel="noopener" class="topbar__social-link" aria-label="Cement Creek on Instagram">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61576023182499" target="_blank" rel="noopener" class="topbar__social-link" aria-label="Cement Creek on Facebook">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
+      </a>
+    </div>
   </div>
 </div>
 
@@ -28,8 +50,38 @@
     <nav class="site-header__nav" aria-label="Primary">
       <ul class="site-header__menu">
         <li><a href="/" class="site-header__link" data-nav-current>Home</a></li>
-        <li><a href="team.html" class="site-header__link">Team</a></li>
+
+        <!-- About — dropdown: Team, Gallery -->
+        <li class="site-header__item--has-menu">
+          <a href="about.html" class="site-header__link site-header__link--has-menu" aria-haspopup="true" aria-expanded="false">
+            About
+            <svg class="site-header__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="1 1.5 5 5 9 1.5"/>
+            </svg>
+          </a>
+          <ul class="site-header__submenu" role="menu">
+            <li role="none"><a href="team.html" role="menuitem">Team</a></li>
+            <li role="none"><a href="gallery.html" role="menuitem">Gallery</a></li>
+          </ul>
+        </li>
+
         <li><a href="services.html" class="site-header__link">Services</a></li>
+
+        <!-- Pet Corner — dropdown: How to Pay, Heart Dog & Cat Fund, Resources & Links -->
+        <li class="site-header__item--has-menu">
+          <a href="pet-corner.html" class="site-header__link site-header__link--has-menu" aria-haspopup="true" aria-expanded="false">
+            Pet Corner
+            <svg class="site-header__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="1 1.5 5 5 9 1.5"/>
+            </svg>
+          </a>
+          <ul class="site-header__submenu" role="menu">
+            <li role="none"><a href="how-to-pay.html" role="menuitem">How to Pay</a></li>
+            <li role="none"><a href="heart-fund.html" role="menuitem">Heart Dog &amp; Cat Fund</a></li>
+            <li role="none"><a href="resources.html" role="menuitem">Resources &amp; Links</a></li>
+          </ul>
+        </li>
+
         <li><a href="contact.html" class="site-header__link">Contact</a></li>
       </ul>
     </nav>
@@ -38,18 +90,6 @@
       <a href="tel:" class="site-header__icon-link" aria-label="Call us" title="Call (number coming soon)">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-        </svg>
-      </a>
-      <a href="https://www.instagram.com/cementcreekvet" target="_blank" rel="noopener" class="site-header__icon-link" aria-label="Cement Creek on Instagram">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-        </svg>
-      </a>
-      <a href="https://www.facebook.com/profile.php?id=61576023182499" target="_blank" rel="noopener" class="site-header__icon-link" aria-label="Cement Creek on Facebook">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
         </svg>
       </a>
       <a href="#" class="btn btn--primary site-header__cta" data-todo="Book an appointment URL — placeholder until scheduling system is live">
@@ -69,8 +109,14 @@
   <nav aria-label="Mobile">
     <ul class="mobile-menu__list">
       <li><a href="/" class="mobile-menu__link">Home</a></li>
-      <li><a href="team.html" class="mobile-menu__link">Team</a></li>
+      <li><a href="about.html" class="mobile-menu__link">About</a></li>
+      <li><a href="team.html" class="mobile-menu__link mobile-menu__link--sub">Team</a></li>
+      <li><a href="gallery.html" class="mobile-menu__link mobile-menu__link--sub">Gallery</a></li>
       <li><a href="services.html" class="mobile-menu__link">Services</a></li>
+      <li><a href="pet-corner.html" class="mobile-menu__link">Pet Corner</a></li>
+      <li><a href="how-to-pay.html" class="mobile-menu__link mobile-menu__link--sub">How to Pay</a></li>
+      <li><a href="heart-fund.html" class="mobile-menu__link mobile-menu__link--sub">Heart Dog &amp; Cat Fund</a></li>
+      <li><a href="resources.html" class="mobile-menu__link mobile-menu__link--sub">Resources &amp; Links</a></li>
       <li><a href="contact.html" class="mobile-menu__link">Contact</a></li>
     </ul>
     <a href="#" class="btn btn--primary mobile-menu__cta" data-todo="Book an appointment URL — placeholder">

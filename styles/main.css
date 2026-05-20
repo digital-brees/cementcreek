@@ -239,28 +239,67 @@ p:last-child { margin-bottom: 0; }
 .topbar__inner {
   max-width: var(--container-wide); margin-inline: auto;
   padding: 0.55rem clamp(1.25rem, 4vw, 2.5rem);
-  /* Centered chip row — hours, new-patient note, location, ownership
-     read as a single centered ribbon across the top of the page. */
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  /* 3-column grid: spacer (L) | chips (centered M) | social (R).
+     The spacer + social columns are equal-width so chips stay
+     visually centered within the topbar even though the social
+     icons sit on the right. */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.5rem 0.85rem;
+}
+.topbar__spacer { /* empty — just a grid placeholder to balance social column */ }
+.topbar__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   gap: 0.5rem 0.85rem;
 }
 .topbar__chip { opacity: 0.92; }
 .topbar__chip--accent { color: var(--creek); font-weight: 600; }
 .topbar__sep { opacity: 0.4; }
 
+/* Topbar social cluster — right edge, paper-colored icons with
+   a creek-cyan hover. Smaller than the header social icons used
+   to be so the topbar stays slim. */
+.topbar__social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+.topbar__social-link {
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  color: rgba(244, 235, 218, 0.85);
+  transition: color 0.2s var(--ease-out), background-color 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+}
+.topbar__social-link:hover {
+  color: var(--creek);
+  background: rgba(244, 235, 218, 0.08);
+  transform: translateY(-1px);
+}
+.topbar__social-link svg { display: block; }
+
+@media (max-width: 640px) {
+  /* Collapse the 3-col grid to a single column on phones — chips
+     wrap and the social cluster stacks below. */
+  .topbar__inner { grid-template-columns: 1fr; }
+  .topbar__spacer { display: none; }
+  .topbar__social { justify-content: center; }
+}
+
 .site-header {
   /* Stickiness is handled by .site-header-stack now — this element
-     just flows inside the wrapper. z-index kept so its scrolled
-     state still paints above the rest of the page. */
+     just flows inside the wrapper. Solid paper bg always so the
+     header tone stays the same whether the user has scrolled past
+     a different-colored section or not (no more tonal shift from
+     the translucent-bg-with-backdrop-blur scrolled state). */
   position: relative; z-index: 40;
-  transition: background-color 0.3s var(--ease-out), border-color 0.3s var(--ease-out), padding 0.3s var(--ease-out);
+  background: var(--paper);
   border-bottom: 1px solid transparent;
-}
-.site-header.is-scrolled {
-  background: rgba(244, 235, 218, 0.92);
-  backdrop-filter: saturate(140%) blur(14px);
-  -webkit-backdrop-filter: saturate(140%) blur(14px);
-  border-bottom-color: rgba(22, 59, 108, 0.08);
 }
 .site-header__inner {
   max-width: var(--container-wide); margin-inline: auto;
@@ -300,6 +339,62 @@ p:last-child { margin-bottom: 0; }
 .site-header__link:hover::after,
 .site-header__link[data-nav-current]::after { transform: scaleX(1); }
 
+/* ----------- Nav dropdowns (About, Pet Corner) ----------- */
+.site-header__item--has-menu { position: relative; }
+
+.site-header__link--has-menu {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.site-header__caret {
+  transition: transform 0.25s var(--ease-out);
+}
+.site-header__item--has-menu:hover .site-header__caret,
+.site-header__item--has-menu:focus-within .site-header__caret {
+  transform: rotate(180deg);
+}
+
+.site-header__submenu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: -0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  min-width: 220px;
+  background: var(--paper);
+  border: 1px solid rgba(22, 59, 108, 0.10);
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.22s var(--ease-out),
+              transform 0.22s var(--ease-out),
+              visibility 0.22s var(--ease-out);
+  z-index: 50;
+}
+.site-header__item--has-menu:hover .site-header__submenu,
+.site-header__item--has-menu:focus-within .site-header__submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.site-header__submenu a {
+  display: block;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+  transition: color 0.2s var(--ease-out), background-color 0.2s var(--ease-out);
+}
+.site-header__submenu a:hover {
+  color: var(--creek-deep);
+  background: rgba(22, 59, 108, 0.05);
+}
+
 /* Phone icon + Book button hug each other (0.6rem internal gap).
    margin-left:auto removed so they sit right after the nav rather
    than getting shoved to the far right edge of the header. */
@@ -330,6 +425,14 @@ p:last-child { margin-bottom: 0; }
 .mobile-menu.is-open { opacity: 1; pointer-events: auto; }
 .mobile-menu__list { list-style: none; padding: 0; margin: 0 0 2rem; display: flex; flex-direction: column; gap: 1.25rem; text-align: center; }
 .mobile-menu__link { font-family: var(--font-display); font-size: 2.25rem; color: var(--ink); }
+/* Sub-items in the mobile menu — smaller and dimmer so the
+   nested hierarchy reads at a glance. */
+.mobile-menu__link--sub {
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--stone-warm);
+  letter-spacing: 0.01em;
+}
 .mobile-menu__cta { display: block; margin: 0 auto; }
 
 @media (max-width: 880px) {
@@ -1126,8 +1229,28 @@ p:last-child { margin-bottom: 0; }
   background: var(--paper-warm);
   position: relative;
   padding-block: clamp(3rem, 5vw, 4.5rem);
+  /* Bottom padding bumped up so the wave divider has clearance
+     below the cards before the wavy edge starts. */
+  padding-bottom: clamp(5.5rem, 9vw, 8rem);
   display: flex;
   flex-direction: column;
+}
+
+/* Wavy section divider into the closer — same pattern as the
+   founders → intentional divider, but filled with ink-deep
+   (the closer's bg color). The wavy top edge of the SVG path
+   becomes the boundary between the warm-paper services area
+   and the dark CTA section below. */
+.services-strip::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: clamp(48px, 7vw, 88px);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'><path d='M 0 50 C 120 20, 240 60, 360 40 C 480 20, 600 55, 720 35 C 840 15, 960 50, 1080 30 C 1200 10, 1320 50, 1440 35 L 1440 80 L 0 80 Z' fill='%230D2548'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 2;
 }
 .services-strip > * { position: relative; z-index: 2; }
 
