@@ -27,13 +27,23 @@
   <svg width="0" height="0" style="position: absolute; pointer-events: none;" aria-hidden="true">
     <defs>
       <clipPath id="creek-mask" clipPathUnits="objectBoundingBox">
+        <!-- Bottom edge updated 2026-05-20: replaced the single
+             long sweep from (0.34, 0.87) → (1.00, 0.74) with a
+             series of smaller wave humps so the bottom looks
+             like ripples in a creek, not a smooth bank. The
+             left edge (meanders down through y=0.72) is
+             unchanged. -->
         <path d="
           M 0.15 0
           C 0.20 0.06, 0.22 0.13, 0.16 0.20
           C 0.10 0.28, 0.14 0.37, 0.12 0.46
           C 0.10 0.55, 0.16 0.63, 0.13 0.72
-          C 0.10 0.80, 0.20 0.87, 0.34 0.87
-          C 0.55 0.87, 0.78 0.80, 1.00 0.74
+          C 0.10 0.80, 0.18 0.85, 0.24 0.86
+          C 0.30 0.87, 0.32 0.93, 0.38 0.89
+          C 0.44 0.85, 0.48 0.93, 0.54 0.89
+          C 0.60 0.85, 0.64 0.91, 0.70 0.86
+          C 0.76 0.81, 0.82 0.85, 0.88 0.81
+          C 0.94 0.77, 0.97 0.76, 1.00 0.74
           L 1.00 0
           Z
         " />
@@ -76,14 +86,21 @@
          ======================================================== -->
     <section class="hero" aria-label="Cement Creek Veterinary Hospital">
       <div class="hero__copy" data-reveal>
-        <h1 class="hero__title">This must<br />be the place.</h1>
-        <p class="hero__lede">
-          A small-animal veterinary practice for the people and pets of the Gunnison Valley. Independently and women-owned. Welcoming new patients in Crested Butte South.
-        </p>
+        <h1 class="hero__title">
+          <span class="hero__title-brand">Cement Creek Veterinary Hospital</span>
+          <span class="hero__title-tagline">Rooted in the <span class="hero__title-mark">Gunnison Valley.</span> Built for Crested Butte pets.</span>
+        </h1>
         <div class="hero__actions">
           <a href="#" class="btn btn--primary btn--arrow" data-todo="Book an appointment URL">Book an appointment</a>
           <a href="#everything-intentional" class="btn btn--ghost">See how we built it</a>
         </div>
+        <!-- Hero signature — small founder credit that grounds the
+             column, echoes the founders section, and gives the hero
+             a human footer instead of buttons hanging in space. -->
+        <p class="hero__signature">
+          <span class="hero__signature-mark" aria-hidden="true"></span>
+          Founded by <strong>Dr. Kara Erickson</strong> &amp; <strong>Shawna Castillo</strong>
+        </p>
       </div>
     </section>
 
@@ -131,10 +148,9 @@
           <!-- IMAGE on the LEFT — single rounded photo of the clinic
                or the founders. Replaces the previous stacked polaroids. -->
           <div class="founders__media" data-reveal>
-            <figure class="founders__image"
-                    data-todo="Replace with Dr. Kara & Shawna in front of the clinic. Building exterior used as placeholder.">
-              <img src="assets/images/building-exterior.jpg"
-                   alt="Cement Creek Veterinary Hospital at 60 Glacier Street, Crested Butte South — exterior view with mountains behind" />
+            <figure class="founders__image">
+              <img src="assets/images/founders-portrait.jpg"
+                   alt="Dr. Kara Erickson and Shawna Castillo — founders of Cement Creek Veterinary Hospital" />
             </figure>
           </div>
 
@@ -145,9 +161,21 @@
             <p class="founders__lede" data-reveal>
               Cement Creek Vet is a small-animal practice built from scratch by Dr. Kara Erickson and Shawna Castillo, business partners and besties with over 35 combined years of experience in veterinary medicine. We each spent the last few decades working in the industry and taking notes &mdash; on what worked, what didn't, and what a really good vet visit could actually feel like for both you and your pet.
             </p>
-            <p class="founders__mission" data-reveal>
-              Our mission is to leave every patient, client, and interaction better than we found it &mdash; through honest medicine, empathy, and real conversations.
-            </p>
+            <!-- MISSION — pulled out of body flow and treated as a
+                 designed statement: small "Our Mission" eyebrow,
+                 large italic pledge sentence, then the three
+                 pillars rendered as a separated trio underneath. -->
+            <figure class="mission" data-reveal>
+              <span class="mission__eyebrow">Our Mission</span>
+              <blockquote class="mission__quote">
+                To leave every patient, client, and interaction <em>better than we found it.</em>
+              </blockquote>
+              <ul class="mission__pillars" aria-label="How we deliver on our mission">
+                <li class="mission__pillar">Honest medicine</li>
+                <li class="mission__pillar">Empathy</li>
+                <li class="mission__pillar">Real conversations</li>
+              </ul>
+            </figure>
           </div>
 
         </div>
@@ -178,56 +206,43 @@
           </p>
         </header>
 
+        <!-- Tab order locked: Approach → Team → Care → Handling →
+             Cats → Visits → Goodbyes → Tools. Verbatim copy from
+             Brees' 2026-05-20 paste, no rewording. -->
         <div class="tab-strip" role="tablist"
              aria-label="What makes Cement Creek intentional"
              data-reveal>
           <button class="tab" role="tab" id="t-approach" aria-controls="p-approach"
                   aria-selected="true">
-            <img class="tab__image" src="https://placehold.co/120x120/5BA8C0/F4EBDA/png?text=+"
-                 alt="" data-todo="Real photo: warm doctor-client conversation" />
             <span class="tab__label">Approach</span>
+          </button>
+          <button class="tab" role="tab" id="t-team" aria-controls="p-team"
+                  aria-selected="false" tabindex="-1">
+            <span class="tab__label">Team</span>
           </button>
           <button class="tab" role="tab" id="t-care" aria-controls="p-care"
                   aria-selected="false" tabindex="-1">
-            <img class="tab__image" src="https://placehold.co/120x120/ECDFC8/163B6C/png?text=+"
-                 alt="" data-todo="Real photo: pet during an exam" />
             <span class="tab__label">Care</span>
           </button>
           <button class="tab" role="tab" id="t-handling" aria-controls="p-handling"
                   aria-selected="false" tabindex="-1">
-            <img class="tab__image" src="https://placehold.co/120x120/9DD7E5/163B6C/png?text=+"
-                 alt="" data-todo="Real photo: gentle handling moment" />
             <span class="tab__label">Handling</span>
-          </button>
-          <button class="tab" role="tab" id="t-tools" aria-controls="p-tools"
-                  aria-selected="false" tabindex="-1">
-            <img class="tab__image" src="https://placehold.co/120x120/8A8275/F4EBDA/png?text=+"
-                 alt="" data-todo="Real photo: fishbowl / tools" />
-            <span class="tab__label">Tools</span>
           </button>
           <button class="tab" role="tab" id="t-cats" aria-controls="p-cats"
                   aria-selected="false" tabindex="-1">
-            <img class="tab__image" src="https://placehold.co/120x120/ECDFC8/163B6C/png?text=+"
-                 alt="" data-todo="Real photo: cat-only space" />
             <span class="tab__label">Cats</span>
           </button>
           <button class="tab" role="tab" id="t-visits" aria-controls="p-visits"
                   aria-selected="false" tabindex="-1">
-            <img class="tab__image" src="https://placehold.co/120x120/5BA8C0/F4EBDA/png?text=+"
-                 alt="" data-todo="Real photo: happy visit / pet at ease" />
             <span class="tab__label">Visits</span>
-          </button>
-          <button class="tab" role="tab" id="t-team" aria-controls="p-team"
-                  aria-selected="false" tabindex="-1">
-            <img class="tab__image" src="https://placehold.co/120x120/163B6C/F4EBDA/png?text=+"
-                 alt="" data-todo="Real photo: team / staff" />
-            <span class="tab__label">Team</span>
           </button>
           <button class="tab" role="tab" id="t-goodbyes" aria-controls="p-goodbyes"
                   aria-selected="false" tabindex="-1">
-            <img class="tab__image" src="https://placehold.co/120x120/6E665A/F4EBDA/png?text=+"
-                 alt="" data-todo="Real photo: quiet end-of-life room" />
             <span class="tab__label">Goodbyes</span>
+          </button>
+          <button class="tab" role="tab" id="t-tools" aria-controls="p-tools"
+                  aria-selected="false" tabindex="-1">
+            <span class="tab__label">Tools</span>
           </button>
         </div>
 
@@ -242,7 +257,7 @@
               <span class="tab-panel__index">Approach</span>
               <h3 class="tab-panel__heading">Context, not just conclusions.</h3>
               <p class="tab-panel__copy">
-                When we recommend something, we tell you why &mdash; how it works, what the evidence says, what happens if you skip it. You'll never leave with an estimate you don't understand or a diagnosis without knowing what it means for your animal. Our collaborative approach to treatment plans means you won't feel bad for asking questions or cornered by the cost. We work with CareCredit, Klarna, Cherry payment plans, and even created our application-based Heart Dog &amp; Cat Fund, so you always have options.
+                When we recommend something, we tell you why &ndash; how it works, what the evidence says, what happens if you skip it. You&rsquo;ll never leave with an estimate you don&rsquo;t understand or a diagnosis without knowing what it means for your animal. Our collaborative approach to treatment plans means you won&rsquo;t feel bad for asking questions or cornered by the cost. We work with CareCredit, Klarna, Cherry payment plans, and even created our application-based Angel Fund, Heart Dog &amp; Cat Fund, so that you always have options.
               </p>
               <a href="#" class="tab-panel__cta" data-todo="Ways-to-pay URL — placeholder">
                 Learn more about ways to pay &rarr;
@@ -250,7 +265,22 @@
             </div>
           </article>
 
-          <!-- 02 · Care -->
+          <!-- 02 · Team -->
+          <article class="tab-panel" role="tabpanel"
+                   id="p-team" aria-labelledby="t-team" hidden>
+            <img class="tab-panel__display" src="assets/images/team-photo.jpg"
+                 alt="The Cement Creek Veterinary Hospital team" />
+            <div class="tab-panel__body">
+              <span class="tab-panel__index">Team</span>
+              <h3 class="tab-panel__heading">A team hired for culture first.</h3>
+              <p class="tab-panel__copy">
+                We all love what we do and actually want to come to work. Running into you on the trails or around town is a bonus - there&rsquo;s a good chance we&rsquo;ll recognize your pet before you, but that&rsquo;s kind of the whole point.
+              </p>
+              <a href="team.html" class="tab-panel__cta">Meet our Team &rarr;</a>
+            </div>
+          </article>
+
+          <!-- 03 · Care -->
           <article class="tab-panel" role="tabpanel"
                    id="p-care" aria-labelledby="t-care" hidden>
             <img class="tab-panel__display" src="https://placehold.co/600x600/ECDFC8/163B6C/png?text=+"
@@ -259,12 +289,12 @@
               <span class="tab-panel__index">Care</span>
               <h3 class="tab-panel__heading">Personalized pet care.</h3>
               <p class="tab-panel__copy">
-                Every patient is treated as an individual &mdash; their own history, their own needs, their own plan. We take the time to know your animal the way you do, so the care we recommend fits the life you're actually living together.
+                Every patient is treated as an individual &ndash; their own history, their own needs, their own plan.
               </p>
             </div>
           </article>
 
-          <!-- 03 · Handling -->
+          <!-- 04 · Handling -->
           <article class="tab-panel" role="tabpanel"
                    id="p-handling" aria-labelledby="t-handling" hidden>
             <img class="tab-panel__display" src="https://placehold.co/600x600/9DD7E5/163B6C/png?text=+"
@@ -273,26 +303,8 @@
               <span class="tab-panel__index">Handling</span>
               <h3 class="tab-panel__heading">Gentle handling as a standard, not a specialty.</h3>
               <p class="tab-panel__copy">
-                We prioritize a low-stress experience for all, and adapt our handling techniques based on your pet's disposition, lifestyle, and personality. Calm pet, calm visit, better medicine.
+                We prioritize a low-stress experience for all, and adapt our handling techniques based on your pet&rsquo;s disposition, lifestyle, and personality.
               </p>
-            </div>
-          </article>
-
-          <!-- 04 · Tools (has photo) -->
-          <article class="tab-panel tab-panel--has-photo" role="tabpanel"
-                   id="p-tools" aria-labelledby="t-tools" hidden>
-            <figure class="tab-panel__photo photo-print photo-print--landscape">
-              <img src="assets/images/fishbowl-framing.jpg"
-                   alt="Wood framing of the 'fishbowl' glass observation room mid-build at Cement Creek." />
-              <figcaption class="photo-print__caption">The fishbowl, mid-build.</figcaption>
-            </figure>
-            <div class="tab-panel__body">
-              <span class="tab-panel__index">Tools</span>
-              <h3 class="tab-panel__heading">Modern tools and technology support.</h3>
-              <p class="tab-panel__copy">
-                In-house labwork, advanced diagnostic imaging, dedicated dental and surgical suites, and our personal favorite &mdash; a glass observation room affectionately called the &ldquo;fishbowl,&rdquo; so your pet is never out of our sight during their time here.
-              </p>
-              <a href="services.html" class="tab-panel__cta">See how we built it &rarr;</a>
             </div>
           </article>
 
@@ -303,9 +315,9 @@
                  alt="" data-todo="Real photo: cat-only space" />
             <div class="tab-panel__body">
               <span class="tab-panel__index">Cats</span>
-              <h3 class="tab-panel__heading">A quiet space, built just for cats.</h3>
+              <h3 class="tab-panel__heading">A quiet and cozy space, built just for cats.</h3>
               <p class="tab-panel__copy">
-                A separate room where cats can relax and recover with calming music and their own condo. The waiting room, the smells, the dogs &mdash; the usual stressors stay out so your cat can stay themselves.
+                A separate room where cats can relax and recover with calming music and their own condo.
               </p>
             </div>
           </article>
@@ -317,30 +329,15 @@
                  alt="" data-todo="Real photo: happy visit / pet at ease" />
             <div class="tab-panel__body">
               <span class="tab-panel__index">Visits</span>
-              <h3 class="tab-panel__heading">Happy visits, because we care about your experience.</h3>
+              <h3 class="tab-panel__heading">Happy visits because we care about your experience.</h3>
               <p class="tab-panel__copy">
-                Schedule time to share the space for a bit. Meet the team, get some treats, let your pet sniff around and decide we're okay &mdash; no exam, no treatment, no pressure.
+                Schedule time to share the space for a bit. Meet the team, get some treats, let your pet sniff around and decide we&rsquo;re okay. Our goal is to create positive associations and lasting relationships.
               </p>
-              <a href="services.html#happy-visits" class="tab-panel__cta">Learn more about happy visits &rarr;</a>
+              <a href="services.html#happy-visits" class="tab-panel__cta">Learn more &rarr;</a>
             </div>
           </article>
 
-          <!-- 07 · Team -->
-          <article class="tab-panel" role="tabpanel"
-                   id="p-team" aria-labelledby="t-team" hidden>
-            <img class="tab-panel__display" src="https://placehold.co/600x600/163B6C/F4EBDA/png?text=+"
-                 alt="" data-todo="Real photo: team / staff" />
-            <div class="tab-panel__body">
-              <span class="tab-panel__index">Team</span>
-              <h3 class="tab-panel__heading">A team hired for culture first.</h3>
-              <p class="tab-panel__copy">
-                We all love what we do and actually want to come to work. Running into you on the trails or around town is a bonus &mdash; there's a good chance we'll recognize your pet before you.
-              </p>
-              <a href="team.html" class="tab-panel__cta">Meet our team &rarr;</a>
-            </div>
-          </article>
-
-          <!-- 08 · Goodbyes -->
+          <!-- 07 · Goodbyes -->
           <article class="tab-panel" role="tabpanel"
                    id="p-goodbyes" aria-labelledby="t-goodbyes" hidden>
             <img class="tab-panel__display" src="https://placehold.co/600x600/6E665A/F4EBDA/png?text=+"
@@ -349,8 +346,26 @@
               <span class="tab-panel__index">Goodbyes</span>
               <h3 class="tab-panel__heading">A separate entrance for hard days.</h3>
               <p class="tab-panel__copy">
-                Because saying goodbye sucks, and your pet deserves a peaceful passing. A quiet entry, a quiet exit, time to be with them without an audience.
+                Because saying goodbye sucks, and your pet deserves a peaceful passing.
               </p>
+            </div>
+          </article>
+
+          <!-- 08 · Tools (has photo) -->
+          <article class="tab-panel tab-panel--has-photo" role="tabpanel"
+                   id="p-tools" aria-labelledby="t-tools" hidden>
+            <figure class="tab-panel__photo photo-print photo-print--landscape">
+              <img src="assets/images/fishbowl-framing.jpg"
+                   alt="Wood framing of the 'fishbowl' glass observation room mid-build at Cement Creek." />
+              <figcaption class="photo-print__caption">The fishbowl, mid-build.</figcaption>
+            </figure>
+            <div class="tab-panel__body">
+              <span class="tab-panel__index">Tools</span>
+              <h3 class="tab-panel__heading">Modern tools and technology support.</h3>
+              <p class="tab-panel__copy">
+                Rural living doesn&rsquo;t have to mean less access to quality veterinary care. We stay current on the latest advancements in veterinary medicine. For our team, that means ongoing education and modern equipment; for you, it means quicker answers, better diagnostics, and more accessible treatments. We carefully built every corner of Cement Creek Vet with that in mind: in-house labwork, advanced diagnostic imaging, dedicated dental and surgical suites, and our personal favorite &ndash; a glass observation room affectionately called the &lsquo;fishbowl,&rsquo; so your pet is never out of our sight during their time here.
+              </p>
+              <a href="services.html" class="tab-panel__cta">See how we built it &rarr;</a>
             </div>
           </article>
 

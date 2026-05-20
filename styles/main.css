@@ -73,7 +73,11 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  /* overflow-x: clip (not hidden) — `hidden` creates a scroll
+     container that breaks `position: sticky` on descendants
+     (the topbar + header). `clip` hides horizontal overflow
+     without creating a scroll context, so sticky still works. */
+  overflow-x: clip;
   position: relative;
 }
 
@@ -216,10 +220,27 @@ p:last-child { margin-bottom: 0; }
 /* -----------------------------------------------------------
    06 — Header / topbar / nav
    ----------------------------------------------------------- */
+/* Sticky stack — topbar + site-header travel together as one
+   block. Sticky must be applied to a direct child of <body>
+   (otherwise its parent's height bounds the stick — and the
+   partial's #global-header div is only as tall as the header
+   itself, giving sticky nowhere to stick). So both the outer
+   #global-header AND the inner .site-header-stack get sticky,
+   ensuring the block pins to the viewport whether the page
+   targets the placeholder OR the inner wrapper. */
+#global-header,
+.site-header-stack {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
 .topbar { background: var(--ink); color: var(--paper); font-size: 0.8125rem; letter-spacing: 0.02em; position: relative; z-index: 50; }
 .topbar__inner {
   max-width: var(--container-wide); margin-inline: auto;
   padding: 0.55rem clamp(1.25rem, 4vw, 2.5rem);
+  /* Centered chip row — hours, new-patient note, location, ownership
+     read as a single centered ribbon across the top of the page. */
   display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
   gap: 0.5rem 0.85rem;
 }
@@ -228,7 +249,10 @@ p:last-child { margin-bottom: 0; }
 .topbar__sep { opacity: 0.4; }
 
 .site-header {
-  position: sticky; top: 0; z-index: 40;
+  /* Stickiness is handled by .site-header-stack now — this element
+     just flows inside the wrapper. z-index kept so its scrolled
+     state still paints above the rest of the page. */
+  position: relative; z-index: 40;
   transition: background-color 0.3s var(--ease-out), border-color 0.3s var(--ease-out), padding 0.3s var(--ease-out);
   border-bottom: 1px solid transparent;
 }
@@ -241,13 +265,25 @@ p:last-child { margin-bottom: 0; }
 .site-header__inner {
   max-width: var(--container-wide); margin-inline: auto;
   padding: 1rem clamp(1.25rem, 4vw, 2.5rem);
-  display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.5rem);
+  /* Logo anchored to the LEFT. Everything else (nav links + phone +
+     CTA + hamburger) pushed to the RIGHT as a single cluster via
+     margin-left:auto on the nav. The nav and actions sit next to
+     each other with a small gap, so the right side reads as one
+     unit: Home Team Services Contact · 📞 · Book an appointment. */
+  display: flex; align-items: center;
+  gap: clamp(1rem, 2.5vw, 2rem);
 }
 .site-header__brand { display: inline-flex; align-items: center; }
-.site-header__logo { width: 58px; height: 58px; transition: transform 0.4s var(--ease-out); }
+/* Logo scaled up ~30% from 58px → 76px so it carries more
+   presence in the sticky header. */
+.site-header__logo { width: 76px; height: 76px; transition: transform 0.4s var(--ease-out); }
 .site-header__brand:hover .site-header__logo { transform: rotate(-3deg) scale(1.04); }
 
-.site-header__nav { flex: 1; display: flex; justify-content: center; }
+/* Nav is the first child of the right-side cluster. margin-left:auto
+   pushes it (and everything after it) all the way to the right edge,
+   leaving the logo alone on the left. The actions cluster (phone +
+   CTA + hamburger) follows immediately after with its own small gap. */
+.site-header__nav { display: flex; justify-content: flex-end; margin-left: auto; }
 .site-header__menu { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(1.25rem, 3vw, 2.25rem); }
 .site-header__link {
   font-size: 0.95rem; font-weight: 500;
@@ -264,7 +300,10 @@ p:last-child { margin-bottom: 0; }
 .site-header__link:hover::after,
 .site-header__link[data-nav-current]::after { transform: scaleX(1); }
 
-.site-header__actions { display: flex; align-items: center; gap: 0.75rem; }
+/* Phone icon + Book button hug each other (0.6rem internal gap).
+   margin-left:auto removed so they sit right after the nav rather
+   than getting shoved to the far right edge of the header. */
+.site-header__actions { display: flex; align-items: center; gap: 0.6rem; }
 .site-header__icon-link {
   width: 42px; height: 42px; border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center;
@@ -348,14 +387,16 @@ p:last-child { margin-bottom: 0; }
      The transition smooths small per-frame deltas. */
   transition: stroke-dashoffset 0.12s linear;
 }
+/* Creek opacity reduced from 0.75 → 0.32 (light) / 0.38 (dark)
+   so the line reads as a quiet watermark, not a competing graphic. */
 .page-creek__path--light {
   stroke: var(--creek-deep);
-  opacity: 0.75;
+  opacity: 0.32;
   mix-blend-mode: multiply;
 }
 .page-creek__path--dark {
   stroke: var(--creek);
-  opacity: 0.75;
+  opacity: 0.38;
   mix-blend-mode: screen;
 }
 
@@ -377,7 +418,8 @@ p:last-child { margin-bottom: 0; }
    ----------------------------------------------------------- */
 .hero {
   position: relative;
-  min-height: clamp(540px, 70vh, 720px);
+  /* Shortened ~10% from the original clamp(540px, 70vh, 720px). */
+  min-height: clamp(486px, 63vh, 648px);
   background: var(--paper);
   overflow: visible;       /* let .hero-media-mask peek past the bottom */
   isolation: isolate;
@@ -385,28 +427,77 @@ p:last-child { margin-bottom: 0; }
 .hero__copy {
   position: relative;
   z-index: 4;              /* above .hero-media-mask (1), .page-creek (2), section content (3) */
-  max-width: 36%;
-  min-width: 320px;
-  /* Pulled inward from the page edge per Brees' annotation —
-     the headline + intro should sit comfortably inside the
-     creek-bank silhouette, not flush against the left edge. */
-  margin-left: clamp(4rem, 9vw, 9rem);
+  /* Pushed further from the left edge with a bigger inset margin
+     so the column reads as a deliberately placed editorial block,
+     not a corner-anchored slab. Width sized for the new H1 with
+     brand-lockup + italic tagline hierarchy. */
+  max-width: 40%;
+  min-width: 360px;
+  margin-left: clamp(5rem, 11vw, 11rem);
   padding-block: clamp(2.5rem, 6vw, 5rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1.35rem;
-  min-height: clamp(540px, 70vh, 720px);
+  gap: 1.1rem;
+  /* Matches the new shorter hero min-height */
+  min-height: clamp(486px, 63vh, 648px);
 }
+
+/* Hero H1 — full sentence "Cement Creek Veterinary Hospital:
+   Rooted in the Gunnison Valley. Built for Crested Butte pets."
+   stays intact for semantics/SEO, but renders with a two-tier
+   hierarchy via inner spans: brand lockup (small upright caps)
+   above the tagline (big italic display). The container itself
+   carries no font-size or italic — those live on the spans. */
 .hero__title {
   font-family: var(--font-display);
-  font-style: italic;
   font-weight: 500;
-  font-size: clamp(2.5rem, 1.6rem + 3.2vw, 4.5rem);
-  line-height: 0.96;
-  letter-spacing: -0.025em;
   color: var(--ink);
   margin: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+/* Brand lockup — small, upright, all caps, dimmer color. Reads
+   as the practice name without competing with the tagline.
+   Prefixed with the same wavy creek-mark dash that the .eyebrow
+   class uses elsewhere, so this row reads as the hero's anchor
+   (replaces the previously separate "Crested Butte South,
+   Colorado" eyebrow above the title). */
+.hero__title-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-style: normal;
+  font-weight: 600;
+  font-size: clamp(0.7rem, 0.6rem + 0.25vw, 0.8rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.hero__title-brand::before {
+  content: '';
+  width: 32px;
+  height: 8px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 8' preserveAspectRatio='none'><path d='M0 4 Q 4 0, 8 4 T 16 4 T 24 4 T 32 4' stroke='%23163B6C' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  flex-shrink: 0;
+}
+
+/* Tagline — the actual hero display. Big italic Poppins,
+   wraps naturally inside the column. Max caps at 73px per
+   Brees' spec; scales down on smaller viewports. */
+.hero__title-tagline {
+  display: block;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.25rem, 1.4rem + 2.8vw, 73px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
 }
 .hero__lede {
   font-size: 1.05rem;
@@ -421,6 +512,66 @@ p:last-child { margin-bottom: 0; }
   gap: 0.75rem;
   align-items: center;
   margin-top: 0.35rem;
+  /* align-self:flex-start collapses the row to the natural width
+     of the two buttons so the border-bottom below them only
+     spans the buttons — not the full column. */
+  align-self: flex-start;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(22, 59, 108, 0.14);
+}
+
+/* ---- Hero polish elements (marker accent, signature) ----
+   These bracket the hero copy column so it reads as a composed
+   editorial intro instead of a stack of title + paragraph + buttons
+   floating on the cream paper. The geographic eyebrow was removed
+   — the brand lockup inside the H1 now carries the wave dash. */
+
+/* Hand-drawn marker underline beneath "the place." — echoes
+   the same treatment used on "intentional" in the section
+   below, so the hero and the page share a recurring motif. */
+.hero__title-mark {
+  position: relative;
+  display: inline-block;
+}
+.hero__title-mark::after {
+  content: '';
+  position: absolute;
+  left: 1%; right: 0%; bottom: 0.04em;
+  height: 0.14em;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'><path d='M2 8 Q 30 2 60 7 T 120 6 T 198 5' stroke='%235BA8C0' stroke-width='3.5' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+}
+
+/* Founder signature row — small, dim, with a wavy creek-mark
+   dash on the left. The hairline rule moved up onto the
+   buttons row so it only spans the buttons, not the full
+   column. Signature just sits below with a small margin. */
+.hero__signature {
+  margin: 1.1rem 0 0;
+  padding-top: 0;
+  border-top: none;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
+  color: var(--stone-warm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 100%;
+}
+.hero__signature strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+.hero__signature-mark {
+  display: inline-block;
+  width: 24px; height: 6px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 8' preserveAspectRatio='none'><path d='M0 4 Q 4 0, 8 4 T 16 4 T 24 4 T 32 4' stroke='%235BA8C0' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  flex-shrink: 0;
 }
 
 /* -----------------------------------------------------------
@@ -435,15 +586,14 @@ p:last-child { margin-bottom: 0; }
   position: absolute;
   top: 0;
   right: 0;
-  /* Wide enough that the photo's left edge starts at ~32% from
-     the page's left edge, giving the creek-bank silhouette room
-     to bump into the cream area. */
-  width: clamp(64%, 68%, 74%);
+  /* Widened so the video's clipped edge sits further left into
+     the cream area, but not as far as the original 68%. Text
+     column on the left is unchanged. */
+  width: clamp(54%, 58%, 64%);
   /* Tall enough that the photo fills the right side of the hero,
      with the creek-bank sweeping right just past the section seam.
-     The bleed into founders is modest — photo crosses the seam then
-     exits the right edge, like Brees' latest annotated screenshot. */
-  height: clamp(820px, 92vh, 1100px);
+     Shortened ~10% from the original clamp(820px, 92vh, 1100px). */
+  height: clamp(738px, 83vh, 990px);
   /* z-index 2 — above the founders section's background AND
      above the .page-creek (z-index 1) so the animated creek
      line goes BEHIND the photo where they overlap. Section
@@ -504,6 +654,22 @@ p:last-child { margin-bottom: 0; }
   position: relative;
   overflow: hidden;
 }
+/* Wavy section divider — sits at the bottom of founders, filled
+   with paper-warm (the intentional section's bg). The wavy top
+   edge of the SVG path is where the founders' paper bg meets the
+   intentional's paper-warm bg, giving the boundary an organic
+   water-ripple silhouette instead of a hard horizontal line. */
+.founders::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: clamp(48px, 7vw, 88px);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'><path d='M 0 50 C 120 20, 240 60, 360 40 C 480 20, 600 55, 720 35 C 840 15, 960 50, 1080 30 C 1200 10, 1320 50, 1440 35 L 1440 80 L 0 80 Z' fill='%23ECDFC8'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 2;
+}
 .founders__grid {
   display: grid;
   /* Image LEFT, text RIGHT (swapped from the previous layout). */
@@ -522,12 +688,70 @@ p:last-child { margin-bottom: 0; }
 }
 .founders__title { font-size: var(--fs-h2); margin: 1.25rem 0 1.75rem; }
 .founders__lede { font-size: var(--fs-body-lg); line-height: 1.6; color: var(--charcoal); }
-.founders__mission {
-  margin-top: 1.5rem; padding-top: 1.5rem;
-  border-top: 1px solid rgba(22, 59, 108, 0.12);
-  font-family: var(--font-display); font-style: italic;
-  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
-  line-height: 1.4; color: var(--ink);
+/* MISSION — designed statement, not a paragraph.
+   Hairline rule + small "Our Mission" eyebrow above a large
+   italic pledge sentence, with three pillars rendered as a
+   separated trio underneath. The italic "better than we found it"
+   echoes the editorial italic-em pattern from the hero + closer. */
+.mission {
+  margin: 2rem 0 0;
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(22, 59, 108, 0.14);
+}
+.mission__eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--creek-deep);
+  margin-bottom: 0.85rem;
+}
+.mission__quote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.85rem);
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  max-width: 22ch;
+}
+.mission__quote em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ink);
+}
+.mission__pillars {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.1rem;
+}
+.mission__pillar {
+  position: relative;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone-warm);
+}
+/* Soft creek-cyan dot separator between pillars (omitted after the last) */
+.mission__pillar:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -0.7rem;
+  top: 50%;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--creek-deep);
+  transform: translateY(-50%);
+  opacity: 0.55;
 }
 /* Single image on the left (replaces the stacked polaroids).
    Rounded corners + soft shadow — no polaroid tilt or border. */
@@ -752,9 +976,13 @@ p:last-child { margin-bottom: 0; }
 .intentional__title {
   max-width: none;
   font-size: clamp(2.25rem, 1.5rem + 2.5vw, 3.75rem);
+  /* Breathe between the title and the intro paragraph below.
+     Previously they sat almost touching. */
+  margin-bottom: 1.25rem;
 }
 .intentional__intro {
   margin-inline: auto;
+  margin-top: 0;
   color: var(--charcoal);
   max-width: 56ch;
 }
@@ -769,8 +997,9 @@ p:last-child { margin-bottom: 0; }
 .tab {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.3rem 1.1rem 0.3rem 0.4rem;
+  /* Text-only pill — image thumbnails removed. Even padding
+     all around so the label centers cleanly inside the chip. */
+  padding: 0.5rem 1.15rem;
   border: 1px solid var(--ink);
   border-radius: 999px;
   background: transparent;
@@ -782,15 +1011,6 @@ p:last-child { margin-bottom: 0; }
   cursor: pointer;
   transition: background 0.2s var(--ease-out), color 0.2s var(--ease-out),
               transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
-}
-/* Small rounded thumbnail inside each tab pill — replaces the old
-   numeric index. Sized so the pill stays a comfortable height. */
-.tab__image {
-  width: 28px; height: 28px;
-  border-radius: 999px;
-  object-fit: cover;
-  display: block;
-  flex-shrink: 0;
 }
 .tab:hover {
   background: rgba(22, 59, 108, 0.07);
@@ -899,7 +1119,11 @@ p:last-child { margin-bottom: 0; }
    auto-motion. Sections breathes ~clamp(4-6rem) of padding.
    ----------------------------------------------------------- */
 .services-strip {
-  background: var(--paper);
+  /* Match the intentional section's bg so the two sections flow
+     as one warm-paper field — no off-gray → white seam between
+     the mosaic above and the services rail. The dark closer band
+     below provides the only intentional contrast. */
+  background: var(--paper-warm);
   position: relative;
   padding-block: clamp(3rem, 5vw, 4.5rem);
   display: flex;
@@ -1024,16 +1248,41 @@ p:last-child { margin-bottom: 0; }
    shrunk + softened to support the headline without dominating.
    ----------------------------------------------------------- */
 .closer {
-  background: var(--ink-deep); color: var(--paper);
+  /* Wide cinematic photo background with ink-deep fallback color.
+     The image lives under a dark scrim (set via ::before) so the
+     headline + pills + CTA still read clearly. Negative margin-top
+     overlaps the section by 1px so any subpixel gap between
+     services-strip's warm-paper bg and this section's dark bg
+     doesn't show body paper through as a cream seam. */
+  background-color: var(--ink-deep);
+  background-image: url('../assets/images/closer-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--paper);
   position: relative; overflow: hidden; text-align: center;
-  padding-block: clamp(3.5rem, 6vw, 5.5rem);
+  padding-block: clamp(5rem, 8vw, 7rem);
+  margin-top: -1px;
+  isolation: isolate;
 }
+/* Dark scrim — top edge fully dark (var(--ink-deep)) ramping to a
+   softer mid-tone over the first 10%, so the image's top edge can't
+   bleed a lighter band into the seam above. The radial vignette
+   underneath keeps attention focused on the centered headline. */
 .closer::before {
-  content: ''; position: absolute;
-  top: -10%; left: 50%; transform: translateX(-50%);
-  width: 38vw; max-width: 520px; aspect-ratio: 1;
-  background: var(--creek); border-radius: 50%;
-  filter: blur(110px); opacity: 0.18; pointer-events: none;
+  content: ''; position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom,
+      var(--ink-deep) 0%,
+      rgba(13, 37, 72, 0.88) 4%,
+      rgba(13, 37, 72, 0.72) 12%,
+      rgba(13, 37, 72, 0.70) 88%,
+      rgba(13, 37, 72, 0.88) 100%),
+    radial-gradient(ellipse at center,
+      rgba(13, 37, 72, 0.45) 0%,
+      rgba(13, 37, 72, 0.75) 100%);
+  pointer-events: none;
+  z-index: 0;
 }
 .closer__title {
   /* Tighter than `--fs-display`: peaks at 3.5rem instead of 7rem so
@@ -1161,6 +1410,33 @@ p:last-child { margin-bottom: 0; }
   transition: color 0.2s var(--ease-out);
 }
 .site-footer__after-hours-link:hover { color: var(--creek); }
+/* Social row in the brand column — small circular outlined
+   icons matching the footer's dark-on-paper aesthetic. Hover
+   fills with creek-cyan for a quiet brand-touch. */
+.site-footer__social {
+  list-style: none; padding: 0;
+  margin: 1.25rem 0 0;
+  display: flex; align-items: center; gap: 0.55rem;
+}
+.site-footer__social a {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: rgba(244, 235, 218, 0.85);
+  border: 1px solid rgba(244, 235, 218, 0.28);
+  transition: background-color 0.2s var(--ease-out),
+              color 0.2s var(--ease-out),
+              border-color 0.2s var(--ease-out),
+              transform 0.2s var(--ease-out);
+}
+.site-footer__social a:hover {
+  background: var(--creek);
+  color: var(--ink-deep);
+  border-color: var(--creek);
+  transform: translateY(-2px);
+}
+.site-footer__social svg { display: block; }
+
 .site-footer__contact,
 .site-footer__links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem; }
 .site-footer__contact a,
