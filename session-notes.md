@@ -4,8 +4,8 @@
 **Location:** 60 Glacier Street, Crested Butte South, CO 81224 (Gunnison Valley)
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
-**Last update:** 2026-05-19
-**Status:** Homepage v8.1 — hero gets the real video, mask reverts to v7.1, typography switches to Poppins, creek opacity bumped. Big shifts: (1) `<video>` element replaces the placeholder `<img>` in the hero, using `2-dogs.mp4` from Drive compressed to 8.3 MB at 1280px + a 268 KB poster JPG; (2) v8 mask shape REVERTED to v7.1 (smooth meander + gentle horizontal-ish bottom, 92vh) — Brees decided the deeper bleed was too much; (3) body font Manrope → Poppins; (4) creek animation opacity 0.45 → 0.75 (more visible flow).
+**Last update:** 2026-05-20
+**Status:** Homepage v9 — wide pass touching footer, closer, intentional, typography, and creek engine. (1) Footer: mission tagline, cream "Book your visit" button, after-hours emergency moved into Visit column under hours, wave + linked "Designed by Digital Empathy" credit, copyright shrunk. (2) Closer: dramatically tightened (smaller headline, less padding, max-width 22ch) + service-area pills replacing the redundant "Proudly serving" paragraph. (3) Intentional tabs: numeric indices (01–08) replaced with 28px rounded image thumbnails in the pills + 360px rounded square image inside each panel. (4) All fonts now Poppins (Instrument Serif dropped). Headlines weight 500, italic `<em>` accents weight 300 for editorial contrast. (5) Creek engine upgraded to support multi-point waypoints per section via `data-creek-points`; all sections now built as ONE unified smooth curve (C1 continuity at boundaries — no more kinks). Waypoints tuned to trace Brees' annotated red line.
 
 ---
 
@@ -233,7 +233,45 @@ Cement Creek/
 
 **v7.2 – v7.12 (2026-05-19, scratchwork):** Many iterations attempting to match further annotations from Brees (image #3 through image #7). Tried: uniform horizontal bottom, slope-to-point at (1.0, 1.0), valley shape, drop-then-flat, increasingly tall masks (110vh → 150vh) with bigger founders padding. None landed. Reverted to v7.1 before v8 took over from a new mockup.
 
-**v8.1 (2026-05-19, locked / committed):** Hero gets the real video, v8 mask gets reverted, typography swap, creek visibility bump:
+**v9 (2026-05-20, locked / committed):** Wide pass — footer rebuild, closer tighten, intentional images, all-Poppins, creek engine upgrade.
+
+- **Footer rewrite** (in `includes/footer.html`):
+  - Tagline → mission copy: "Our mission is to leave every patient, client, and interaction better than we found it."
+  - "Book your visit" button: now CREAM fill on dark ink (was ink-on-ink, invisible)
+  - After-hours emergency moved INTO Visit column under hours (standalone aside on homepage deleted)
+  - Wavy SVG mark above credit + "Designed by Digital Empathy" with "Digital Empathy" linked to https://digitalempathyinc.com/
+  - Copyright shrunk to 0.6875rem + opacity 0.38 + dropped onto its own line
+  - Footer padding-bottom reduced from 2rem → 1.25rem; legal block tightened (wave 36×6, gap 0.15rem)
+- **Closer tightened**:
+  - Headline scaled from `var(--fs-display)` (peaks 7rem) → custom `clamp(2rem, 1.5rem+2.4vw, 3.5rem)` (peaks 3.5rem)
+  - Padding-block: 5–8rem → 3.5–5.5rem
+  - Headline constrained to max-width 22ch so it wraps cleanly to 2 lines
+  - Blurred creek halo shrunk + softened
+  - Service-area pills replacing the redundant "Proudly serving" paragraph (6 outlined chips, last one — "+ the rest of the Valley" — italic + no border as a continuation)
+- **Intentional tab refactor**:
+  - Tab pills: numeric `<span class="tab__index">01</span>` → `<img class="tab__image">` 28px rounded thumbnail. Pill padding adjusted to seat the image cleanly.
+  - Tab-panel decorative "01" oversized italic number → `<img class="tab-panel__display">` 360px rounded square (`--radius-lg`) with shadow
+  - Index labels: "01 · Approach" → just "Approach"
+  - Placeholder color blocks per category (creek-blue / paper-warm / light-creek / stone / ink / etc.) — swap with real photos later
+- **Typography → all Poppins**:
+  - `--font-display` (was Instrument Serif) → Poppins
+  - Google Fonts link replaced to load Poppins with both regular AND italic (so the italic accents still work, now as modern sans italic)
+  - Headings (h1-h4): weight 400 → **500**
+  - Italic `<em>` accents in headings: weight 400 → **300** (light italic, creates editorial contrast)
+  - `.hero__title` weight bumped to 500, `.closer__title em` bumped to 300
+- **Creek engine upgrade** (`scripts/main.js`):
+  - New `data-creek-points` attribute — comma-separated x% waypoints at evenly-spaced y positions within a section. Lets the creek BEND multiple times within one section instead of just sweeping diagonally.
+  - smoothThrough() helper: builds a cubic-bezier path through N points with Catmull-Rom-style tangents (1/6 chord length).
+  - All sections now collected into ONE unified waypoint list, then smoothed in a single pass — guarantees C1 (tangent) continuity at section boundaries. **No more visible kinks where one section's curve meets the next's.**
+  - Closer can exit off-screen via xBot > 100 (currently 115 — matches Brees' annotation where the line exits past the right edge).
+- **Creek route** (per `data-creek-points` + xTop/xBot):
+  - Founders: 85 → 92, 90, 80, 55 → 15 (enters right, bulges right, sweeps to left)
+  - Intentional: 15 → 13, 15, 14, 14 → 15 (stays left with subtle wiggle)
+  - Services: 15 → 20, 38, 60 → 85 (smooth left-to-right diagonal)
+  - Closer: 85 → 95, 105 → 115 (exits off-screen right)
+- **Cache fix** (`includes/load-partials.js`): partials now fetched with `cache: 'no-cache'` so future edits to footer.html / header.html show up without hard refresh.
+
+**v8.1 (2026-05-19):** Hero gets the real video, v8 mask gets reverted, typography swap, creek visibility bump:
 - **Hero video shipped.** `<img>` swapped for `<video data-hero-video autoplay muted loop playsinline preload="metadata" poster="...">` pointing at `assets/videos/hero-video.mp4`. Source was `2-dogs.mp4` from Drive (78 MB at 1920×1080, 21 Mbps), compressed via ffmpeg to **8.3 MB at 1280×720, CRF 26, H.264 main, audio stripped, +faststart**. Poster frame extracted at 1s mark → `assets/videos/hero-video-poster.jpg` (268 KB). Original source deleted from the repo. Existing `initHeroVideo()` JS handles autoplay-blocked fallback (paints poster as background).
 - **v8 mask REVERTED to v7.1.** Brees decided the 150vh tall mask + multi-wave descending bottom was too much. Both `clipPath` path and `.hero-media-mask` height restored to v7.1 (smooth meander + gentle horizontal-ish bottom at y=0.84-0.89, 92vh height). Founders padding-top stays at v7.1's 12vh.
 - **Typography: Manrope → Poppins.** Updated `--font-body` token and the Google Fonts link (same weight range: 300-800).

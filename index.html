@@ -9,7 +9,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles/main.css" />
   <link rel="icon" type="image/png" href="assets/CEMENT CREEK MAIN LOGO_BADGE.png" />
@@ -121,7 +121,9 @@
          Secondary photo: dogs in creek portrait (small print, overlapping corner)
          ======================================================== -->
     <section class="section founders" aria-labelledby="founders-title"
-             data-creek-x-top="50" data-creek-x-bot="70">
+             data-creek-x-top="85"
+             data-creek-points="92, 90, 80, 55"
+             data-creek-x-bot="15">
 
       <div class="container">
         <div class="founders__grid">
@@ -161,7 +163,9 @@
          visible panel. Keyboard arrow nav supported.
          ======================================================== -->
     <section class="section intentional" id="everything-intentional" aria-labelledby="intentional-title"
-             data-creek-x-top="70" data-creek-x-bot="88">
+             data-creek-x-top="15"
+             data-creek-points="13, 15, 14, 14"
+             data-creek-x-bot="15">
 
       <div class="container">
 
@@ -179,35 +183,51 @@
              data-reveal>
           <button class="tab" role="tab" id="t-approach" aria-controls="p-approach"
                   aria-selected="true">
-            <span class="tab__index">01</span><span class="tab__label">Approach</span>
+            <img class="tab__image" src="https://placehold.co/120x120/5BA8C0/F4EBDA/png?text=+"
+                 alt="" data-todo="Real photo: warm doctor-client conversation" />
+            <span class="tab__label">Approach</span>
           </button>
           <button class="tab" role="tab" id="t-care" aria-controls="p-care"
                   aria-selected="false" tabindex="-1">
-            <span class="tab__index">02</span><span class="tab__label">Care</span>
+            <img class="tab__image" src="https://placehold.co/120x120/ECDFC8/163B6C/png?text=+"
+                 alt="" data-todo="Real photo: pet during an exam" />
+            <span class="tab__label">Care</span>
           </button>
           <button class="tab" role="tab" id="t-handling" aria-controls="p-handling"
                   aria-selected="false" tabindex="-1">
-            <span class="tab__index">03</span><span class="tab__label">Handling</span>
+            <img class="tab__image" src="https://placehold.co/120x120/9DD7E5/163B6C/png?text=+"
+                 alt="" data-todo="Real photo: gentle handling moment" />
+            <span class="tab__label">Handling</span>
           </button>
           <button class="tab" role="tab" id="t-tools" aria-controls="p-tools"
                   aria-selected="false" tabindex="-1">
-            <span class="tab__index">04</span><span class="tab__label">Tools</span>
+            <img class="tab__image" src="https://placehold.co/120x120/8A8275/F4EBDA/png?text=+"
+                 alt="" data-todo="Real photo: fishbowl / tools" />
+            <span class="tab__label">Tools</span>
           </button>
           <button class="tab" role="tab" id="t-cats" aria-controls="p-cats"
                   aria-selected="false" tabindex="-1">
-            <span class="tab__index">05</span><span class="tab__label">Cats</span>
+            <img class="tab__image" src="https://placehold.co/120x120/ECDFC8/163B6C/png?text=+"
+                 alt="" data-todo="Real photo: cat-only space" />
+            <span class="tab__label">Cats</span>
           </button>
           <button class="tab" role="tab" id="t-visits" aria-controls="p-visits"
                   aria-selected="false" tabindex="-1">
-            <span class="tab__index">06</span><span class="tab__label">Visits</span>
+            <img class="tab__image" src="https://placehold.co/120x120/5BA8C0/F4EBDA/png?text=+"
+                 alt="" data-todo="Real photo: happy visit / pet at ease" />
+            <span class="tab__label">Visits</span>
           </button>
           <button class="tab" role="tab" id="t-team" aria-controls="p-team"
                   aria-selected="false" tabindex="-1">
-            <span class="tab__index">07</span><span class="tab__label">Team</span>
+            <img class="tab__image" src="https://placehold.co/120x120/163B6C/F4EBDA/png?text=+"
+                 alt="" data-todo="Real photo: team / staff" />
+            <span class="tab__label">Team</span>
           </button>
           <button class="tab" role="tab" id="t-goodbyes" aria-controls="p-goodbyes"
                   aria-selected="false" tabindex="-1">
-            <span class="tab__index">08</span><span class="tab__label">Goodbyes</span>
+            <img class="tab__image" src="https://placehold.co/120x120/6E665A/F4EBDA/png?text=+"
+                 alt="" data-todo="Real photo: quiet end-of-life room" />
+            <span class="tab__label">Goodbyes</span>
           </button>
         </div>
 
@@ -216,9 +236,10 @@
           <!-- 01 · Approach — default visible -->
           <article class="tab-panel is-active" role="tabpanel"
                    id="p-approach" aria-labelledby="t-approach">
-            <div class="tab-panel__display" aria-hidden="true">01</div>
+            <img class="tab-panel__display" src="https://placehold.co/600x600/5BA8C0/F4EBDA/png?text=+"
+                 alt="" data-todo="Real photo: warm doctor-client conversation" />
             <div class="tab-panel__body">
-              <span class="tab-panel__index">01 &middot; Approach</span>
+              <span class="tab-panel__index">Approach</span>
               <h3 class="tab-panel__heading">Context, not just conclusions.</h3>
               <p class="tab-panel__copy">
                 When we recommend something, we tell you why &mdash; how it works, what the evidence says, what happens if you skip it. You'll never leave with an estimate you don't understand or a diagnosis without knowing what it means for your animal. Our collaborative approach to treatment plans means you won't feel bad for asking questions or cornered by the cost. We work with CareCredit, Klarna, Cherry payment plans, and even created our application-based Heart Dog &amp; Cat Fund, so you always have options.
@@ -232,9 +253,10 @@
           <!-- 02 · Care -->
           <article class="tab-panel" role="tabpanel"
                    id="p-care" aria-labelledby="t-care" hidden>
-            <div class="tab-panel__display" aria-hidden="true">02</div>
+            <img class="tab-panel__display" src="https://placehold.co/600x600/ECDFC8/163B6C/png?text=+"
+                 alt="" data-todo="Real photo: pet during an exam" />
             <div class="tab-panel__body">
-              <span class="tab-panel__index">02 &middot; Care</span>
+              <span class="tab-panel__index">Care</span>
               <h3 class="tab-panel__heading">Personalized pet care.</h3>
               <p class="tab-panel__copy">
                 Every patient is treated as an individual &mdash; their own history, their own needs, their own plan. We take the time to know your animal the way you do, so the care we recommend fits the life you're actually living together.
@@ -245,9 +267,10 @@
           <!-- 03 · Handling -->
           <article class="tab-panel" role="tabpanel"
                    id="p-handling" aria-labelledby="t-handling" hidden>
-            <div class="tab-panel__display" aria-hidden="true">03</div>
+            <img class="tab-panel__display" src="https://placehold.co/600x600/9DD7E5/163B6C/png?text=+"
+                 alt="" data-todo="Real photo: gentle handling moment" />
             <div class="tab-panel__body">
-              <span class="tab-panel__index">03 &middot; Handling</span>
+              <span class="tab-panel__index">Handling</span>
               <h3 class="tab-panel__heading">Gentle handling as a standard, not a specialty.</h3>
               <p class="tab-panel__copy">
                 We prioritize a low-stress experience for all, and adapt our handling techniques based on your pet's disposition, lifestyle, and personality. Calm pet, calm visit, better medicine.
@@ -264,7 +287,7 @@
               <figcaption class="photo-print__caption">The fishbowl, mid-build.</figcaption>
             </figure>
             <div class="tab-panel__body">
-              <span class="tab-panel__index">04 &middot; Tools</span>
+              <span class="tab-panel__index">Tools</span>
               <h3 class="tab-panel__heading">Modern tools and technology support.</h3>
               <p class="tab-panel__copy">
                 In-house labwork, advanced diagnostic imaging, dedicated dental and surgical suites, and our personal favorite &mdash; a glass observation room affectionately called the &ldquo;fishbowl,&rdquo; so your pet is never out of our sight during their time here.
@@ -276,9 +299,10 @@
           <!-- 05 · Cats -->
           <article class="tab-panel" role="tabpanel"
                    id="p-cats" aria-labelledby="t-cats" hidden>
-            <div class="tab-panel__display" aria-hidden="true">05</div>
+            <img class="tab-panel__display" src="https://placehold.co/600x600/ECDFC8/163B6C/png?text=+"
+                 alt="" data-todo="Real photo: cat-only space" />
             <div class="tab-panel__body">
-              <span class="tab-panel__index">05 &middot; Cats</span>
+              <span class="tab-panel__index">Cats</span>
               <h3 class="tab-panel__heading">A quiet space, built just for cats.</h3>
               <p class="tab-panel__copy">
                 A separate room where cats can relax and recover with calming music and their own condo. The waiting room, the smells, the dogs &mdash; the usual stressors stay out so your cat can stay themselves.
@@ -289,9 +313,10 @@
           <!-- 06 · Visits -->
           <article class="tab-panel" role="tabpanel"
                    id="p-visits" aria-labelledby="t-visits" hidden>
-            <div class="tab-panel__display" aria-hidden="true">06</div>
+            <img class="tab-panel__display" src="https://placehold.co/600x600/5BA8C0/F4EBDA/png?text=+"
+                 alt="" data-todo="Real photo: happy visit / pet at ease" />
             <div class="tab-panel__body">
-              <span class="tab-panel__index">06 &middot; Visits</span>
+              <span class="tab-panel__index">Visits</span>
               <h3 class="tab-panel__heading">Happy visits, because we care about your experience.</h3>
               <p class="tab-panel__copy">
                 Schedule time to share the space for a bit. Meet the team, get some treats, let your pet sniff around and decide we're okay &mdash; no exam, no treatment, no pressure.
@@ -303,9 +328,10 @@
           <!-- 07 · Team -->
           <article class="tab-panel" role="tabpanel"
                    id="p-team" aria-labelledby="t-team" hidden>
-            <div class="tab-panel__display" aria-hidden="true">07</div>
+            <img class="tab-panel__display" src="https://placehold.co/600x600/163B6C/F4EBDA/png?text=+"
+                 alt="" data-todo="Real photo: team / staff" />
             <div class="tab-panel__body">
-              <span class="tab-panel__index">07 &middot; Team</span>
+              <span class="tab-panel__index">Team</span>
               <h3 class="tab-panel__heading">A team hired for culture first.</h3>
               <p class="tab-panel__copy">
                 We all love what we do and actually want to come to work. Running into you on the trails or around town is a bonus &mdash; there's a good chance we'll recognize your pet before you.
@@ -317,9 +343,10 @@
           <!-- 08 · Goodbyes -->
           <article class="tab-panel" role="tabpanel"
                    id="p-goodbyes" aria-labelledby="t-goodbyes" hidden>
-            <div class="tab-panel__display" aria-hidden="true">08</div>
+            <img class="tab-panel__display" src="https://placehold.co/600x600/6E665A/F4EBDA/png?text=+"
+                 alt="" data-todo="Real photo: quiet end-of-life room" />
             <div class="tab-panel__body">
-              <span class="tab-panel__index">08 &middot; Goodbyes</span>
+              <span class="tab-panel__index">Goodbyes</span>
               <h3 class="tab-panel__heading">A separate entrance for hard days.</h3>
               <p class="tab-panel__copy">
                 Because saying goodbye sucks, and your pet deserves a peaceful passing. A quiet entry, a quiet exit, time to be with them without an audience.
@@ -341,7 +368,9 @@
          Real photos go in via data-todo TODOs as they arrive.
          ======================================================== -->
     <section class="services-strip" aria-labelledby="services-strip-title"
-             data-creek-x-top="88" data-creek-x-bot="105">
+             data-creek-x-top="15"
+             data-creek-points="20, 38, 60"
+             data-creek-x-bot="85">
 
       <header class="services-strip__head">
         <div>
@@ -448,35 +477,27 @@
          CLOSER
          ======================================================== -->
     <section class="closer" aria-labelledby="closer-title"
-             data-creek-x-top="105" data-creek-x-bot="50">
+             data-creek-x-top="85"
+             data-creek-points="95, 105"
+             data-creek-x-bot="115">
 
       <div class="container container--narrow">
-        <p class="closer__service-area" data-reveal>
-          Proudly serving the local and visiting pets of CB&nbsp;South, Crested Butte, Mt.&nbsp;Crested Butte, Almont, Gunnison, and surrounding areas of the Gunnison Valley.
-        </p>
         <h2 class="closer__title" id="closer-title" data-reveal>
           Where pets are neighbors <em>and neighbors are friends.</em>
         </h2>
+        <ul class="closer__areas" data-reveal aria-label="Service area">
+          <li class="closer__area-pill">CB South</li>
+          <li class="closer__area-pill">Crested Butte</li>
+          <li class="closer__area-pill">Mt. Crested Butte</li>
+          <li class="closer__area-pill">Almont</li>
+          <li class="closer__area-pill">Gunnison</li>
+          <li class="closer__area-pill closer__area-pill--more">+ the rest of the Valley</li>
+        </ul>
         <div data-reveal>
           <a href="#" class="btn closer__cta btn--primary btn--arrow" data-todo="Book your visit URL">Book your visit</a>
         </div>
       </div>
     </section>
-
-
-    <!-- ========================================================
-         AFTER-HOURS EMERGENCY CALLOUT
-         ======================================================== -->
-    <aside class="after-hours" aria-label="After-hours emergency information"
-           data-creek-x-top="50" data-creek-x-bot="50">
-
-      <div class="container">
-        <div class="after-hours__inner">
-          <span class="after-hours__label">After-hours emergencies</span>
-          <p class="after-hours__text">Call <a href="tel:" class="after-hours__phone" data-todo="Mountain Legacy Veterinary Center phone number">Mountain Legacy Veterinary Center</a></p>
-        </div>
-      </div>
-    </aside>
 
   </main>
 

@@ -21,8 +21,9 @@
   --charcoal: #1F2530;
   --white: #FFFFFF;
 
-  /* Type */
-  --font-display: 'Instrument Serif', 'Cormorant Garamond', Georgia, serif;
+  /* Type — Poppins for everything, italic 1,400 used where the
+     previous Instrument Serif italic was the headline accent. */
+  --font-display: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-body: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Fluid type scale */
@@ -96,8 +97,16 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; col
 
 h1, h2, h3, h4, h5 {
   font-family: var(--font-display);
-  font-weight: 400; line-height: 1.05; letter-spacing: -0.015em;
+  font-weight: 500;            /* Poppins medium — confident without being heavy */
+  line-height: 1.1;
+  letter-spacing: -0.018em;
   color: var(--ink); margin: 0;
+}
+/* Italic accents inside headings drop to light weight (300) for an
+   editorial contrast within the same line — bold-then-airy rhythm. */
+h1 em, h2 em, h3 em, h4 em {
+  font-weight: 300;
+  font-style: italic;
 }
 h1 { font-size: var(--fs-h1); }
 h2 { font-size: var(--fs-h2); }
@@ -392,7 +401,7 @@ p:last-child { margin-bottom: 0; }
 .hero__title {
   font-family: var(--font-display);
   font-style: italic;
-  font-weight: 400;
+  font-weight: 500;
   font-size: clamp(2.5rem, 1.6rem + 3.2vw, 4.5rem);
   line-height: 0.96;
   letter-spacing: -0.025em;
@@ -759,9 +768,9 @@ p:last-child { margin-bottom: 0; }
 }
 .tab {
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.45rem;
-  padding: 0.55rem 1.05rem;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.3rem 1.1rem 0.3rem 0.4rem;
   border: 1px solid var(--ink);
   border-radius: 999px;
   background: transparent;
@@ -774,9 +783,14 @@ p:last-child { margin-bottom: 0; }
   transition: background 0.2s var(--ease-out), color 0.2s var(--ease-out),
               transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
 }
-.tab__index {
-  font-size: 0.72rem; letter-spacing: 0.16em; font-weight: 700;
-  opacity: 0.65;
+/* Small rounded thumbnail inside each tab pill — replaces the old
+   numeric index. Sized so the pill stays a comfortable height. */
+.tab__image {
+  width: 28px; height: 28px;
+  border-radius: 999px;
+  object-fit: cover;
+  display: block;
+  flex-shrink: 0;
 }
 .tab:hover {
   background: rgba(22, 59, 108, 0.07);
@@ -787,7 +801,6 @@ p:last-child { margin-bottom: 0; }
   color: var(--paper);
   box-shadow: 0 6px 16px rgba(13, 37, 72, 0.18);
 }
-.tab[aria-selected="true"] .tab__index { opacity: 0.7; }
 
 .tab-panels {
   position: relative;
@@ -811,17 +824,19 @@ p:last-child { margin-bottom: 0; }
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
 }
 
-/* Decorative oversized number for panels without a photo */
+/* Large rounded thumbnail on the left of each tab-panel.
+   Replaces the previous decorative oversized italic number with
+   an image that echoes the tab pill's thumbnail. Square aspect,
+   matching corner radius to other rounded cards on the site. */
 .tab-panel__display {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: clamp(7rem, 16vw, 13rem);
-  line-height: 0.9;
-  color: var(--ink);
-  opacity: 0.10;
-  text-align: center;
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  display: block;
   justify-self: center;
-  user-select: none;
+  box-shadow: var(--shadow-md);
 }
 .tab-panel__body { min-width: 0; }
 .tab-panel__index {
@@ -1003,37 +1018,68 @@ p:last-child { margin-bottom: 0; }
 
 /* -----------------------------------------------------------
    10 — Closer
+   Tightened: smaller padding, headline scaled down, container
+   constrained so the band reads as a polished closing statement
+   rather than a full-width hero. The blurred creek "halo" is
+   shrunk + softened to support the headline without dominating.
    ----------------------------------------------------------- */
 .closer {
   background: var(--ink-deep); color: var(--paper);
   position: relative; overflow: hidden; text-align: center;
-  padding-block: clamp(5rem, 9vw, 8rem);
+  padding-block: clamp(3.5rem, 6vw, 5.5rem);
 }
 .closer::before {
   content: ''; position: absolute;
-  top: -20%; left: 50%; transform: translateX(-50%);
-  width: 60vw; max-width: 800px; aspect-ratio: 1;
+  top: -10%; left: 50%; transform: translateX(-50%);
+  width: 38vw; max-width: 520px; aspect-ratio: 1;
   background: var(--creek); border-radius: 50%;
-  filter: blur(120px); opacity: 0.22; pointer-events: none;
-}
-.closer__service-area {
-  font-size: 0.875rem; letter-spacing: 0.04em;
-  color: rgba(244, 235, 218, 0.75);
-  max-width: 720px; margin: 0 auto clamp(2.5rem, 4vw, 4rem);
-  position: relative; padding-bottom: 2rem;
-}
-.closer__service-area::after {
-  content: ''; position: absolute;
-  left: 50%; bottom: 0; transform: translateX(-50%);
-  width: 60px; height: 1px; background: rgba(157, 215, 229, 0.5);
+  filter: blur(110px); opacity: 0.18; pointer-events: none;
 }
 .closer__title {
-  font-size: var(--fs-display); font-style: italic;
-  color: var(--paper); line-height: 1; letter-spacing: -0.025em;
-  margin-bottom: 2.5rem; position: relative;
+  /* Tighter than `--fs-display`: peaks at 3.5rem instead of 7rem so
+     the closing line is emphatic without filling the viewport. */
+  font-size: clamp(2rem, 1.5rem + 2.4vw, 3.5rem);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--paper); line-height: 1.08; letter-spacing: -0.02em;
+  margin: 0 auto 2rem;
+  max-width: 22ch;
+  position: relative;
 }
-.closer__title em { color: var(--creek); font-style: italic; }
-.closer__cta { font-size: 1rem; padding: 1.1rem 2rem; }
+.closer__title em { color: var(--creek); font-style: italic; font-weight: 300; }
+
+/* Service-area pills — small rounded chips listing where they serve.
+   Outlined cream on the dark ink-deep band so the row feels light + airy.
+   The "+ the rest of the Valley" pill uses a slightly different style
+   (no border, italic, dimmer) so it reads as a tail / continuation. */
+.closer__areas {
+  list-style: none; padding: 0;
+  margin: 0 auto clamp(2rem, 3.5vw, 3rem);
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  justify-content: center;
+  max-width: 720px;
+  position: relative;
+}
+.closer__area-pill {
+  font-family: var(--font-body);
+  font-size: 0.8125rem; font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 235, 218, 0.35);
+  color: rgba(244, 235, 218, 0.92);
+  background: rgba(244, 235, 218, 0.04);
+  transition: background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+}
+.closer__area-pill--more {
+  font-style: italic;
+  border-color: transparent;
+  background: transparent;
+  color: rgba(244, 235, 218, 0.6);
+  padding-inline: 0.5rem;
+}
+
+.closer__cta { font-size: 1rem; padding: 1.1rem 2rem; position: relative; }
 .closer__cta.btn--primary { background: var(--creek); color: var(--ink-deep); }
 .closer__cta.btn--primary:hover { background: var(--paper); color: var(--ink-deep); }
 
@@ -1072,7 +1118,7 @@ p:last-child { margin-bottom: 0; }
    ----------------------------------------------------------- */
 .site-footer {
   background: var(--ink); color: var(--paper);
-  position: relative; padding-bottom: 2rem;
+  position: relative; padding-bottom: 1.25rem;
 }
 .site-footer__inner {
   max-width: var(--container-wide); margin-inline: auto;
@@ -1093,7 +1139,28 @@ p:last-child { margin-bottom: 0; }
   color: var(--creek); margin: 0 0 1.25rem;
 }
 .site-footer__address { font-style: normal; line-height: 1.55; color: rgba(244, 235, 218, 0.85); margin-bottom: 0.75rem; }
-.site-footer__hours { color: rgba(244, 235, 218, 0.85); margin: 0; }
+.site-footer__hours { color: rgba(244, 235, 218, 0.85); margin: 0 0 1.25rem; }
+.site-footer__after-hours {
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(244, 235, 218, 0.14);
+  display: flex; flex-direction: column; gap: 0.25rem;
+}
+.site-footer__after-hours-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--creek);
+}
+.site-footer__after-hours-link {
+  color: rgba(244, 235, 218, 0.92);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: color 0.2s var(--ease-out);
+}
+.site-footer__after-hours-link:hover { color: var(--creek); }
 .site-footer__contact,
 .site-footer__links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem; }
 .site-footer__contact a,
@@ -1109,9 +1176,63 @@ p:last-child { margin-bottom: 0; }
   color: rgba(244, 235, 218, 0.7);
   max-width: var(--container-wide); margin: 0 auto;
 }
+/* Bottom legal/credit block — kept tight so it reads as a
+   compact signature, not a section. Everything stacks with
+   minimal gap, the wave is small + inline-feeling, and the
+   text scales down progressively (credit > copy). */
 .site-footer__legal {
-  text-align: center; font-size: 0.8125rem; letter-spacing: 0.03em;
-  color: rgba(244, 235, 218, 0.55); padding-top: 1rem;
+  text-align: center;
+  padding-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  color: rgba(244, 235, 218, 0.55);
+}
+.site-footer__wave {
+  width: 36px; height: 6px;
+  color: rgba(244, 235, 218, 0.4);
+  margin-bottom: 0.1rem;
+}
+.site-footer__credit {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: rgba(244, 235, 218, 0.7);
+}
+.site-footer__credit-link {
+  color: var(--paper);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(244, 235, 218, 0.35);
+  padding-bottom: 1px;
+  transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+}
+.site-footer__credit-link:hover {
+  color: var(--creek);
+  border-color: var(--creek);
+}
+.site-footer__copy {
+  margin: 0;
+  /* Sized down + dimmed further so the copyright reads as
+     tertiary text rather than competing with the "Designed by"
+     line above it. */
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: rgba(244, 235, 218, 0.38);
+}
+
+/* Button override inside the footer — the dark ink footer background
+   matches `.btn--primary`'s ink fill, making the button blend in.
+   Invert it: cream fill, ink text, so it reads clearly as a button
+   on the dark band. */
+.site-footer .btn--primary {
+  background: var(--paper);
+  color: var(--ink);
+}
+.site-footer .btn--primary:hover {
+  background: var(--creek);
+  color: var(--ink-deep);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 @media (max-width: 900px) {

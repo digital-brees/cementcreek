@@ -14,7 +14,7 @@
 
     <div class="site-footer__brand">
       <img src="assets/CEMENT CREEK MAIN LOGO_BADGE.png" alt="Cement Creek Veterinary Hospital" class="site-footer__logo" />
-      <p class="site-footer__tagline">Where pets are neighbors and neighbors are friends.</p>
+      <p class="site-footer__tagline">Our mission is to leave every patient, client, and interaction better than we found it.</p>
       <a href="#" class="btn btn--primary" data-todo="Book an appointment URL — placeholder">Book your visit</a>
     </div>
 
@@ -25,6 +25,13 @@
         Crested Butte, CO 81224
       </address>
       <p class="site-footer__hours">Mon–Fri · 8am–5pm</p>
+      <p class="site-footer__after-hours">
+        <span class="site-footer__after-hours-label">After-hours emergencies</span>
+        <a href="tel:" class="site-footer__after-hours-link"
+           data-todo="Mountain Legacy Veterinary Center phone number">
+          Mountain Legacy Veterinary Center
+        </a>
+      </p>
     </div>
 
     <div class="site-footer__col">
@@ -55,7 +62,16 @@
   </div>
 
   <div class="site-footer__legal">
-    <p>&copy; <span data-current-year>2026</span> Cement Creek Veterinary Hospital. Independently &amp; women-owned. Designed by Digital Empathy.</p>
+    <!-- Wavy mark — echoes the eyebrow dash + creek motif elsewhere on the site -->
+    <svg class="site-footer__wave" viewBox="0 0 64 10" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 5 Q 8 0, 16 5 T 32 5 T 48 5 T 64 5"
+            stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </svg>
+    <p class="site-footer__credit">
+      Designed by
+      <a href="https://digitalempathyinc.com/" target="_blank" rel="noopener" class="site-footer__credit-link">Digital Empathy</a>
+    </p>
+    <p class="site-footer__copy">&copy; <span data-current-year>2026</span> Cement Creek Veterinary Hospital. Independently &amp; women-owned.</p>
   </div>
 
 </footer>

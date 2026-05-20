@@ -98,13 +98,23 @@
       const scopeWidth = scope.offsetWidth;
       if (!scopeHeight || !scopeWidth) return;
 
-      // Gather segments from elements inside this scope that opted in.
+      // Gather segments. Each section with [data-creek-x-top] contributes
+      // one segment. If the section also has [data-creek-points], the
+      // creek BENDS through those extra x% waypoints (evenly spaced
+      // along the section's height) between top and bottom — letting
+      // the creek wiggle within a single section instead of being a
+      // simple straight diagonal sweep.
       const segments = Array.from(scope.querySelectorAll('[data-creek-x-top]'))
         .map((el) => {
           const r = el.getBoundingClientRect();
+          const pointsAttr = el.getAttribute('data-creek-points');
+          const points = pointsAttr
+            ? pointsAttr.split(/[,\s]+/).map((s) => parseFloat(s)).filter((n) => isFinite(n))
+            : null;
           return {
             xTop: parseFloat(el.getAttribute('data-creek-x-top')),
             xBot: parseFloat(el.getAttribute('data-creek-x-bot')),
+            points: points && points.length ? points : null,
             pattern: el.getAttribute('data-creek-pattern') || null,
             top: r.top - scopeRect.top,
             height: r.height,
@@ -124,29 +134,76 @@
       // x in data attrs is a 0-100 percentage; convert to scope pixels.
       const xPx = (xPct) => (xPct * scopeWidth) / 100;
 
-      // Compose path. Each segment either:
-      //  - has a known pattern (hero-loop, ...): use its custom path
-      //    generator, which provides its own M when first.
-      //  - is the default: a cubic Bezier from (xTop, top) to (xBot, bot)
-      //    with control points giving vertical tangents at the y-boundaries,
-      //    so adjacent segments meet without a kink.
+      // Build a smooth cubic-bezier path through a sequence of (x,y)
+      // points using catmull-rom-style tangents (1/6 of the chord length
+      // to neighbors). The path starts at the first point and threads
+      // smoothly through the rest. First/last points use mirrored
+      // tangents so the curve is well-defined at the ends.
+      const smoothThrough = (pts) => {
+        if (pts.length < 2) return '';
+        let out = '';
+        const get = (i) => pts[Math.max(0, Math.min(pts.length - 1, i))];
+        for (let i = 0; i < pts.length - 1; i++) {
+          const p0 = get(i - 1);
+          const p1 = get(i);
+          const p2 = get(i + 1);
+          const p3 = get(i + 2);
+          const cp1x = p1[0] + (p2[0] - p0[0]) / 6;
+          const cp1y = p1[1] + (p2[1] - p0[1]) / 6;
+          const cp2x = p2[0] - (p3[0] - p1[0]) / 6;
+          const cp2y = p2[1] - (p3[1] - p1[1]) / 6;
+          out +=
+            ` C ${cp1x.toFixed(2)} ${cp1y.toFixed(2)}, ` +
+            `${cp2x.toFixed(2)} ${cp2y.toFixed(2)}, ` +
+            `${p2[0].toFixed(2)} ${p2[1].toFixed(2)}`;
+        }
+        return out;
+      };
+
+      // Compose path. Collect ALL waypoints from ALL sections into a
+      // single point list, then run smoothThrough once. This guarantees
+      // C1 (tangent) continuity across section boundaries — no more
+      // visible kinks where one section's curve meets the next's.
+      //
+      // Sections with a `pattern` (hero-loop, etc.) are handled separately
+      // and concatenated as raw path strings; they own their own M.
       let d = '';
-      segments.forEach((s, i) => {
+      let allPts = [];
+
+      const flushPoints = () => {
+        if (allPts.length < 2) {
+          allPts = [];
+          return;
+        }
+        if (!d) {
+          d = `M ${allPts[0][0].toFixed(2)} ${allPts[0][1].toFixed(2)}`;
+        } else {
+          d += ` L ${allPts[0][0].toFixed(2)} ${allPts[0][1].toFixed(2)}`;
+        }
+        d += smoothThrough(allPts);
+        allPts = [];
+      };
+
+      segments.forEach((s) => {
         if (s.pattern === 'hero-loop') {
+          flushPoints();
           d += (d ? ' ' : '') + buildHeroLoopPath(scopeWidth, s.height, s.top);
           return;
         }
-        const cp1y = s.top + s.height * 0.35;
-        const cp2y = s.top + s.height * 0.65;
-        const endY = s.top + s.height;
-        if (i === 0) {
-          d = `M ${xPx(s.xTop).toFixed(2)} ${s.top.toFixed(2)}`;
-        }
-        d +=
-          ` C ${xPx(s.xTop).toFixed(2)} ${cp1y.toFixed(2)}, ` +
-          `${xPx(s.xBot).toFixed(2)} ${cp2y.toFixed(2)}, ` +
-          `${xPx(s.xBot).toFixed(2)} ${endY.toFixed(2)}`;
+        // Build this section's points: xTop at section top, optional
+        // interior waypoints at evenly-spaced y, xBot at section bottom.
+        const allX = s.points ? [s.xTop, ...s.points, s.xBot] : [s.xTop, s.xBot];
+        allX.forEach((xPct, idx) => {
+          const t = idx / (allX.length - 1);
+          const pt = [xPx(xPct), s.top + s.height * t];
+          // Skip the first point of subsequent sections — it duplicates
+          // the previous section's last point (they share a boundary).
+          if (idx === 0 && allPts.length > 0) return;
+          allPts.push(pt);
+        });
       });
+
+      flushPoints();
 
       paths.forEach((p) => p.setAttribute('d', d));
 

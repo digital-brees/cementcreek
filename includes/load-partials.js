@@ -16,7 +16,11 @@
   function inject(targetId, partialUrl) {
     const target = document.getElementById(targetId);
     if (!target) return Promise.resolve();
-    return fetch(prefix + partialUrl)
+    // cache: 'no-cache' forces the browser to revalidate against the
+    // server every load. Without this, partial edits (footer.html /
+    // header.html) get served from disk cache and Brees can't see
+    // changes without a hard refresh.
+    return fetch(prefix + partialUrl, { cache: 'no-cache' })
       .then((res) => {
         if (!res.ok) throw new Error(`Failed to load ${partialUrl}`);
         return res.text();
