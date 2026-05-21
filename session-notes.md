@@ -5,7 +5,14 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-21
-**Status:** v11.2 — Services page + homepage FAQ section shipped, with seam/shadow polish + Intentional orb tuned.
+**Status:** v11.3 — Footer polish: Mountain Legacy ER link + phone, white-text badge variant for footer.
+
+**v11.3 (2026-05-21) — Footer ER details + white-text badge**
+  - **After-hours emergency link** now points to `https://mtnlegacyvet.com/contact/` (opens in new tab, `rel="noopener"`). Removed the `data-todo` since we have a real destination.
+  - **Phone number added** below the hospital name: `(970) 641–2215` (sourced from mtnlegacyvet.com/contact/). Tel link: `tel:+19706412215`. Styled as a quieter secondary line — `--font-body`, 0.8125rem, weight 400, paper at 65% opacity, creek-cyan on hover. No tabular-nums or letter-spacing (they made the digits look chunky/oversized in the first pass — pulled back to plain proportional rendering).
+  - **White-text badge for footer:** new asset `assets/CEMENT CREEK MAIN LOGO_BADGE_white-text.png` generated via Pillow from the source badge. Dark pixels OUTSIDE the inner blue disk (radius > 1530px on the 3830px-wide source) — i.e., the curving "CEMENT CREEK" / "VETERINARY HOSPITAL" text + equator dots — recolored to white with alpha preserved so antialiased edges still read clean on the dark ink footer. Inner disk (sky gradient, cat/dog silhouettes, creek) untouched. Header still uses the original badge for the cream bg.
+
+**v11.2 (2026-05-21) — Section seam + Intentional orb polish**
 
 **v11.2 (2026-05-21) — Section seam + Intentional orb polish**
   - **Wave divider relocated:** `.services-strip::after` was painting an ink-deep wavy edge that — after FAQ was inserted — was bleeding into a same-color FAQ instead of into the dark closer. Wave moved to `.faq::after` so it now sits between the warm-paper FAQ and the dark closer (where the ink-deep fill is meaningful).

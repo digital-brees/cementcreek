@@ -1560,6 +1560,17 @@ p:last-child { margin-bottom: 0; }
   transition: color 0.2s var(--ease-out);
 }
 .site-footer__after-hours-link:hover { color: var(--creek); }
+/* Tel link for the after-hours emergency number — quieter than
+   the named link above so the hospital name reads first, with
+   the dialable number as a secondary line. */
+.site-footer__after-hours-phone {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: rgba(244, 235, 218, 0.65);
+  transition: color 0.2s var(--ease-out);
+}
+.site-footer__after-hours-phone:hover { color: var(--creek); }
 /* Social row in the brand column — small circular outlined
    icons matching the footer's dark-on-paper aesthetic. Hover
    fills with creek-cyan for a quiet brand-touch. */
