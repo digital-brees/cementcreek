@@ -64,6 +64,14 @@
 html, body { margin: 0; padding: 0; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 
+/* Anchor-link scroll offset — the sticky header-stack (topbar +
+   main header) is ~155px tall. Without this, in-page anchor jumps
+   (e.g. "See how we built it" → #everything-intentional) land the
+   section's top edge AT the viewport top, hidden behind the header.
+   scroll-margin-top tells the browser to leave space when scrolling
+   to any anchored section in <main>. */
+main section[id] { scroll-margin-top: 180px; }
+
 body {
   font-family: var(--font-body);
   font-size: var(--fs-body);
@@ -459,67 +467,12 @@ p:last-child { margin-bottom: 0; }
 }
 
 /* -----------------------------------------------------------
-   06.5 — Page creek (the through-line of the homepage)
-   ONE continuous creek line drawn as a single SVG path that
-   spans the full <main> element, plus a small continuation
-   path inside the footer. The path is built dynamically in
-   scripts/main.js from each section's real pixel position so
-   the line truly flows as ONE creek regardless of section
-   heights or viewport size. No animation. A watermark.
-
-   Each section that participates declares its entry/exit x
-   positions via:
-     data-creek-x-top="50"   ← x at the section's top edge
-     data-creek-x-bot="78"   ← x at the section's bottom edge
-   Adjacent sections must share the boundary x (the exit of
-   one section equals the entry of the next) for continuity.
-
-   Two overlaid paths handle visibility on light + dark
-   sections via mix-blend-mode:
-     .page-creek__path--light → multiply (visible on cream,
-       fades to near-black on dark)
-     .page-creek__path--dark  → screen (visible on dark ink,
-       fades to a soft shimmer on cream)
+   06.5 — Page creek (REMOVED)
+   The scroll-driven SVG watermark that wove through <main> has
+   been retired. The .page-creek wrapper, its <svg>, the two
+   stacked <path> elements, and all data-creek-* attributes on
+   sections are gone from the HTML + JS too.
    ----------------------------------------------------------- */
-.page-creek {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  /* z-index 1 — below the hero video mask so the creek line goes
-     BEHIND the photo where they overlap. Above section backgrounds
-     so it's still visible everywhere else. */
-  z-index: 1;
-}
-.page-creek svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  overflow: visible;
-}
-.page-creek__path {
-  fill: none;
-  stroke-width: 11;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  /* Scroll-driven draw: dasharray + dashoffset are set in JS to the
-     path's total length, then the offset is animated by scripts/main.js
-     based on scroll position so the creek "flows" down as you scroll.
-     The transition smooths small per-frame deltas. */
-  transition: stroke-dashoffset 0.12s linear;
-}
-/* Creek opacity reduced from 0.75 → 0.32 (light) / 0.38 (dark)
-   so the line reads as a quiet watermark, not a competing graphic. */
-.page-creek__path--light {
-  stroke: var(--creek-deep);
-  opacity: 0.32;
-  mix-blend-mode: multiply;
-}
-.page-creek__path--dark {
-  stroke: var(--creek);
-  opacity: 0.38;
-  mix-blend-mode: screen;
-}
 
 /* Section content stays above the creek + mask inside main */
 .founders > .container,
@@ -1434,6 +1387,34 @@ p:last-child { margin-bottom: 0; }
   pointer-events: none;
   z-index: 0;
 }
+
+/* Team page closer — white Samoyed photo (the previous team hero,
+   moved here). Wide landscape so default `center` works well.
+   Scrim lightened ~15-20 pts vs the homepage closer so the dog
+   reads through clearly as a meet-the-people moment rather than
+   just ambiance — headline + CTA still get the contrast they need. */
+.closer--team {
+  background-image: url('../assets/images/team-closer-bg.jpg');
+  /* Source image was canvas-padded with solid --ink-deep on the
+     sides so its ratio matches the closer's wide aspect — that lets
+     cover-crop fit the full image vertically (no top/bottom clipping
+     of the dog), with the extra ink-deep edges blending invisibly
+     into the closer's bg color. Padding-block matches the homepage
+     closer so the CTA heights are consistent. */
+  background-position: center;
+}
+.closer--team::before {
+  background:
+    linear-gradient(to bottom,
+      var(--ink-deep) 0%,
+      rgba(13, 37, 72, 0.78) 5%,
+      rgba(13, 37, 72, 0.55) 14%,
+      rgba(13, 37, 72, 0.50) 86%,
+      rgba(13, 37, 72, 0.80) 100%),
+    radial-gradient(ellipse at center,
+      rgba(13, 37, 72, 0.20) 0%,
+      rgba(13, 37, 72, 0.55) 100%);
+}
 .closer__title {
   /* Tighter than `--fs-display`: peaks at 3.5rem instead of 7rem so
      the closing line is emphatic without filling the viewport. */
@@ -1752,7 +1733,11 @@ p:last-child { margin-bottom: 0; }
   background-color: var(--ink-deep);
   background-image: url('../assets/images/team-page-hero.jpg');
   background-size: cover;
-  background-position: center;
+  /* New team hero is portrait (768x1024) — biased lower so the
+     founders themselves (faces + branded shirts) sit in the visible
+     horizontal strip, with the branded tent banner still peeking
+     overhead at the top edge. */
+  background-position: center 55%;
   background-repeat: no-repeat;
   /* ~50vh tall, capped so it doesn't dominate at any viewport */
   min-height: clamp(360px, 50vh, 520px);
@@ -2085,6 +2070,38 @@ p:last-child { margin-bottom: 0; }
 }
 
 /* -----------------------------------------------------------
+   Nav-disabled — visually de-emphasizes nav links to pages that
+   haven't been built yet (Gallery, Pet Corner sub-pages, Contact,
+   etc.). Coming-soon look without breaking the layout.
+
+   `pointer-events: none` blocks clicks AND lets mouse events pass
+   through to the parent <li>, so dropdown parents like About /
+   Pet Corner still expand on hover even though their own link
+   is greyed out.
+   ----------------------------------------------------------- */
+.site-header__link.nav-disabled,
+.site-header__submenu a.nav-disabled,
+.mobile-menu__link.nav-disabled,
+.site-footer__links a.nav-disabled {
+  color: var(--stone-warm) !important;
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+/* Footer Site column inherits paper-on-ink coloring — use a
+   muted paper tone instead of stone so the disabled link still
+   reads as a footer item, just dimmed. */
+.site-footer__links a.nav-disabled {
+  color: rgba(244, 235, 218, 0.40) !important;
+  opacity: 1;
+}
+/* Disabled link inside a dropdown parent — keep the caret visible
+   so the dropdown affordance still reads. */
+.site-header__link--has-menu.nav-disabled .site-header__caret {
+  opacity: 0.65;
+}
+
+/* -----------------------------------------------------------
    16 — Services page (services.html)
    Sticky menu (left) + swappable focus pane (right).
    Page is intentionally short — the menu pins on desktop so
@@ -2159,7 +2176,10 @@ p:last-child { margin-bottom: 0; }
   align-items: baseline;
   gap: 0.5rem;
   width: 100%;
-  padding: 0.65rem 0.85rem 0.65rem 1.5rem;
+  /* Left padding sized so the wavy mark (left: 0.5rem + 16px wide
+     = ends at ~24px) sits in its own gutter, well clear of the
+     number column which now starts at 2.75rem = 44px → 20px gap. */
+  padding: 0.65rem 0.85rem 0.65rem 2.75rem;
   border-radius: 10px;
   text-align: left;
   position: relative;
@@ -2190,7 +2210,9 @@ p:last-child { margin-bottom: 0; }
   position: absolute;
   left: 0.5rem; top: 50%;
   transform: translateY(-50%);
-  width: 22px; height: 6px;
+  /* Narrowed from 22px → 16px so the mark sits compactly in its
+     own gutter without crowding the number to its right. */
+  width: 16px; height: 6px;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 8' preserveAspectRatio='none'><path d='M0 4 Q 4 0, 8 4 T 16 4 T 24 4 T 32 4' stroke='%235BA8C0' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -2322,7 +2344,9 @@ p:last-child { margin-bottom: 0; }
   .services-menu__list::-webkit-scrollbar-thumb { background: var(--creek-deep); border-radius: 4px; }
   .services-menu__item {
     flex-shrink: 0;
-    padding: 0.55rem 1rem 0.55rem 1.85rem;
+    /* Match the desktop gutter so the wavy mark doesn't crowd the
+       number on mobile pills either. */
+    padding: 0.55rem 1rem 0.55rem 2.25rem;
     border: 1px solid rgba(13, 37, 72, 0.12);
     border-radius: 999px;
     scroll-snap-align: start;

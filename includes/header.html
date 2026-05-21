@@ -51,9 +51,12 @@
       <ul class="site-header__menu">
         <li><a href="/" class="site-header__link" data-nav-current>Home</a></li>
 
-        <!-- About — dropdown: Team, Gallery -->
+        <!-- About — dropdown: Team (clickable), Gallery (coming soon).
+             About parent link stays styled like a regular link (blue,
+             hoverable) since Team IS reachable through its dropdown.
+             Clicking About itself routes to # (no dedicated page yet). -->
         <li class="site-header__item--has-menu">
-          <a href="about.html" class="site-header__link site-header__link--has-menu" aria-haspopup="true" aria-expanded="false">
+          <a href="#" class="site-header__link site-header__link--has-menu" aria-haspopup="true" aria-expanded="false">
             About
             <svg class="site-header__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="1 1.5 5 5 9 1.5"/>
@@ -61,28 +64,29 @@
           </a>
           <ul class="site-header__submenu" role="menu">
             <li role="none"><a href="team.html" role="menuitem">Team</a></li>
-            <li role="none"><a href="gallery.html" role="menuitem">Gallery</a></li>
+            <li role="none"><a href="#" role="menuitem" class="nav-disabled" aria-disabled="true" tabindex="-1">Gallery</a></li>
           </ul>
         </li>
 
         <li><a href="services.html" class="site-header__link">Services</a></li>
 
-        <!-- Pet Corner — dropdown: How to Pay, Heart Dog & Cat Fund, Resources & Links -->
+        <!-- Pet Corner — dropdown: all sub-links coming soon. Parent
+             greyed but dropdown still expands on hover. -->
         <li class="site-header__item--has-menu">
-          <a href="pet-corner.html" class="site-header__link site-header__link--has-menu" aria-haspopup="true" aria-expanded="false">
+          <a href="#" class="site-header__link site-header__link--has-menu nav-disabled" aria-haspopup="true" aria-expanded="false" aria-disabled="true" tabindex="-1">
             Pet Corner
             <svg class="site-header__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="1 1.5 5 5 9 1.5"/>
             </svg>
           </a>
           <ul class="site-header__submenu" role="menu">
-            <li role="none"><a href="how-to-pay.html" role="menuitem">How to Pay</a></li>
-            <li role="none"><a href="heart-fund.html" role="menuitem">Heart Dog &amp; Cat Fund</a></li>
-            <li role="none"><a href="resources.html" role="menuitem">Resources &amp; Links</a></li>
+            <li role="none"><a href="#" role="menuitem" class="nav-disabled" aria-disabled="true" tabindex="-1">How to Pay</a></li>
+            <li role="none"><a href="#" role="menuitem" class="nav-disabled" aria-disabled="true" tabindex="-1">Heart Dog &amp; Cat Fund</a></li>
+            <li role="none"><a href="#" role="menuitem" class="nav-disabled" aria-disabled="true" tabindex="-1">Resources &amp; Links</a></li>
           </ul>
         </li>
 
-        <li><a href="contact.html" class="site-header__link">Contact</a></li>
+        <li><a href="#" class="site-header__link nav-disabled" aria-disabled="true" tabindex="-1">Contact</a></li>
       </ul>
     </nav>
 
@@ -109,15 +113,15 @@
   <nav aria-label="Mobile">
     <ul class="mobile-menu__list">
       <li><a href="/" class="mobile-menu__link">Home</a></li>
-      <li><a href="about.html" class="mobile-menu__link">About</a></li>
+      <li><a href="#" class="mobile-menu__link">About</a></li>
       <li><a href="team.html" class="mobile-menu__link mobile-menu__link--sub">Team</a></li>
-      <li><a href="gallery.html" class="mobile-menu__link mobile-menu__link--sub">Gallery</a></li>
+      <li><a href="#" class="mobile-menu__link mobile-menu__link--sub nav-disabled" aria-disabled="true" tabindex="-1">Gallery</a></li>
       <li><a href="services.html" class="mobile-menu__link">Services</a></li>
-      <li><a href="pet-corner.html" class="mobile-menu__link">Pet Corner</a></li>
-      <li><a href="how-to-pay.html" class="mobile-menu__link mobile-menu__link--sub">How to Pay</a></li>
-      <li><a href="heart-fund.html" class="mobile-menu__link mobile-menu__link--sub">Heart Dog &amp; Cat Fund</a></li>
-      <li><a href="resources.html" class="mobile-menu__link mobile-menu__link--sub">Resources &amp; Links</a></li>
-      <li><a href="contact.html" class="mobile-menu__link">Contact</a></li>
+      <li><a href="#" class="mobile-menu__link nav-disabled" aria-disabled="true" tabindex="-1">Pet Corner</a></li>
+      <li><a href="#" class="mobile-menu__link mobile-menu__link--sub nav-disabled" aria-disabled="true" tabindex="-1">How to Pay</a></li>
+      <li><a href="#" class="mobile-menu__link mobile-menu__link--sub nav-disabled" aria-disabled="true" tabindex="-1">Heart Dog &amp; Cat Fund</a></li>
+      <li><a href="#" class="mobile-menu__link mobile-menu__link--sub nav-disabled" aria-disabled="true" tabindex="-1">Resources &amp; Links</a></li>
+      <li><a href="#" class="mobile-menu__link nav-disabled" aria-disabled="true" tabindex="-1">Contact</a></li>
     </ul>
     <a href="#" class="btn btn--primary mobile-menu__cta" data-todo="Book an appointment URL — placeholder">
       Book an appointment

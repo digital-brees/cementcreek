@@ -5,7 +5,20 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-21
-**Status:** v11.3 — Footer polish: Mountain Legacy ER link + phone, white-text badge variant for footer.
+**Status:** v11.4 — Nav coming-soon greying + booking CTAs unified + team page imagery + creek animation retired.
+
+**v11.4 (2026-05-21) — Nav greying, booking CTA sweep, team imagery, creek removal**
+  - **Nav coming-soon greying (`.nav-disabled`):** all nav links that don't go to built pages are visually de-emphasized in header, mobile menu, and footer Site column. Greyed via stone-warm color + 0.45 opacity (header/mobile) or 40% paper (footer); `pointer-events: none` blocks clicks but lets events pass through to the parent `<li>` so dropdown parents still expand on hover; `aria-disabled="true"` + `tabindex="-1"` for accessibility. Greyed items: Gallery, How to Pay, Heart Fund, Resources & Links, Contact (across all surfaces). **About + Pet Corner dropdown parents:** About stays clickable-looking blue (Team IS reachable through its dropdown, so it should look hoverable). Pet Corner stays greyed since all its sub-items are coming-soon.
+  - **Booking CTA sweep:** every booking-style button across the site unified to "Book an appointment". Hit: homepage closer, team page closer, services page closer, footer "Book your visit" → "Book an appointment", and 7 service-panel CTAs (Happy Visits, Wellness, Dentistry, Surgery, Diagnostics, Laser, Microchipping). Kept service-specific copy on the 3 non-booking CTAs: Urgent Care "Call or text us" (tel: link), End of Life "Reach out when you're ready" (sensitive tone), Pharmacy "Log in or order online" (login action).
+  - **Team page imagery shuffle:** hero swapped to founders-under-Cement-Creek-tent photo (Drive `1-U5Fz1-Cs8mfVCw52ujRZsXNsz7HU9bv`, portrait 768×1024). Previous hero (white Samoyed wide landscape) moved to closer bg as `team-closer-bg.jpg`. Closer bg image was canvas-padded with solid `--ink-deep` on the sides via Pillow (768×328 → 1312×328, 4:1 ratio) so cover-crop fits the full image vertically — no top/bottom dog clipping, side padding blends with closer bg color. Closer padding-block reverted to standard (matches homepage CTA height). Background-position: `center` for the wider padded image.
+  - **Tools tab matched to other panels:** `fishbowl-framing.jpg` center-cropped + upscaled from 1600×900 → 1200×1200 square. Tools panel markup switched from `tab-panel--has-photo` + `photo-print--landscape` (figure/figcaption) to the same `tab-panel__display` square pattern used by the other tabs (no caption).
+  - **Anchor scroll offset:** `main section[id] { scroll-margin-top: 180px; }` so in-page anchor jumps (like the hero's "See how we built it" → `#everything-intentional`) clear the 155px sticky header stack.
+  - **Page-creek animation REMOVED.** The scroll-driven SVG watermark that wove through `<main>` is retired:
+    - `scripts/main.js`: deleted `buildHeroLoopPath`, `buildPageCreek`, `applyCreekProgress`, `onCreekScroll`, `initPageCreek`, `creekStates`, `reducedMotion`, and `creekFrameRequested` variables. Removed `initPageCreek()` from `boot()` and `buildPageCreek()` from the `partials:mounted` listener.
+    - `index.html`: removed the `<div class="page-creek">` wrapper with its two stacked `<path>` elements. Stripped `data-creek-x-top` / `data-creek-points` / `data-creek-x-bot` attributes from founders, intentional, services-strip, faq, and closer sections.
+    - `styles/main.css`: replaced the `.page-creek` / `.page-creek__path` rules block with a brief deletion note in the section 06.5 header.
+
+**v11.3 (2026-05-21) — Footer ER details + white-text badge**
 
 **v11.3 (2026-05-21) — Footer ER details + white-text badge**
   - **After-hours emergency link** now points to `https://mtnlegacyvet.com/contact/` (opens in new tab, `rel="noopener"`). Removed the `data-todo` since we have a real destination.

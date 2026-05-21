@@ -55,23 +55,7 @@
 
   <main>
 
-    <!-- ========================================================
-         PAGE CREEK — one continuous SVG watermark spanning <main>.
-         The path is built dynamically in scripts/main.js from each
-         section's actual position so the line truly flows as one
-         creek through founders → intentional → closer → after-hours.
-         The footer has its own small page-creek that continues the
-         line straight down to the pool. Sections are tagged with
-         data-creek-x-top / data-creek-x-bot to drive the path.
-         Two stacked paths blend via multiply/screen so the creek
-         reads on both warm-paper and dark-ink sections.
-         ======================================================== -->
-    <div class="page-creek page-creek--main" aria-hidden="true">
-      <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path class="page-creek__path page-creek__path--light" />
-        <path class="page-creek__path page-creek__path--dark" />
-      </svg>
-    </div>
+    <!-- Page-creek watermark removed — see scripts/main.js + main.css. -->
 
     <!-- ========================================================
          HERO — text only (left column). The video lives in the
@@ -137,10 +121,7 @@
          Primary photo: building exterior (placeholder until founder portrait arrives)
          Secondary photo: dogs in creek portrait (small print, overlapping corner)
          ======================================================== -->
-    <section class="section founders" aria-labelledby="founders-title"
-             data-creek-x-top="85"
-             data-creek-points="92, 90, 80, 55"
-             data-creek-x-bot="15">
+    <section class="section founders" aria-labelledby="founders-title">
 
       <div class="container">
         <div class="founders__grid">
@@ -190,10 +171,7 @@
          though there's a lot to say. Click a pill to swap the
          visible panel. Keyboard arrow nav supported.
          ======================================================== -->
-    <section class="section intentional" id="everything-intentional" aria-labelledby="intentional-title"
-             data-creek-x-top="15"
-             data-creek-points="13, 15, 14, 14"
-             data-creek-x-bot="15">
+    <section class="section intentional" id="everything-intentional" aria-labelledby="intentional-title">
 
       <div class="container">
 
@@ -351,14 +329,12 @@
             </div>
           </article>
 
-          <!-- 08 · Tools (has photo) -->
-          <article class="tab-panel tab-panel--has-photo" role="tabpanel"
+          <!-- 08 · Tools (matched to other tab-panel layouts —
+               square tab-panel__display image, no caption). -->
+          <article class="tab-panel" role="tabpanel"
                    id="p-tools" aria-labelledby="t-tools" hidden>
-            <figure class="tab-panel__photo photo-print photo-print--landscape">
-              <img src="assets/images/fishbowl-framing.jpg"
-                   alt="Wood framing of the 'fishbowl' glass observation room mid-build at Cement Creek." />
-              <figcaption class="photo-print__caption">The fishbowl, mid-build.</figcaption>
-            </figure>
+            <img class="tab-panel__display" src="assets/images/fishbowl-framing.jpg"
+                 alt="Wood framing of the 'fishbowl' glass observation room mid-build at Cement Creek." />
             <div class="tab-panel__body">
               <span class="tab-panel__index">Tools</span>
               <h3 class="tab-panel__heading">Modern tools and technology support.</h3>
@@ -382,10 +358,7 @@
          hovering or focusing the strip pauses the motion.
          Real photos go in via data-todo TODOs as they arrive.
          ======================================================== -->
-    <section class="services-strip" aria-labelledby="services-strip-title"
-             data-creek-x-top="15"
-             data-creek-points="20, 38, 60"
-             data-creek-x-bot="85">
+    <section class="services-strip" aria-labelledby="services-strip-title">
 
       <header class="services-strip__head">
         <div>
@@ -499,10 +472,7 @@
          to x=55 over the title column, comes back to x=85 to
          continue into the closer.
          ======================================================== -->
-    <section class="faq" aria-labelledby="faq-title"
-             data-creek-x-top="85"
-             data-creek-points="55"
-             data-creek-x-bot="85">
+    <section class="faq" aria-labelledby="faq-title">
       <div class="container">
         <div class="faq__grid">
 
@@ -512,10 +482,6 @@
             <h2 class="faq__title" id="faq-title" data-reveal>
               Got questions? <em>We have answers.</em>
             </h2>
-            <p class="faq__closing" data-reveal>
-              Still on your mind? Reach out anytime &ndash; we'd rather hear from
-              you than have you wondering.
-            </p>
             <div data-reveal>
               <a href="contact.html" class="btn btn--ghost btn--arrow" data-todo="Confirm contact route">Contact us</a>
             </div>
@@ -704,10 +670,7 @@
     <!-- ========================================================
          CLOSER
          ======================================================== -->
-    <section class="closer" aria-labelledby="closer-title"
-             data-creek-x-top="85"
-             data-creek-points="95, 105"
-             data-creek-x-bot="115">
+    <section class="closer" aria-labelledby="closer-title">
 
       <div class="container container--narrow">
         <h2 class="closer__title" id="closer-title" data-reveal>
@@ -722,7 +685,7 @@
           <li class="closer__area-pill closer__area-pill--more">+ the rest of the Valley</li>
         </ul>
         <div data-reveal>
-          <a href="#" class="btn closer__cta btn--primary btn--arrow" data-todo="Book your visit URL">Book your visit</a>
+          <a href="#" class="btn closer__cta btn--primary btn--arrow" data-todo="Book an appointment URL">Book an appointment</a>
         </div>
       </div>
     </section>
