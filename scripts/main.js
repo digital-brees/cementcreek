@@ -378,6 +378,113 @@
     rail.addEventListener('scroll', updateButtons, { passive: true });
     window.addEventListener('resize', updateButtons);
     updateButtons();
+
+    // ----- Click-and-drag scrolling -----
+    // Lets the user grab the rail with the mouse and pan it.
+    // We disable scroll-snap + smooth-scroll for the duration of
+    // the drag (otherwise snap fights the manual motion), then
+    // restore them on release. Drag distance is also tracked so we
+    // can suppress the trailing click event after a meaningful drag
+    // — without this, a quick swipe-to-scroll would also count as
+    // a click on whatever card was under the cursor.
+    let isDragging = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let dragDistance = 0;
+    const DRAG_THRESHOLD = 6; // px — below this, treat as a click
+
+    rail.style.cursor = 'grab';
+    rail.style.userSelect = 'none';
+
+    const onPointerDown = (e) => {
+      // Only primary mouse button (or any touch/pen)
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      isDragging = true;
+      dragDistance = 0;
+      startX = e.pageX;
+      startScrollLeft = rail.scrollLeft;
+      rail.style.cursor = 'grabbing';
+      rail.style.scrollSnapType = 'none';
+      rail.style.scrollBehavior = 'auto';
+      // Capture pointer so we keep getting moves even if the cursor
+      // leaves the rail. Pointer is released on pointerup/cancel.
+      rail.setPointerCapture(e.pointerId);
+    };
+
+    const onPointerMove = (e) => {
+      if (!isDragging) return;
+      const dx = e.pageX - startX;
+      dragDistance = Math.max(dragDistance, Math.abs(dx));
+      rail.scrollLeft = startScrollLeft - dx;
+    };
+
+    const endDrag = (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      rail.style.cursor = 'grab';
+      // Restore snap + smooth on next frame so the release doesn't
+      // jolt the rail mid-momentum.
+      requestAnimationFrame(() => {
+        rail.style.scrollSnapType = '';
+        rail.style.scrollBehavior = '';
+      });
+      if (e && rail.hasPointerCapture && rail.hasPointerCapture(e.pointerId)) {
+        rail.releasePointerCapture(e.pointerId);
+      }
+    };
+
+    rail.addEventListener('pointerdown', onPointerDown);
+    rail.addEventListener('pointermove', onPointerMove);
+    rail.addEventListener('pointerup', endDrag);
+    rail.addEventListener('pointercancel', endDrag);
+    rail.addEventListener('lostpointercapture', endDrag);
+
+    // Suppress the trailing click after a real drag so swiping
+    // doesn't accidentally navigate.
+    rail.addEventListener('click', (e) => {
+      if (dragDistance > DRAG_THRESHOLD) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
+
+    // Prevent native image drag (otherwise the browser tries to
+    // drag the photo out of the card during a rail drag).
+    rail.querySelectorAll('img').forEach((img) => {
+      img.setAttribute('draggable', 'false');
+    });
+  }
+
+  // ----------------------------------------------------------
+  // Founder cards equal-height (closed state only)
+  // ----------------------------------------------------------
+  // Sets `min-height` on every .founder-card to the tallest card
+  // on load + resize, so that in their default (bio-collapsed)
+  // state both cards line up at the same height. When a bio
+  // opens, that card grows past its min-height — the other card
+  // stays put (we don't re-equalize on toggle).
+  function initFounderCardHeights() {
+    const cards = Array.from(document.querySelectorAll('.founder-card'));
+    if (cards.length < 2) return;
+
+    const equalize = () => {
+      cards.forEach((c) => (c.style.minHeight = ''));
+      // Wait a frame so the browser settles natural heights first.
+      requestAnimationFrame(() => {
+        const max = Math.max(...cards.map((c) => c.offsetHeight));
+        cards.forEach((c) => (c.style.minHeight = max + 'px'));
+      });
+    };
+
+    equalize();
+    // Re-equalize after images/fonts finish loading (heights shift).
+    window.addEventListener('load', equalize);
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(equalize, 200);
+    });
   }
 
   // Hero video soft autoplay handling (in case autoplay is blocked, swap to poster)
@@ -400,6 +507,7 @@
     initServicesMarquee();
     initServicesRail();
     initPageCreek();
+    initFounderCardHeights();
   }
   // Run now if DOM is already parsed (script at end of body); otherwise wait.
   if (document.readyState === 'loading') {

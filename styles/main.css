@@ -295,11 +295,13 @@ p:last-child { margin-bottom: 0; }
   /* Stickiness is handled by .site-header-stack now — this element
      just flows inside the wrapper. Solid paper bg always so the
      header tone stays the same whether the user has scrolled past
-     a different-colored section or not (no more tonal shift from
-     the translucent-bg-with-backdrop-blur scrolled state). */
+     a different-colored section or not. A hairline ink rule +
+     soft shadow at the bottom gives the header a visible edge
+     against the same-colored page below it. */
   position: relative; z-index: 40;
   background: var(--paper);
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid rgba(22, 59, 108, 0.10);
+  box-shadow: 0 4px 12px rgba(13, 37, 72, 0.05);
 }
 .site-header__inner {
   max-width: var(--container-wide); margin-inline: auto;
@@ -323,10 +325,26 @@ p:last-child { margin-bottom: 0; }
    leaving the logo alone on the left. The actions cluster (phone +
    CTA + hamburger) follows immediately after with its own small gap. */
 .site-header__nav { display: flex; justify-content: flex-end; margin-left: auto; }
-.site-header__menu { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(1.25rem, 3vw, 2.25rem); }
+.site-header__menu {
+  list-style: none; margin: 0; padding: 0;
+  display: flex;
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+}
+.site-header__menu > li {
+  display: flex;
+  align-items: center;
+}
+/* All nav links use inline-flex so the caret-bearing items
+   (About / Pet Corner) line up with the plain text items
+   (Home / Services / Contact) on the same vertical center,
+   instead of one type baseline-aligning and the other not. */
 .site-header__link {
+  display: inline-flex;
+  align-items: center;
   font-size: 0.95rem; font-weight: 500;
   color: var(--ink); position: relative; padding: 0.4rem 0;
+  line-height: 1;
   transition: color 0.2s var(--ease-out);
 }
 .site-header__link::after {
@@ -1662,4 +1680,377 @@ p:last-child { margin-bottom: 0; }
   }
   [data-reveal] { opacity: 1; transform: none; }
   .hero__media video, .hero__media img { animation: none; }
+}
+
+/* -----------------------------------------------------------
+   14 — Internal page hero (Team, etc.)
+   Smaller than the homepage hero — a chapter opener, not a
+   feature. Centered editorial intro on cream paper.
+   ----------------------------------------------------------- */
+.page-hero {
+  background: var(--paper);
+  padding-block: clamp(4rem, 8vw, 7rem);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.page-hero__inner {
+  max-width: 820px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+.page-hero__title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.25rem, 1.4rem + 2.8vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  margin: 0;
+}
+.page-hero__title em {
+  font-style: italic;
+  font-weight: 300;
+}
+.page-hero__lede {
+  font-size: var(--fs-body-lg);
+  line-height: 1.55;
+  color: var(--charcoal);
+  max-width: 56ch;
+  margin: 0;
+}
+
+/* ---- Wavy-bottom banner variant ----
+   Full-width photo background with a dark scrim, text overlaid
+   in cream. Bottom edge is a wavy creek-bank silhouette
+   (paper-warm fill) flowing into the team section below. */
+.page-hero--banner {
+  background-color: var(--ink-deep);
+  background-image: url('../assets/images/team-page-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* ~50vh tall, capped so it doesn't dominate at any viewport */
+  min-height: clamp(360px, 50vh, 520px);
+  padding-block: clamp(4rem, 7vw, 6rem) clamp(5.5rem, 9vw, 8rem);
+  text-align: left;
+  isolation: isolate;
+  color: var(--paper);
+}
+/* Dark scrim over the photo so the overlaid text reads cleanly. */
+.page-hero--banner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right,
+      rgba(13, 37, 72, 0.78) 0%,
+      rgba(13, 37, 72, 0.55) 50%,
+      rgba(13, 37, 72, 0.45) 100%),
+    linear-gradient(to bottom,
+      rgba(13, 37, 72, 0.20) 0%,
+      rgba(13, 37, 72, 0.55) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+/* Wavy bottom edge — paper-warm fill (matches the team-section
+   below) so the banner flows into the next section with the
+   creek-bank silhouette as the seam. */
+.page-hero--banner::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: clamp(48px, 7vw, 88px);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'><path d='M 0 50 C 120 20, 240 60, 360 40 C 480 20, 600 55, 720 35 C 840 15, 960 50, 1080 30 C 1200 10, 1320 50, 1440 35 L 1440 80 L 0 80 Z' fill='%23ECDFC8'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 1;
+}
+/* Banner variant overrides — left-align text, push above scrim,
+   recolor for dark bg. */
+.page-hero--banner .page-hero__inner {
+  position: relative;
+  z-index: 2;
+  align-items: flex-start;
+  text-align: left;
+  max-width: var(--container);
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+.page-hero--banner .page-hero__title {
+  color: var(--paper);
+}
+.page-hero--banner .page-hero__title em {
+  color: var(--creek);
+}
+.page-hero--banner .page-hero__lede {
+  color: rgba(244, 235, 218, 0.90);
+}
+
+/* Eyebrow on dark — paper-colored text + creek-cyan wave so it
+   still reads against the dark scrim. */
+.eyebrow--on-dark {
+  color: var(--paper);
+}
+.eyebrow--on-dark::before {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 8' preserveAspectRatio='none'><path d='M0 4 Q 4 0, 8 4 T 16 4 T 24 4 T 32 4' stroke='%239DD7E5' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
+}
+
+/* -----------------------------------------------------------
+   15 — Team section + founder cards
+   ----------------------------------------------------------- */
+.team-section {
+  background: var(--paper-warm);
+  padding-block: clamp(4rem, 8vw, 7rem) clamp(6rem, 10vw, 9rem);
+  position: relative;
+  overflow: hidden;
+}
+/* Wavy divider into the closer below — same pattern + SVG as
+   the homepage services-strip → closer divider. Filled with
+   ink-deep so the wavy top edge becomes the seam between the
+   warm-paper team section and the dark CTA band below. */
+.team-section::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: clamp(48px, 7vw, 88px);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'><path d='M 0 50 C 120 20, 240 60, 360 40 C 480 20, 600 55, 720 35 C 840 15, 960 50, 1080 30 C 1200 10, 1320 50, 1440 35 L 1440 80 L 0 80 Z' fill='%230D2548'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 2;
+}
+.team-section__head {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto clamp(3rem, 5vw, 4.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.team-section__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+}
+.team-section__title em {
+  font-style: italic;
+  font-weight: 300;
+}
+.team-section__intro {
+  font-size: var(--fs-body-lg);
+  line-height: 1.55;
+  color: var(--charcoal);
+  max-width: 58ch;
+  margin: 0;
+}
+
+/* Founders grid — 2 cards side by side on desktop, stacked on
+   mobile. `align-items: start` keeps each card the size of its
+   own content so opening one bio doesn't drag the other one
+   taller. Equal closed-state height is enforced via JS (sets
+   min-height on each card to match the tallest one on load) —
+   the open card grows past that, the closed one stays put. */
+.founders-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.75rem, 3vw, 3rem);
+  align-items: start;
+}
+@media (max-width: 880px) {
+  .founders-grid { grid-template-columns: 1fr; }
+}
+
+.founder-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow:
+    0 1px 1px rgba(13, 37, 72, 0.04),
+    0 14px 30px rgba(13, 37, 72, 0.08),
+    0 30px 80px rgba(13, 37, 72, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+.founder-card__media {
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--paper-warm);
+}
+.founder-card__media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s var(--ease-out);
+}
+.founder-card:hover .founder-card__media img {
+  transform: scale(1.025);
+}
+.founder-card__body {
+  padding: clamp(1.5rem, 2.5vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  /* Fill the remaining card height so the bio toggle (with its
+     margin-top:auto) can anchor to the bottom — regardless of
+     how long the intro paragraph above it runs. */
+  flex: 1;
+}
+.founder-card__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 1.15rem + 1vw, 2rem);
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin: 0;
+}
+.founder-card__title {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--creek-deep);
+  margin: 0 0 0.5rem;
+}
+.founder-card__intro {
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--charcoal);
+  margin: 0 0 0.5rem;
+}
+
+/* Bio toggle — native <details> styled to feel like an
+   intentional, soft expand button. Caret rotates 180° when
+   open. The whole card sits comfortably whether collapsed
+   or expanded; the bio body just slides in below. */
+.founder-card__bio {
+  border-top: 1px solid rgba(22, 59, 108, 0.10);
+  padding-top: 1rem;
+  /* Push the hairline rule + Read full bio button to the bottom
+     of the card body so both cards' toggles line up no matter
+     how long each intro paragraph is. */
+  margin-top: auto;
+}
+.founder-card__bio summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(22, 59, 108, 0.20);
+  transition: background-color 0.2s var(--ease-out),
+              color 0.2s var(--ease-out),
+              border-color 0.2s var(--ease-out);
+}
+.founder-card__bio summary::-webkit-details-marker { display: none; }
+.founder-card__bio summary::marker { content: ''; }
+.founder-card__bio summary:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.founder-card__bio-caret {
+  transition: transform 0.3s var(--ease-out);
+  flex-shrink: 0;
+}
+.founder-card__bio[open] summary {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.founder-card__bio[open] .founder-card__bio-caret {
+  transform: rotate(180deg);
+}
+/* Swap "Read full bio" → "Hide bio" when the details is open.
+   The label text is hidden visually via font-size:0 and the open
+   state inserts the new text via a pseudo-element. */
+.founder-card__bio[open] summary .founder-card__bio-label {
+  font-size: 0;
+  letter-spacing: 0;
+}
+.founder-card__bio[open] summary .founder-card__bio-label::before {
+  content: 'Hide bio';
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+
+.founder-card__bio-body {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: bioFadeIn 0.4s var(--ease-out) both;
+}
+.founder-card__bio-body p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--charcoal);
+}
+@keyframes bioFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Dog-breed Q&A — the recurring "If you were a dog breed…"
+   moment. Bubble removed; now reads as a native typographic
+   footer for the bio: hairline rule above + wavy creek-mark
+   dash (matching the eyebrow pattern) leads into an italic
+   question, then a bold breed answer. Feels like part of the
+   site's existing language instead of a separate UI widget. */
+.founder-card__breed {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(22, 59, 108, 0.12);
+}
+.founder-card__breed-q {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0 0 0.6rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+.founder-card__breed-q::before {
+  content: '';
+  flex-shrink: 0;
+  width: 22px; height: 6px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 8' preserveAspectRatio='none'><path d='M0 4 Q 4 0, 8 4 T 16 4 T 24 4 T 32 4' stroke='%235BA8C0' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+  top: -0.25em;
+}
+.founder-card__breed-a {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--charcoal);
+  margin: 0;
+}
+.founder-card__breed-a strong {
+  color: var(--ink);
+  font-weight: 700;
 }

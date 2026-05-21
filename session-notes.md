@@ -4,8 +4,19 @@
 **Location:** 60 Glacier Street, Crested Butte South, CO 81224 (Gunnison Valley)
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
-**Last update:** 2026-05-20
-**Status:** Homepage v10.1 — follow-on polish pass:
+**Last update:** 2026-05-21
+**Status:** v10.2 — Team page shipped + homepage polish:
+  - **`team.html` created** with full nav/footer partials, wavy-bottom banner hero (full-width team-page-hero.jpg from Drive, dark scrim, wavy creek-bank bottom edge into the team section), two founder cards (image / name / title / verbatim intro / `<details>` expand-bio toggle / dog-breed Q&A), and the dark closer CTA. Bios match Brees' supplied first-person text 1:1.
+  - **Founder portraits** wired in: `founder-kara.jpg` + `founder-shawna.jpg` from local uploads, optimized to 1200px. Hero banner uses `team-page-hero.jpg` (cropped 1920x820 from Drive file `1lK8tVzlxSRTxoTgr5G8A11h9ZICMqS0u`).
+  - **Bio cards equal-height JS** (`initFounderCardHeights`): measures both cards on load + resize, sets `min-height` to the tallest. When one bio opens, only that card grows past min-height; the other stays put. Grid uses `align-items: start` (no sympathy-stretching).
+  - **Dog-breed Q&A redesigned** — light-blue bubble + creek-deep border removed. Now reads as a native typographic footer: hairline rule above + the wavy creek-mark dash (same as eyebrows) → italic question → bold breed answer.
+  - **Wave divider above team CTA** — same SVG + ink-deep fill as the homepage `services-strip::after`.
+  - **Sticky header definition** — added 1px ink-tinted hairline rule + soft drop shadow under `.site-header` so the cream header has a visible edge against the cream content below (was blending).
+  - **Nav alignment fix** — all `.site-header__link`s are `inline-flex; align-items: center; line-height: 1` and the menu/lis center on the same axis, so caret-bearing items (About / Pet Corner) line up with plain ones (Home / Services / Contact).
+  - **10 service images** replaced with Brees' downloaded Shutterstock photos (`shutterstock_*.jpg` from Downloads). Center-cropped 3:4, 900px max, JPEG 85. Subjects: sick dog at vet (Happy Visits), cat + stethoscope (Wellness), labrador teeth check (Dentistry), tabby in cone (Surgery), cat X-ray (Diagnostics), dog laser therapy (Laser), kitten recovering (Urgent Care), French bulldog held (Microchip), hand on dog paw (End-of-Life), pit bull receiving treat (Pharmacy).
+  - **Services rail click-and-drag** — pointerdown/move/up scrolling on `.services-rail`, disables scroll-snap + smooth during drag, suppresses trailing click after >6px drag, prevents native image drag. Cursor switches to grab/grabbing.
+
+**Homepage v10.1 base:** follow-on polish pass:
   - Header bg now solid `--paper` always (removed translucent `.is-scrolled` state that let colored sections bleed through on scroll)
   - Nav restructured with dropdowns: **About** (Team, Gallery) and **Pet Corner** (How to Pay, Heart Dog & Cat Fund, Resources & Links). Dropdowns are hover/focus-within with chevron rotation, rounded card, soft shadow
   - Social icons **moved** from main header to **topbar right side** — paper-colored 28px circles, hover fills creek-cyan. Topbar restructured as 3-col grid (spacer | centered chips | social) so chips stay visually centered
