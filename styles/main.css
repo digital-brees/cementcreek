@@ -1393,15 +1393,26 @@ p:last-child { margin-bottom: 0; }
    Scrim lightened ~15-20 pts vs the homepage closer so the dog
    reads through clearly as a meet-the-people moment rather than
    just ambiance — headline + CTA still get the contrast they need. */
+/* Services page closer — brown/white dog with pink harness lying
+   on tile. Wide landscape (1600x900) fits the closer's banner
+   aspect cleanly. Dog's face sits at source y=14-31% (upper-left
+   quadrant), so background-position is biased UPWARD so the face
+   stays visible in the cover-cropped strip regardless of viewport. */
+.closer--services {
+  background-image: url('../assets/images/services-closer-bg.jpg');
+  background-position: center 15%;
+}
+
 .closer--team {
   background-image: url('../assets/images/team-closer-bg.jpg');
-  /* Source image was canvas-padded with solid --ink-deep on the
-     sides so its ratio matches the closer's wide aspect — that lets
-     cover-crop fit the full image vertically (no top/bottom clipping
-     of the dog), with the extra ink-deep edges blending invisibly
-     into the closer's bg color. Padding-block matches the homepage
-     closer so the CTA heights are consistent. */
-  background-position: center;
+  /* Original 768x328 dog photo at full width — cover-cropped to
+     fill 100% of the closer's width. Some vertical clipping is
+     accepted as the trade-off (the dog photo is squat-landscape
+     and the closer is wider 3:1ish, so cover-fit favors width).
+     Position biased slightly upward so the dog's head and mouth
+     stay in the visible strip without the bottom collar/ground
+     dominating. */
+  background-position: center 35%;
 }
 .closer--team::before {
   background:
@@ -2307,6 +2318,10 @@ p:last-child { margin-bottom: 0; }
 
 .services-panel__cta {
   margin-top: 0.5rem;
+  /* Per-panel CTAs hidden — the closer at the bottom of the
+     services page is the single point of conversion. Keeping the
+     markup in case we want to re-enable them later. */
+  display: none;
 }
 
 /* ---- Mobile: stack the layout, convert menu to a horizontal

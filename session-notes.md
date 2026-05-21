@@ -5,7 +5,14 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-21
-**Status:** v11.4 — Nav coming-soon greying + booking CTAs unified + team page imagery + creek animation retired.
+**Status:** v11.5 — Team CTA full-width restored, services CTA gets new bg + panel CTAs hidden.
+
+**v11.5 (2026-05-21) — Team CTA full-width + services CTA bg + panel CTA cleanup**
+  - **Team closer full-width restored:** the canvas-padded version of `team-closer-bg.jpg` (1312×328 with dark side panels) was cropped back out to the original 768×328 dog photo. CSS `background-position` set to `center 35%` so cover-crop keeps the dog visible without dark letterboxing on the sides.
+  - **Services closer new bg:** brown/white border collie with pink harness lying on tile, looking right. Source `Image #4` (1999×1125) optimized to `assets/images/services-closer-bg.jpg` (1600×900, JPEG 88). New `.closer--services` modifier on the services page closer. Dog's face is at source y=14-31% (sampled via brown-pixel scan), so `background-position: center 15%` keeps the face in the visible strip across viewport widths.
+  - **Service panel CTAs hidden:** `.services-panel__cta { display: none; }` — when browsing services on services.html, no per-panel "Book an appointment" buttons appear. The closer CTA at the bottom of the page becomes the single point of conversion. Markup preserved so we can re-enable later by removing the CSS rule.
+
+**v11.4 (2026-05-21) — Nav greying, booking CTA sweep, team imagery, creek removal**
 
 **v11.4 (2026-05-21) — Nav greying, booking CTA sweep, team imagery, creek removal**
   - **Nav coming-soon greying (`.nav-disabled`):** all nav links that don't go to built pages are visually de-emphasized in header, mobile menu, and footer Site column. Greyed via stone-warm color + 0.45 opacity (header/mobile) or 40% paper (footer); `pointer-events: none` blocks clicks but lets events pass through to the parent `<li>` so dropdown parents still expand on hover; `aria-disabled="true"` + `tabindex="-1"` for accessibility. Greyed items: Gallery, How to Pay, Heart Fund, Resources & Links, Contact (across all surfaces). **About + Pet Corner dropdown parents:** About stays clickable-looking blue (Team IS reachable through its dropdown, so it should look hoverable). Pet Corner stays greyed since all its sub-items are coming-soon.
