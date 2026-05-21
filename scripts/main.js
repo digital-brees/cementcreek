@@ -500,6 +500,71 @@
     }
   }
 
+  // ----------------------------------------------------------
+  // Services page — sticky menu + focus pane.
+  // Click a menu item (button[data-service]) to swap which
+  // <article data-service-panel> is visible. Page itself
+  // never scrolls between services.
+  //
+  // Also: opens a service from #hash on load, updates the
+  // hash on click for shareable URLs, and supports arrow-key
+  // navigation between tabs.
+  // ----------------------------------------------------------
+  function initServicesPage() {
+    const buttons = Array.from(document.querySelectorAll('[data-service]'));
+    const panels = Array.from(document.querySelectorAll('[data-service-panel]'));
+    if (!buttons.length || !panels.length) return;
+
+    const activate = (id, { focus = false, updateHash = false } = {}) => {
+      let matched = false;
+      buttons.forEach((b) => {
+        const isMatch = b.dataset.service === id;
+        if (isMatch) matched = true;
+        b.classList.toggle('is-active', isMatch);
+        b.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+        b.tabIndex = isMatch ? 0 : -1;
+      });
+      panels.forEach((p) => {
+        const isMatch = p.dataset.servicePanel === id;
+        p.classList.toggle('is-active', isMatch);
+        if (isMatch) p.removeAttribute('hidden');
+        else p.setAttribute('hidden', '');
+      });
+      if (!matched) return;
+      if (focus) {
+        const btn = buttons.find((b) => b.dataset.service === id);
+        btn && btn.focus();
+      }
+      if (updateHash && history && typeof history.replaceState === 'function') {
+        history.replaceState(null, '', `#${id}`);
+      }
+    };
+
+    buttons.forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        activate(btn.dataset.service, { updateHash: true });
+      });
+      // Arrow-key navigation (Up/Down and Left/Right) between tabs
+      btn.addEventListener('keydown', (e) => {
+        let nextIndex = -1;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') nextIndex = (i + 1) % buttons.length;
+        else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') nextIndex = (i - 1 + buttons.length) % buttons.length;
+        else if (e.key === 'Home') nextIndex = 0;
+        else if (e.key === 'End') nextIndex = buttons.length - 1;
+        if (nextIndex !== -1) {
+          e.preventDefault();
+          activate(buttons[nextIndex].dataset.service, { focus: true, updateHash: true });
+        }
+      });
+    });
+
+    // Deep-link: if URL has #service-slug, open that service on load
+    const hash = window.location.hash.replace('#', '');
+    if (hash && panels.some((p) => p.dataset.servicePanel === hash)) {
+      activate(hash);
+    }
+  }
+
   function boot() {
     initReveals();
     initHeroVideo();
@@ -508,6 +573,7 @@
     initServicesRail();
     initPageCreek();
     initFounderCardHeights();
+    initServicesPage();
   }
   // Run now if DOM is already parsed (script at end of body); otherwise wait.
   if (document.readyState === 'loading') {

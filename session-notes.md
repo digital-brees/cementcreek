@@ -5,7 +5,38 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-21
-**Status:** v10.2 — Team page shipped + homepage polish:
+**Status:** v11.2 — Services page + homepage FAQ section shipped, with seam/shadow polish + Intentional orb tuned.
+
+**v11.2 (2026-05-21) — Section seam + Intentional orb polish**
+  - **Wave divider relocated:** `.services-strip::after` was painting an ink-deep wavy edge that — after FAQ was inserted — was bleeding into a same-color FAQ instead of into the dark closer. Wave moved to `.faq::after` so it now sits between the warm-paper FAQ and the dark closer (where the ink-deep fill is meaningful).
+  - **Services-strip bottom padding trimmed:** removed the `padding-bottom: clamp(5.5rem, 9vw, 8rem)` override that existed only to clear the (now-removed) wave divider. Block padding is symmetric `clamp(3rem, 5vw, 4.5rem)` again — no more dead-cream zone below the cards.
+  - **Service-card shadow softened:** scoped override on `.service-card.photo-print` (doesn't affect other `.photo-print` users). y-offset 18 → 10px, blur 40 → 28px, opacity 0.06/0.08 → 0.04/0.05. The "two-color" band the cards' shadows pooled into the bg is gone. Hover shadow kept slightly stronger so the lift feel survives.
+  - **Intentional orb tuned:** the cyan seafoam vignette `.intentional::before` was competing with the wavy separator at the top of the section. Now:
+    - Color: `var(--creek)` (cyan) → `var(--paper-deep)` (warm tan). Reads as a soft warm pool of light instead of a seafoam wash.
+    - Position: `top: -20%` → `top: 15%`. Drops fully inside the section, no longer crosses the wavy separator. Width 60% → 65%, left 65% → 60%.
+    - Opacity: 0.20 → 0.85, blur 120px → 140px. Compensates for the much smaller tonal delta between paper-deep and paper-warm so the burst still reads.
+
+**v11.1 (2026-05-21) — Homepage FAQ section**
+  - **Placement:** new `<section class="faq">` inserted between Services strip and Closer in `index.html`. Section bg `--paper-warm` (cohesive with Services strip — single warm band before the dark closer).
+  - **Layout:** editorial side-by-side. Sticky title block LEFT (`.faq__intro` at `position: sticky; top: 140px`) holds eyebrow "Frequently asked" + headline "Got questions? *We have answers.*" + closing line ("Still on your mind? Reach out anytime…") + ghost CTA "Contact us" → `contact.html` (data-todo for route confirmation). Accordion of 6 Q&As fills the right column.
+  - **Accordion:** native `<details>/<summary>` — accessible by default, JS-free, multiple can be open at once. Hairline top/bottom rules on every `.faq__item`. Plus icon (SVG with horizontal + vertical lines) rotates 45° on open to become an X. Open state colors the question + icon `--creek-deep`. Soft fade-in animation on the answer body.
+  - **Copy:** all 6 Q&As verbatim from `Cement Creek - FAQ page.pdf`. Em-dashes (—) and en-dashes (–) preserved as in source. The Q4 "[Learn more or contribute →]" rendered as a real inline link to `heart-fund.html` (placeholder with data-todo) styled with `--creek-deep` color + underline.
+  - **Creek route:** new section participates in the page-creek with `data-creek-x-top="85" data-creek-points="55" data-creek-x-bot="85"` — bows leftward to x=55 (mid-page, under the sticky title block) then sweeps back right to x=85 to continue into the closer. Adds visual character without breaking flow.
+  - **Mobile (<900px):** columns stack to single column, sticky position dropped, closing-line max-width relaxed.
+
+**v11 (2026-05-21) — Services page (`services.html`)**
+  - **Layout pattern:** sticky service menu LEFT (~280px) + focus pane RIGHT, one panel visible at a time. Page is intentionally short (~1.5 viewports total) — the menu pins on desktop so all 10 services stay one click away. Picked over tabbed / grid+expand / grid+drawer per Brees' "doesn't scroll forever" requirement.
+  - **Hero:** `.page-hero--banner` variant (matches team.html) with new `.page-hero--services` modifier overriding the bg image to `services-page-hero.jpg` (black cat on exam table with painted butterfly mural behind, optimized from 4284×5712 → 1600×2133, JPEG 85). `background-position: center 50%` after iteration (38% put the cat too low, 62% too high). Headline: "Care built *around your pet.*"
+  - **Menu** (`.services-menu`): vertical list of 10 numbered services with hairline left border, hover bg, active state = ink color + bold + creek-cyan wavy mark to the left + tabular numeric. Active item also gets a soft creek-tinted bg. ARIA `role=tablist` with `aria-selected`, keyboard arrow nav (Up/Down/Left/Right + Home/End), and hash deep-linking (`/services.html#dentistry` opens that service).
+  - **Focus pane** (`.services-focus` + `.services-panel`): 380px image left (3:4 native ratio) + copy right. Eyebrow "Care we provide" + h3 title + verbatim copy + ghost CTA. Panels swap with a soft fade animation.
+  - **Mobile (<900px):** layout collapses to single column. The menu becomes a horizontal scroll pill rail at the top (rounded pills, ink-fill on active, edge-bleed for scroll affordance). Panel image becomes 4:3 capped at 520px.
+  - **Verbatim copy** for all 10 services (Happy Visits, Wellness, Dentistry, Surgery, Diagnostics, Therapeutic Laser, Urgent Care, Microchipping, End of Life Care, Pharmacy). Dentistry's "[Before and after photos]" rendered as a styled `.services-panel__note` placeholder with `data-todo`. Pharmacy's "[Login or order here →]" became the CTA.
+  - **CTAs per service:** each panel has a context-appropriate CTA — "Book a Happy Visit", "Book a wellness visit", "Schedule a dental consult", "Talk to us about surgery", "Book a diagnostic visit", "Ask about laser therapy", "Call or text us" (tel: link), "Add it to your next visit", "Reach out when you're ready", "Log in or order online". All flagged with `data-todo` for real URLs.
+  - **Images:** reuses existing `service-*.jpg` files from the homepage rail (Shutterstock photos already optimized 3:4 / 900px / 85% JPEG).
+  - **Section flow:** page-hero (paper) → services-page (paper-warm) → wave-divider → closer (ink-deep, "Whatever your pet needs — *we'll figure it out together.*"). Closer headline echoes the Happy Visits copy phrase to weave brand voice back in.
+  - **JS** (`initServicesPage`): button click swaps `.is-active` on tabs + panels, updates `aria-selected` + `tabindex`, sets/clears `hidden` on panels, updates URL hash. Arrow-key navigation moves focus between tabs and activates the new one.
+
+**v10.2 — Team page shipped + homepage polish:**
   - **`team.html` created** with full nav/footer partials, wavy-bottom banner hero (full-width team-page-hero.jpg from Drive, dark scrim, wavy creek-bank bottom edge into the team section), two founder cards (image / name / title / verbatim intro / `<details>` expand-bio toggle / dog-breed Q&A), and the dark closer CTA. Bios match Brees' supplied first-person text 1:1.
   - **Founder portraits** wired in: `founder-kara.jpg` + `founder-shawna.jpg` from local uploads, optimized to 1200px. Hero banner uses `team-page-hero.jpg` (cropped 1920x820 from Drive file `1lK8tVzlxSRTxoTgr5G8A11h9ZICMqS0u`).
   - **Bio cards equal-height JS** (`initFounderCardHeights`): measures both cards on load + resize, sets `min-height` to the tallest. When one bio opens, only that card grows past min-height; the other stays put. Grid uses `align-items: start` (no sympathy-stretching).

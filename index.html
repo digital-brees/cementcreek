@@ -489,6 +489,219 @@
 
 
     <!-- ========================================================
+         FAQ — editorial side-by-side. Sticky title block on the
+         LEFT ('Got questions? We have answers.' + close + CTA),
+         accordion of six Q&As on the RIGHT. Page barely grows
+         vertically when answers expand because only the right
+         column changes height. Copy is verbatim from the FAQ PDF.
+
+         Creek detour: enters from services at x=85, bows left
+         to x=55 over the title column, comes back to x=85 to
+         continue into the closer.
+         ======================================================== -->
+    <section class="faq" aria-labelledby="faq-title"
+             data-creek-x-top="85"
+             data-creek-points="55"
+             data-creek-x-bot="85">
+      <div class="container">
+        <div class="faq__grid">
+
+          <!-- LEFT — sticky title block -->
+          <header class="faq__intro">
+            <span class="eyebrow" data-reveal>Frequently asked</span>
+            <h2 class="faq__title" id="faq-title" data-reveal>
+              Got questions? <em>We have answers.</em>
+            </h2>
+            <p class="faq__closing" data-reveal>
+              Still on your mind? Reach out anytime &ndash; we'd rather hear from
+              you than have you wondering.
+            </p>
+            <div data-reveal>
+              <a href="contact.html" class="btn btn--ghost btn--arrow" data-todo="Confirm contact route">Contact us</a>
+            </div>
+          </header>
+
+          <!-- RIGHT — accordion of Q&As. Native <details>/<summary>
+               so it's accessible + JS-free. Multiple answers can be
+               open at once. -->
+          <div class="faq__list">
+
+            <!-- Q1 — First visit -->
+            <details class="faq__item" data-reveal>
+              <summary class="faq__q">
+                <span>What can I expect at my first visit?</span>
+                <svg class="faq__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                  <line x1="10" y1="3" x2="10" y2="17"/>
+                  <line x1="3" y1="10" x2="17" y2="10"/>
+                </svg>
+              </summary>
+              <div class="faq__a">
+                <p>
+                  Your first visit starts before you walk in. Once your appointment
+                  is scheduled, we'll send you a registration form to complete
+                  digitally &mdash; it covers the important details about your pet
+                  so we can hit the ground running when you arrive. A few days
+                  before your appointment, we'll also send relevant information by
+                  text: what to expect, the science behind any vaccines or tests
+                  your pet might be due for, anything worth knowing ahead of time.
+                  You show up informed, not handed a pamphlet in the lobby.
+                </p>
+                <p>
+                  When you walk in, we know your name. The exam itself isn't a
+                  15-minute checklist &mdash; you'll meet your veterinarian, talk
+                  through what we're seeing, what's coming, and what your pet
+                  might need over the next year. If we recommend anything beyond
+                  the wellness check, we'll tell you what and why.
+                </p>
+              </div>
+            </details>
+
+            <!-- Q2 — Staying with your pet -->
+            <details class="faq__item" data-reveal>
+              <summary class="faq__q">
+                <span>Can I stay with my dog or cat the whole time?</span>
+                <svg class="faq__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                  <line x1="10" y1="3" x2="10" y2="17"/>
+                  <line x1="3" y1="10" x2="17" y2="10"/>
+                </svg>
+              </summary>
+              <div class="faq__a">
+                <p>
+                  Yes, mostly. For routine appointments we start and finish with
+                  you in the room. Occasionally we need to bring your pet to our
+                  treatment area for tests or treatments but will discuss this with
+                  you at the time. Anesthesia, surgery, dental procedures, and some
+                  treatments require a controlled environment, so we'll take your
+                  pet to our treatment area for those. Nothing about your pet's
+                  care will be hidden from you &mdash; we'll always tell you what's
+                  happening and why.
+                </p>
+              </div>
+            </details>
+
+            <!-- Q3 — Anxious pets -->
+            <details class="faq__item" data-reveal>
+              <summary class="faq__q">
+                <span>What if my dog or cat is anxious at the vet?</span>
+                <svg class="faq__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                  <line x1="10" y1="3" x2="10" y2="17"/>
+                  <line x1="3" y1="10" x2="17" y2="10"/>
+                </svg>
+              </summary>
+              <div class="faq__a">
+                <p>
+                  Anxious pets are a big part of why we built this place the way
+                  we did. We offer happy visits &mdash; no exam, no treatment,
+                  just a chance for your dog or cat to come in, see the space,
+                  meet the team, get a treat, and head home before anything
+                  stressful happens. Our cat area is a separate, quiet space away
+                  from dogs (because cats have opinions about that). Exams happen
+                  on the floor, outside, in the parking lot &mdash; wherever your
+                  pet is most comfortable.
+                </p>
+                <p>
+                  If you know your pet is nervous at the vet, tell us when you
+                  book. We'll plan for it: longer appointment, quieter room,
+                  slower pace, medication considerations, and of course, lots of
+                  treats.
+                </p>
+              </div>
+            </details>
+
+            <!-- Q4 — Affordability -->
+            <details class="faq__item" data-reveal>
+              <summary class="faq__q">
+                <span>What if I can't afford the recommended treatment?</span>
+                <svg class="faq__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                  <line x1="10" y1="3" x2="10" y2="17"/>
+                  <line x1="3" y1="10" x2="17" y2="10"/>
+                </svg>
+              </summary>
+              <div class="faq__a">
+                <p>
+                  You're not the first to ask, and you won't be the last
+                  &mdash; no judgment here. We'll always walk you through
+                  options: the most comprehensive plan, something that fits your
+                  budget, or a step-by-step approach over time. We'll tell you
+                  honestly what we'd choose for our own pets, but the decision is
+                  always yours.
+                </p>
+                <p>
+                  We accept CareCredit, Klarna, Cherry payment plans, and all
+                  major credit cards. We'll always review a full estimate with you
+                  before we do anything.
+                </p>
+                <p>
+                  We also established the Heart Dog &amp; Cat Fund for pets whose
+                  families need a little extra support. The Fund is currently
+                  pursuing 501(c)3 status &mdash; meaning donations may become tax
+                  deductible soon.
+                  <a href="heart-fund.html" class="faq__inline-link" data-todo="Heart Dog &amp; Cat Fund destination">Learn more or contribute &rarr;</a>
+                </p>
+                <p>Or just ask us about it at your next visit.</p>
+              </div>
+            </details>
+
+            <!-- Q5 — Why is vet care expensive -->
+            <details class="faq__item" data-reveal>
+              <summary class="faq__q">
+                <span>Why is veterinary care so expensive?</span>
+                <svg class="faq__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                  <line x1="10" y1="3" x2="10" y2="17"/>
+                  <line x1="3" y1="10" x2="17" y2="10"/>
+                </svg>
+              </summary>
+              <div class="faq__a">
+                <p>
+                  It's a fair question and one we'd rather answer honestly than
+                  dodge. Over the past decade, corporate consolidation has
+                  changed the veterinary industry significantly &mdash; large
+                  corporations have acquired clinics across the country and
+                  benefit from subsidized pricing on everything from medications
+                  to equipment that independent practices simply don't have
+                  access to.
+                </p>
+                <p>
+                  Cement Creek Veterinary Hospital is independently owned. That
+                  means we pay market rate for everything, and our pricing
+                  reflects the actual cost of providing high quality care. We
+                  keep our prices fair, we'll always be transparent about them,
+                  and we're not here to nickel and dime you. We're here because
+                  we love this community and the animals in it &ndash; and we
+                  need to keep the lights on to keep doing that.
+                </p>
+              </div>
+            </details>
+
+            <!-- Q6 — Switching vets -->
+            <details class="faq__item" data-reveal>
+              <summary class="faq__q">
+                <span>How do I switch to Cement Creek from my current vet?</span>
+                <svg class="faq__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                  <line x1="10" y1="3" x2="10" y2="17"/>
+                  <line x1="3" y1="10" x2="17" y2="10"/>
+                </svg>
+              </summary>
+              <div class="faq__a">
+                <p>
+                  Easier than you'd think. Just schedule an initial wellness exam
+                  and let us know who your current vet is &mdash; we'll request
+                  your pet's medical records directly so our team can review
+                  their history before you arrive. That way we can spend your
+                  appointment actually getting to know you and your pet, not
+                  playing catch-up on paperwork.
+                </p>
+              </div>
+            </details>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================
          CLOSER
          ======================================================== -->
     <section class="closer" aria-labelledby="closer-title"

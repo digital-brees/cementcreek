@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — Cement Creek Veterinary Hospital</title>
+  <meta name="description" content="Honest medicine, real conversations, and care built around your pet. From happy visits and wellness exams to dentistry, surgery, diagnostics, urgent care, and end-of-life support — all under one roof in Crested Butte South." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="icon" type="image/png" href="assets/CEMENT CREEK MAIN LOGO_BADGE.png" />
+</head>
+<body>
+
+  <div id="global-header"></div>
+
+  <main>
+
+    <!-- ========================================================
+         PAGE HERO — banner variant. Full-bleed cat-on-exam-table
+         photo behind a left-weighted dark scrim, with the
+         headline overlaid in cream. Wavy-bottom divider flows
+         into the paper-warm services section below.
+         Same pattern team.html uses, with the services-specific
+         bg image swapped in via .page-hero--services.
+         ======================================================== -->
+    <section class="page-hero page-hero--banner page-hero--services" aria-labelledby="services-hero-title">
+      <div class="container page-hero__inner">
+        <span class="eyebrow eyebrow--on-dark" data-reveal>What we do</span>
+        <h1 class="page-hero__title" id="services-hero-title" data-reveal>
+          Care built <em>around your pet.</em>
+        </h1>
+        <p class="page-hero__lede" data-reveal>
+          Ten services, one philosophy &ndash; honest medicine, real conversations,
+          and care that meets every pet where they are.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SERVICES — sticky menu on the LEFT, single focus
+         panel on the RIGHT. Click a menu item to swap the
+         focus pane. The page itself barely scrolls — the
+         menu pins to the viewport on desktop so all 10
+         services stay one click away.
+
+         Mobile (< 900px): the menu becomes a horizontal
+         pill rail at the top, focus pane stacks beneath.
+         ======================================================== -->
+    <section class="services-page" aria-labelledby="services-section-title">
+      <h2 class="visually-hidden" id="services-section-title">All services</h2>
+      <div class="container">
+        <div class="services-page__layout">
+
+          <!-- LEFT: sticky menu -->
+          <nav class="services-menu" aria-label="Service categories">
+            <span class="eyebrow services-menu__label" data-reveal>Browse services</span>
+            <ol class="services-menu__list" role="tablist" aria-orientation="vertical">
+
+              <li role="presentation">
+                <button class="services-menu__item is-active"
+                        role="tab" aria-selected="true"
+                        aria-controls="panel-happy-visits" id="tab-happy-visits"
+                        data-service="happy-visits">
+                  <span class="services-menu__num" aria-hidden="true">01</span>
+                  <span class="services-menu__name">Happy Visits</span>
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="services-menu__item"
+                        role="tab" aria-selected="false" tabindex="-1"
+                        aria-controls="panel-wellness" id="tab-wellness"
+                        data-service="wellness">
+                  <span class="services-menu__num" aria-hidden="true">02</span>
+                  <span class="services-menu__name">Wellness &amp; Preventive Care</span>
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="services-menu__item"
+                        role="tab" aria-selected="false" tabindex="-1"
+                        aria-controls="panel-dentistry" id="tab-dentistry"
+                        data-service="dentistry">
+                  <span class="services-menu__num" aria-hidden="true">03</span>
+                  <span class="services-menu__name">Dentistry</span>
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="services-menu__item"
+                        role="tab" aria-selected="false" tabindex="-1"
+                        aria-controls="panel-surgery" id="tab-surgery"
+                        data-service="surgery">
+                  <span class="services-menu__num" aria-hidden="true">04</span>
+                  <span class="services-menu__name">Surgery</span>
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="services-menu__item"
+                        role="tab" aria-selected="false" tabindex="-1"
+                        aria-controls="panel-diagnostics" id="tab-diagnostics"
+                        data-service="diagnostics">
+                  <span class="services-menu__num" aria-hidden="true">05</span>
+                  <span class="services-menu__name">Diagnostics</span>
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="services-menu__item"
+                        role="tab" aria-selected="false" tabindex="-1"
+                        aria-controls="panel-laser" id="tab-laser"
+                        data-service="laser">
+                  <span class="services-menu__num" aria-hidden="true">06</span>
+                  <span class="services-menu__name">Therapeutic Laser</span>
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="services-menu__item"
+                        role="tab" aria-selected="false" tabindex="-1"
+                        aria-controls="panel-urgent-care" id="tab-urgent-care"
+                        data-service="urgent-care">
+                  <span class="services-menu__num" aria-hidden="true">07</span>
+                  <span class="services-menu__name">Urgent Care</span>
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="services-menu__item"
+                        role="tab" aria-selected="false" tabindex="-1"
+                        aria-controls="panel-microchipping" id="tab-microchipping"
+                        data-service="microchipping">
+                  <span class="services-menu__num" aria-hidden="true">08</span>
+                  <span class="services-menu__name">Microchipping</span>
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="services-menu__item"
+                        role="tab" aria-selected="false" tabindex="-1"
+                        aria-controls="panel-end-of-life" id="tab-end-of-life"
+                        data-service="end-of-life">
+                  <span class="services-menu__num" aria-hidden="true">09</span>
+                  <span class="services-menu__name">End of Life Care</span>
+                </button>
+              </li>
+              <li role="presentation">
+                <button class="services-menu__item"
+                        role="tab" aria-selected="false" tabindex="-1"
+                        aria-controls="panel-pharmacy" id="tab-pharmacy"
+                        data-service="pharmacy">
+                  <span class="services-menu__num" aria-hidden="true">10</span>
+                  <span class="services-menu__name">Pharmacy</span>
+                </button>
+              </li>
+
+            </ol>
+          </nav>
+
+          <!-- RIGHT: focus pane. One <article> per service; only
+               .is-active is displayed. Copy is verbatim from
+               the client. -->
+          <div class="services-focus">
+
+            <!-- 01 — HAPPY VISITS -->
+            <article class="services-panel is-active"
+                     role="tabpanel" tabindex="0"
+                     aria-labelledby="tab-happy-visits"
+                     id="panel-happy-visits"
+                     data-service-panel="happy-visits">
+              <figure class="services-panel__media">
+                <img src="assets/images/service-happy-visits.jpg"
+                     alt="A young golden retriever puppy exploring a grassy field"
+                     loading="lazy" />
+              </figure>
+              <div class="services-panel__body">
+                <span class="eyebrow">Care we provide</span>
+                <h3 class="services-panel__title">Happy Visits</h3>
+                <p class="services-panel__copy">
+                  Happy visits are for anxious pets, reactive pets, new puppies and
+                  kittens &ndash; and honestly, any pet or owner who would benefit
+                  from seeing the place before their first appointment. No exam, no
+                  treatment, no pressure. Just a chance to walk in, meet the team,
+                  get a treat, and head home on a good note. Whatever your pet
+                  needs to feel comfortable here, we'll figure it out together and
+                  come up with a gameplan for the future.
+                </p>
+                <a href="#" class="btn btn--ghost btn--arrow services-panel__cta" data-todo="Book a Happy Visit URL">Book a Happy Visit</a>
+              </div>
+            </article>
+
+            <!-- 02 — WELLNESS & PREVENTIVE CARE -->
+            <article class="services-panel"
+                     role="tabpanel" tabindex="0" hidden
+                     aria-labelledby="tab-wellness"
+                     id="panel-wellness"
+                     data-service-panel="wellness">
+              <figure class="services-panel__media">
+                <img src="assets/images/service-wellness.jpg"
+                     alt="A healthy German Shepherd with a bright, happy expression"
+                     loading="lazy" />
+              </figure>
+              <div class="services-panel__body">
+                <span class="eyebrow">Care we provide</span>
+                <h3 class="services-panel__title">Wellness &amp; Preventive Care</h3>
+                <p class="services-panel__copy">
+                  Good preventive care is built on two things: knowing your pet and
+                  knowing the science. We take both seriously. Wellness visits are
+                  where we establish that foundation &ndash; getting to know your
+                  dog or cat over time, staying ahead of what's coming, and making
+                  sure you always understand why we're recommending what we're
+                  recommending.
+                </p>
+                <a href="#" class="btn btn--ghost btn--arrow services-panel__cta" data-todo="Book a wellness visit URL">Book a wellness visit</a>
+              </div>
+            </article>
+
+            <!-- 03 — DENTISTRY -->
+            <article class="services-panel"
+                     role="tabpanel" tabindex="0" hidden
+                     aria-labelledby="tab-dentistry"
+                     id="panel-dentistry"
+                     data-service-panel="dentistry">
+              <figure class="services-panel__media">
+                <img src="assets/images/service-dentistry.jpg"
+                     alt="A happy golden retriever showing off a bright, healthy smile"
+                     loading="lazy" />
+              </figure>
+              <div class="services-panel__body">
+                <span class="eyebrow">Care we provide</span>
+                <h3 class="services-panel__title">Dentistry</h3>
+                <p class="services-panel__copy">
+                  Dental disease is the thing we wish more pet owners knew about
+                  earlier. Most pets have some degree of it by age three, and most
+                  of them won't show it. That's why we built a dedicated dental
+                  suite with digital dental imaging &ndash; so we can see exactly
+                  what's happening below the gumline, not just guess at it.
+                </p>
+                <aside class="services-panel__note" data-todo="Add before/after dental photos when received">
+                  Before &amp; after photos coming soon.
+                </aside>
+                <a href="#" class="btn btn--ghost btn--arrow services-panel__cta" data-todo="Schedule a dental consult URL">Schedule a dental consult</a>
+              </div>
+            </article>
+
+            <!-- 04 — SURGERY -->
+            <article class="services-panel"
+                     role="tabpanel" tabindex="0" hidden
+                     aria-labelledby="tab-surgery"
+                     id="panel-surgery"
+                     data-service-panel="surgery">
+              <figure class="services-panel__media">
+                <img src="assets/images/service-surgery.jpg"
+                     alt="Sterile surgical instruments laid out on a green operating drape"
+                     loading="lazy" />
+              </figure>
+              <div class="services-panel__body">
+                <span class="eyebrow">Care we provide</span>
+                <h3 class="services-panel__title">Surgery</h3>
+                <p class="services-panel__copy">
+                  We know surgery can be stressful. We're obsessive about keeping
+                  you in the loop from drop-off to pick-up: text updates along the
+                  way, a call when your pet is in recovery, and we stay with them
+                  until they're ready to go home. No news is not good news here
+                  &ndash; we'll always reach out.
+                </p>
+                <a href="#" class="btn btn--ghost btn--arrow services-panel__cta" data-todo="Talk to us about surgery URL">Talk to us about surgery</a>
+              </div>
+            </article>
+
+            <!-- 05 — DIAGNOSTICS -->
+            <article class="services-panel"
+                     role="tabpanel" tabindex="0" hidden
+                     aria-labelledby="tab-diagnostics"
+                     id="panel-diagnostics"
+                     data-service-panel="diagnostics">
+              <figure class="services-panel__media">
+                <img src="assets/images/service-diagnostics.jpg"
+                     alt="Ultrasound scan printouts from a modern diagnostic machine"
+                     loading="lazy" />
+              </figure>
+              <div class="services-panel__body">
+                <span class="eyebrow">Care we provide</span>
+                <h3 class="services-panel__title">Diagnostics</h3>
+                <p class="services-panel__copy">
+                  Digital radiography, ultrasound imaging, in-house bloodwork,
+                  urinalysis, cytology, and more. When something's off, we run
+                  the tests right here. Many results come back within the same
+                  visit &ndash; because waiting days for answers when your pet
+                  doesn't feel well isn't good enough.
+                </p>
+                <a href="#" class="btn btn--ghost btn--arrow services-panel__cta" data-todo="Book a diagnostic visit URL">Book a diagnostic visit</a>
+              </div>
+            </article>
+
+            <!-- 06 — THERAPEUTIC LASER -->
+            <article class="services-panel"
+                     role="tabpanel" tabindex="0" hidden
+                     aria-labelledby="tab-laser"
+                     id="panel-laser"
+                     data-service-panel="laser">
+              <figure class="services-panel__media">
+                <img src="assets/images/service-laser.jpg"
+                     alt="A husky snuggled in a soft blanket, comfortable and at rest"
+                     loading="lazy" />
+              </figure>
+              <div class="services-panel__body">
+                <span class="eyebrow">Care we provide</span>
+                <h3 class="services-panel__title">Therapeutic Laser</h3>
+                <p class="services-panel__copy">
+                  Therapeutic laser uses targeted light energy to reduce
+                  inflammation, relieve pain, and accelerate healing. We use it
+                  for post-surgical recovery, wound care, and a range of
+                  musculoskeletal conditions. It's non-invasive, well-tolerated
+                  by most pets, and often makes a noticeable difference &ndash;
+                  especially for older dogs and cats managing chronic pain.
+                </p>
+                <a href="#" class="btn btn--ghost btn--arrow services-panel__cta" data-todo="Ask about laser therapy URL">Ask about laser therapy</a>
+              </div>
+            </article>
+
+            <!-- 07 — URGENT CARE -->
+            <article class="services-panel"
+                     role="tabpanel" tabindex="0" hidden
+                     aria-labelledby="tab-urgent-care"
+                     id="panel-urgent-care"
+                     data-service-panel="urgent-care">
+              <figure class="services-panel__media">
+                <img src="assets/images/service-urgent-care.jpg"
+                     alt="A calm dog resting attentively indoors"
+                     loading="lazy" />
+              </figure>
+              <div class="services-panel__body">
+                <span class="eyebrow">Care we provide</span>
+                <h3 class="services-panel__title">Urgent Care</h3>
+                <p class="services-panel__copy">
+                  Life with pets doesn't always stay on schedule. We see urgent
+                  cases during business hours &ndash; the things that can't wait
+                  for a regular appointment but don't require an emergency
+                  hospital. If you're not sure whether what you're dealing with
+                  counts, call or text us and we'll help you figure it out.
+                </p>
+                <a href="tel:" class="btn btn--ghost btn--arrow services-panel__cta" data-todo="Phone number for urgent care line">Call or text us</a>
+              </div>
+            </article>
+
+            <!-- 08 — MICROCHIPPING -->
+            <article class="services-panel"
+                     role="tabpanel" tabindex="0" hidden
+                     aria-labelledby="tab-microchipping"
+                     id="panel-microchipping"
+                     data-service-panel="microchipping">
+              <figure class="services-panel__media">
+                <img src="assets/images/service-microchip.jpg"
+                     alt="A small kitten cradled gently in human hands"
+                     loading="lazy" />
+              </figure>
+              <div class="services-panel__body">
+                <span class="eyebrow">Care we provide</span>
+                <h3 class="services-panel__title">Microchipping</h3>
+                <p class="services-panel__copy">
+                  Quick, simple, and one of the best things you can do for your
+                  pet. A microchip is permanent identification that stays with
+                  them for life. We can add it to any visit.
+                </p>
+                <a href="#" class="btn btn--ghost btn--arrow services-panel__cta" data-todo="Add microchipping to your next visit URL">Add it to your next visit</a>
+              </div>
+            </article>
+
+            <!-- 09 — END OF LIFE CARE -->
+            <article class="services-panel"
+                     role="tabpanel" tabindex="0" hidden
+                     aria-labelledby="tab-end-of-life"
+                     id="panel-end-of-life"
+                     data-service-panel="end-of-life">
+              <figure class="services-panel__media">
+                <img src="assets/images/service-end-of-life.jpg"
+                     alt="A senior dog resting peacefully"
+                     loading="lazy" />
+              </figure>
+              <div class="services-panel__body">
+                <span class="eyebrow">Care we provide</span>
+                <h3 class="services-panel__title">End of Life Care</h3>
+                <p class="services-panel__copy">
+                  Saying goodbye to a pet is one of the hardest things we do
+                  &ndash; for you, and honestly, for us too. We approach end of
+                  life care with the same honesty and intention we bring to
+                  everything else: helping you understand what your pet is
+                  experiencing, what your options are, and making sure that when
+                  the time comes, it happens with dignity and without rush. You
+                  don't have to navigate this alone.
+                </p>
+                <a href="#" class="btn btn--ghost btn--arrow services-panel__cta" data-todo="End-of-life conversation URL or contact route">Reach out when you're ready</a>
+              </div>
+            </article>
+
+            <!-- 10 — PHARMACY -->
+            <article class="services-panel"
+                     role="tabpanel" tabindex="0" hidden
+                     aria-labelledby="tab-pharmacy"
+                     id="panel-pharmacy"
+                     data-service-panel="pharmacy">
+              <figure class="services-panel__media">
+                <img src="assets/images/service-pharmacy.jpg"
+                     alt="A white pharmacy bottle with capsules"
+                     loading="lazy" />
+              </figure>
+              <div class="services-panel__body">
+                <span class="eyebrow">Care we provide</span>
+                <h3 class="services-panel__title">Pharmacy</h3>
+                <p class="services-panel__copy">
+                  We keep the medications we trust stocked in-house, so you can
+                  leave with what your pet needs the same day &ndash; no waiting,
+                  no extra trips. Prefer the convenience of home delivery? Our
+                  online pharmacy is available anytime.
+                </p>
+                <a href="#" class="btn btn--ghost btn--arrow services-panel__cta" data-todo="Online pharmacy login / order URL">Log in or order online</a>
+              </div>
+            </article>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         CLOSER — same dark CTA band as homepage + team page so
+         every page closes the same way.
+         Headline echoes a phrase from the Happy Visits copy
+         ("we'll figure it out together") to thread the voice
+         from a service back into the brand.
+         ======================================================== -->
+    <section class="closer" aria-labelledby="services-closer-title">
+      <div class="container container--narrow">
+        <h2 class="closer__title" id="services-closer-title" data-reveal>
+          Whatever your pet needs &ndash; <em>we'll figure it out together.</em>
+        </h2>
+        <div data-reveal>
+          <a href="#" class="btn closer__cta btn--primary btn--arrow" data-todo="Book your visit URL">Book your visit</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="global-footer"></div>
+
+  <script src="includes/load-partials.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>

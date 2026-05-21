@@ -920,11 +920,17 @@ p:last-child { margin-bottom: 0; }
   position: relative; overflow: hidden;
 }
 .intentional::before {
-  /* soft warm "vignette" so the section has depth, not flatness */
+  /* Soft warm "pool of light" on the right side. Dropped fully
+     inside the section (top: 15%) so it no longer crosses the
+     wavy separator at the seam — separator + burst now read as
+     two distinct, intentional moments instead of competing.
+     Color shifted from creek-cyan to a warm paper-deep tan so
+     it blends into the warm-cream surface rather than feeling
+     like a seafoam wash. */
   content: ''; position: absolute;
-  top: -20%; left: 65%; width: 60%; aspect-ratio: 1;
-  background: var(--creek); border-radius: 50%;
-  filter: blur(120px); opacity: 0.20; pointer-events: none; z-index: 0;
+  top: 15%; left: 60%; width: 65%; aspect-ratio: 1;
+  background: var(--paper-deep); border-radius: 50%;
+  filter: blur(140px); opacity: 0.85; pointer-events: none; z-index: 0;
 }
 .intentional > .container { position: relative; z-index: 1; }
 
@@ -1247,29 +1253,18 @@ p:last-child { margin-bottom: 0; }
   background: var(--paper-warm);
   position: relative;
   padding-block: clamp(3rem, 5vw, 4.5rem);
-  /* Bottom padding bumped up so the wave divider has clearance
-     below the cards before the wavy edge starts. */
-  padding-bottom: clamp(5.5rem, 9vw, 8rem);
+  /* Wave divider was removed (now lives on .faq::after), so the
+     extra bottom padding it used to need is gone — symmetric
+     block padding now. */
   display: flex;
   flex-direction: column;
 }
 
-/* Wavy section divider into the closer — same pattern as the
-   founders → intentional divider, but filled with ink-deep
-   (the closer's bg color). The wavy top edge of the SVG path
-   becomes the boundary between the warm-paper services area
-   and the dark CTA section below. */
-.services-strip::after {
-  content: '';
-  position: absolute;
-  left: 0; right: 0; bottom: -1px;
-  height: clamp(48px, 7vw, 88px);
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'><path d='M 0 50 C 120 20, 240 60, 360 40 C 480 20, 600 55, 720 35 C 840 15, 960 50, 1080 30 C 1200 10, 1320 50, 1440 35 L 1440 80 L 0 80 Z' fill='%230D2548'/></svg>");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  z-index: 2;
-}
+/* Wave divider removed from services-strip — the FAQ section now
+   sits between services and the closer, so the divider lives on
+   .faq::after instead (see section 17). Both services-strip and
+   FAQ share --paper-warm, so the seam between them is now a clean
+   color-on-color flow. */
 .services-strip > * { position: relative; z-index: 2; }
 
 .services-strip__head {
@@ -1379,6 +1374,20 @@ p:last-child { margin-bottom: 0; }
      overlays the photo bottom with a solid ink scrim. */
 }
 .service-card.photo-print img { aspect-ratio: 3 / 4; }   /* tall pill */
+
+/* Softer card shadow than the base --shadow-md so the row of
+   cards doesn't pool a visible darker band into the cream bg
+   directly below them. Tightened blur + reduced opacity. */
+.service-card.photo-print {
+  box-shadow:
+    0 1px 4px rgba(13, 37, 72, 0.04),
+    0 10px 28px rgba(13, 37, 72, 0.05);
+}
+.service-card.photo-print:hover {
+  box-shadow:
+    0 2px 6px rgba(13, 37, 72, 0.06),
+    0 16px 36px rgba(13, 37, 72, 0.09);
+}
 
 
 /* -----------------------------------------------------------
@@ -1790,6 +1799,15 @@ p:last-child { margin-bottom: 0; }
   color: rgba(244, 235, 218, 0.90);
 }
 
+/* Services-page banner — override bg image to the cat-on-exam-table
+   photo. Position biased toward the lower-middle so the cat's
+   face stays centered in the visible horizontal strip after
+   CSS center-cropping. */
+.page-hero--services {
+  background-image: url('../assets/images/services-page-hero.jpg');
+  background-position: center 50%;
+}
+
 /* Eyebrow on dark — paper-colored text + creek-cyan wave so it
    still reads against the dark scrim. */
 .eyebrow--on-dark {
@@ -2054,3 +2072,438 @@ p:last-child { margin-bottom: 0; }
   color: var(--ink);
   font-weight: 700;
 }
+
+/* -----------------------------------------------------------
+   16 — Services page (services.html)
+   Sticky menu (left) + swappable focus pane (right).
+   Page is intentionally short — the menu pins on desktop so
+   all 10 services are one click away without endless scroll.
+   ----------------------------------------------------------- */
+
+/* Accessibility helper for screen-reader-only headings */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+
+.services-page {
+  background: var(--paper-warm);
+  padding-block: clamp(3rem, 6vw, 5.5rem) clamp(5rem, 9vw, 8rem);
+  position: relative;
+  overflow: hidden;
+}
+/* Wavy divider into the closer below — same SVG + ink-deep fill
+   as the team-section divider, so the seam between the warm-paper
+   services band and the dark CTA reads as a single creek-bank line. */
+.services-page::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: clamp(48px, 7vw, 88px);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'><path d='M 0 50 C 120 20, 240 60, 360 40 C 480 20, 600 55, 720 35 C 840 15, 960 50, 1080 30 C 1200 10, 1320 50, 1440 35 L 1440 80 L 0 80 Z' fill='%230D2548'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Two-column layout — sticky 280px menu, fluid focus pane */
+.services-page__layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) 1fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Sticky menu ---- */
+.services-menu {
+  position: sticky;
+  top: 140px; /* clears the sticky header stack (topbar + main header) */
+  align-self: start;
+  height: fit-content;
+}
+.services-menu__label {
+  display: inline-flex;
+  margin-bottom: 1.25rem;
+  color: var(--stone-warm);
+}
+.services-menu__list {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  border-left: 1px solid rgba(13, 37, 72, 0.10);
+  padding-left: 0.5rem;
+}
+.services-menu__item {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  align-items: baseline;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.65rem 0.85rem 0.65rem 1.5rem;
+  border-radius: 10px;
+  text-align: left;
+  position: relative;
+  color: var(--stone-warm);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.02rem;
+  line-height: 1.25;
+  transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+.services-menu__item:hover {
+  color: var(--ink);
+  background: rgba(157, 215, 229, 0.16);
+}
+.services-menu__item:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.services-menu__item.is-active {
+  color: var(--ink);
+  font-weight: 600;
+  background: rgba(157, 215, 229, 0.20);
+}
+/* Wavy creek-mark dash appears on the left of the active item,
+   echoing the .eyebrow::before treatment used throughout the site. */
+.services-menu__item::before {
+  content: '';
+  position: absolute;
+  left: 0.5rem; top: 50%;
+  transform: translateY(-50%);
+  width: 22px; height: 6px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 8' preserveAspectRatio='none'><path d='M0 4 Q 4 0, 8 4 T 16 4 T 24 4 T 32 4' stroke='%235BA8C0' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+.services-menu__item.is-active::before { opacity: 1; }
+.services-menu__num {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--stone);
+  opacity: 0.7;
+  letter-spacing: 0.02em;
+}
+.services-menu__item.is-active .services-menu__num {
+  color: var(--creek-deep);
+  opacity: 1;
+}
+.services-menu__name {
+  font-size: 1.02rem;
+}
+
+/* ---- Focus pane ---- */
+.services-focus {
+  position: relative;
+  min-height: 480px; /* steadies layout while panels swap */
+}
+.services-panel {
+  display: none;
+  grid-template-columns: minmax(0, 380px) 1fr;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: center;
+  animation: services-fade 0.45s var(--ease-out) both;
+}
+.services-panel.is-active { display: grid; }
+.services-panel[hidden] { display: none; }
+
+@keyframes services-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.services-panel__media {
+  margin: 0;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  background: var(--paper-deep);
+}
+.services-panel__media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.services-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  align-items: flex-start;
+}
+.services-panel__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 1.3rem + 1.8vw, 2.875rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0;
+}
+.services-panel__copy {
+  font-size: var(--fs-body-lg);
+  line-height: 1.65;
+  color: var(--charcoal);
+  margin: 0;
+  max-width: 56ch;
+}
+
+/* Inline note (e.g., "Before & after photos coming soon" on
+   Dentistry). Quiet, italic, small. Sits between copy + CTA. */
+.services-panel__note {
+  font-size: 0.92rem;
+  font-style: italic;
+  color: var(--stone-warm);
+  margin: 0;
+  padding: 0.55rem 0.85rem;
+  background: rgba(157, 215, 229, 0.18);
+  border-radius: 8px;
+}
+
+.services-panel__cta {
+  margin-top: 0.5rem;
+}
+
+/* ---- Mobile: stack the layout, convert menu to a horizontal
+       pill rail at the top. Sticky behavior dropped on mobile to
+       keep the experience uncluttered on small screens. ---- */
+@media (max-width: 900px) {
+  .services-page__layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .services-menu {
+    position: static;
+    margin-bottom: 0.5rem;
+  }
+  .services-menu__label {
+    margin-bottom: 0.75rem;
+  }
+  .services-menu__list {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    border-left: 0;
+    padding-left: 0;
+    gap: 0.4rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--creek-deep) transparent;
+    /* let the rail bleed slightly past the container so users
+       feel it's scrollable */
+    margin-inline: calc(-1 * clamp(1.25rem, 4vw, 2.5rem));
+    padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+    padding-block: 0.25rem 0.75rem;
+    scroll-snap-type: x mandatory;
+  }
+  .services-menu__list::-webkit-scrollbar { height: 6px; }
+  .services-menu__list::-webkit-scrollbar-thumb { background: var(--creek-deep); border-radius: 4px; }
+  .services-menu__item {
+    flex-shrink: 0;
+    padding: 0.55rem 1rem 0.55rem 1.85rem;
+    border: 1px solid rgba(13, 37, 72, 0.12);
+    border-radius: 999px;
+    scroll-snap-align: start;
+    background: var(--paper);
+  }
+  .services-menu__item::before {
+    left: 0.7rem;
+  }
+  .services-menu__item.is-active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .services-menu__item.is-active .services-menu__num {
+    color: var(--creek);
+  }
+  .services-menu__item.is-active::before {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 8' preserveAspectRatio='none'><path d='M0 4 Q 4 0, 8 4 T 16 4 T 24 4 T 32 4' stroke='%239DD7E5' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
+  }
+
+  .services-panel.is-active {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .services-panel__media {
+    aspect-ratio: 4 / 3;
+    max-width: 520px;
+  }
+}
+
+/* -----------------------------------------------------------
+   17 — FAQ (homepage section, between Services and Closer)
+   Editorial side-by-side. Sticky title block LEFT, native
+   <details>/<summary> accordion RIGHT. Page barely grows
+   when answers expand because only the right column changes
+   height.
+   ----------------------------------------------------------- */
+.faq {
+  background: var(--paper-warm);
+  /* Asymmetric block padding so the wavy bottom divider has
+     clearance below the accordion before the wave starts. */
+  padding-block: clamp(4rem, 8vw, 7rem) clamp(5.5rem, 9vw, 8rem);
+  position: relative;
+  overflow: hidden;
+}
+.faq > .container {
+  position: relative;
+  z-index: 1; /* above page-creek SVG */
+}
+
+/* Wavy divider into the closer — same SVG + ink-deep fill as
+   the team-section / services-page dividers, so the seam between
+   the warm-paper FAQ and the dark CTA reads as one creek-bank
+   silhouette across the site. */
+.faq::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: clamp(48px, 7vw, 88px);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'><path d='M 0 50 C 120 20, 240 60, 360 40 C 480 20, 600 55, 720 35 C 840 15, 960 50, 1080 30 C 1200 10, 1320 50, 1440 35 L 1440 80 L 0 80 Z' fill='%230D2548'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.faq__grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) 1fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: start;
+}
+
+/* Sticky title block on the left */
+.faq__intro {
+  position: sticky;
+  top: 140px; /* clears sticky header stack */
+  align-self: start;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.faq__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0.25rem 0 0;
+}
+.faq__title em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ink);
+}
+.faq__closing {
+  font-size: 1.0625rem;
+  color: var(--charcoal);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 32ch;
+}
+.faq__intro .btn {
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+
+/* Accordion list (right column) */
+.faq__list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(13, 37, 72, 0.14);
+}
+.faq__item {
+  border-bottom: 1px solid rgba(13, 37, 72, 0.14);
+}
+.faq__q {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.35rem 0.25rem;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.05rem, 0.95rem + 0.3vw, 1.25rem);
+  line-height: 1.3;
+  color: var(--ink);
+  transition: color 0.2s var(--ease);
+  user-select: none;
+}
+/* Remove default disclosure marker (cross-browser) */
+.faq__q::-webkit-details-marker { display: none; }
+.faq__q::marker { content: ''; }
+.faq__q > span { flex: 1 1 auto; }
+.faq__q:hover { color: var(--creek-deep); }
+.faq__q:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.faq__icon {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  margin-top: 2px;
+  color: var(--ink);
+  transition: transform 0.35s var(--ease);
+}
+.faq__item[open] .faq__icon { transform: rotate(45deg); /* + → x */ }
+.faq__item[open] .faq__q { color: var(--creek-deep); }
+
+/* Answer body */
+.faq__a {
+  padding: 0 0.25rem 1.5rem;
+  color: var(--charcoal);
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  max-width: 64ch;
+}
+.faq__a p { margin: 0 0 1rem; }
+.faq__a p:last-child { margin: 0; }
+.faq__inline-link {
+  color: var(--creek-deep);
+  font-weight: 500;
+  border-bottom: 1px solid currentColor;
+  transition: color 0.2s var(--ease);
+  white-space: nowrap;
+}
+.faq__inline-link:hover { color: var(--ink); }
+
+/* Soft fade when an answer opens */
+.faq__item[open] .faq__a {
+  animation: faq-fade 0.4s var(--ease-out) both;
+}
+@keyframes faq-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile: stack columns, drop sticky behavior */
+@media (max-width: 900px) {
+  .faq__grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  .faq__intro {
+    position: static;
+  }
+  .faq__closing { max-width: none; }
+}
+
+
