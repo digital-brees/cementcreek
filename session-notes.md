@@ -5,7 +5,22 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-21
-**Status:** v11.5 — Team CTA full-width restored, services CTA gets new bg + panel CTAs hidden.
+**Status:** v11.6 — Intentional section gets 5 new Shutterstock images + mobile/tablet responsive fixes.
+
+**v11.6 (2026-05-22) — Intentional images + responsive sweep**
+  - **5 new Intentional tab images** (Shutterstock, downloaded from Brees' Downloads folder + center-cropped to 1200×1200 square to match the existing tab format):
+    - Approach: `2521527625` — owner petting corgi
+    - Care: `2231595833` — Australian cattle dog puppy + adult outdoor
+    - Handling: `2743937969` — tortoiseshell cat inside transport bag
+    - Cats: `2756388057` — white cat meowing with mouth open
+    - Goodbyes: `2552208699` — baby's small hand holding onto dog collar
+    - Alt text updated for each. Team / Visits / Tools images retained from earlier passes.
+  - **Responsive sweep done across mobile (375px), tablet (768px), laptop (1280px) on all 3 pages.** Two issues found + fixed:
+    - **Mobile hero founder signature row** was wrapping with each name in its own flex column (artifact of `display: inline-flex` treating each text node as a separate item). At ≤600px, switched `.hero__signature` to `display: block` so the dash + text flow as natural inline content. Dash gets `vertical-align: middle` + small `top: -1px` nudge.
+    - **Mobile + tablet services menu pills** were getting chunky/tall when names wrapped to 3+ lines (e.g., "Wellness & Preventive Care"). At ≤900px, added `white-space: nowrap` to `.services-menu__name` + tightened `grid-template-columns` and `gap`. Pills now stay single-line; the existing horizontal scroll rail handles overflow.
+  - Other responsive observations (no fixes needed): FAQ accordion stacks correctly on mobile, footer columns collapse cleanly, team founder cards stack vertically, services panel image+text stack correctly, Intentional tab strip scrolls horizontally on narrow screens, both team + services closers render correctly across all viewports.
+
+**v11.5 (2026-05-21) — Team CTA full-width + services CTA new bg + panel CTAs hidden**
 
 **v11.5 (2026-05-21) — Team CTA full-width + services CTA bg + panel CTA cleanup**
   - **Team closer full-width restored:** the canvas-padded version of `team-closer-bg.jpg` (1312×328 with dark side panels) was cropped back out to the original 768×328 dog photo. CSS `background-position` set to `center 35%` so cover-crop keeps the dog visible without dark letterboxing on the sides.

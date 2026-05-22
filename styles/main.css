@@ -648,6 +648,23 @@ p:last-child { margin-bottom: 0; }
   flex-shrink: 0;
 }
 
+/* Mobile: inline-flex was creating artificial column breaks for
+   the "Founded by Dr. Kara Erickson & Shawna Castillo" line —
+   each name got its own column with the "&" floating alone.
+   Switch to block flow at narrow widths so the dash + text flow
+   as natural inline content with sensible line breaks. */
+@media (max-width: 600px) {
+  .hero__signature {
+    display: block;
+  }
+  .hero__signature-mark {
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    position: relative;
+    top: -1px;
+  }
+}
+
 /* -----------------------------------------------------------
    07.5 — Hero media mask (creek-shaped video that bleeds into
    the founders section). Absolutely positioned over the right
@@ -2366,6 +2383,16 @@ p:last-child { margin-bottom: 0; }
     border-radius: 999px;
     scroll-snap-align: start;
     background: var(--paper);
+    /* Pills stay single-line — text wrapping was making pills
+       chunky (3+ lines tall on long names like "Wellness &
+       Preventive Care"). Horizontal scroll handles overflow. */
+    grid-template-columns: 1.5rem auto;
+    gap: 0.4rem;
+    align-items: center;
+  }
+  .services-menu__item .services-menu__name {
+    white-space: nowrap;
+    font-size: 0.95rem;
   }
   .services-menu__item::before {
     left: 0.7rem;
