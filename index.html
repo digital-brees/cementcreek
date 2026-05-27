@@ -16,41 +16,6 @@
 </head>
 <body>
 
-  <!-- Inline SVG defs — the creek-shaped clip-path that masks
-       the hero video. Path is a SMOOTH MEANDERING CREEK BANK:
-       gentle organic waves on the left edge (no zigzag, no teeth)
-       that flow continuously from top to bottom, then sweep
-       out to the right at the bottom — bleeding deep into the
-       top of the founders section so the photo feels like it
-       crosses the seam, not stops at it. Matches Brees'
-       2026-05-19 v7.1 annotation (red-line outline). -->
-  <svg width="0" height="0" style="position: absolute; pointer-events: none;" aria-hidden="true">
-    <defs>
-      <clipPath id="creek-mask" clipPathUnits="objectBoundingBox">
-        <!-- Bottom edge updated 2026-05-20: replaced the single
-             long sweep from (0.34, 0.87) → (1.00, 0.74) with a
-             series of smaller wave humps so the bottom looks
-             like ripples in a creek, not a smooth bank. The
-             left edge (meanders down through y=0.72) is
-             unchanged. -->
-        <path d="
-          M 0.15 0
-          C 0.20 0.06, 0.22 0.13, 0.16 0.20
-          C 0.10 0.28, 0.14 0.37, 0.12 0.46
-          C 0.10 0.55, 0.16 0.63, 0.13 0.72
-          C 0.10 0.80, 0.18 0.85, 0.24 0.86
-          C 0.30 0.87, 0.32 0.93, 0.38 0.89
-          C 0.44 0.85, 0.48 0.93, 0.54 0.89
-          C 0.60 0.85, 0.64 0.91, 0.70 0.86
-          C 0.76 0.81, 0.82 0.85, 0.88 0.81
-          C 0.94 0.77, 0.97 0.76, 1.00 0.74
-          L 1.00 0
-          Z
-        " />
-      </clipPath>
-    </defs>
-  </svg>
-
   <div id="global-header"></div>
 
   <main>
@@ -58,62 +23,43 @@
     <!-- Page-creek watermark removed — see scripts/main.js + main.css. -->
 
     <!-- ========================================================
-         HERO — text only (left column). The video lives in the
-         sibling <aside class="hero-media-mask"> directly below,
-         which is absolutely positioned so it spans across both
-         the hero AND the top of the founders section, with a
-         creek-shaped clip-path on its left edge.
-
-         The hero no longer has data-creek attrs — the animated
-         SVG creek starts at the founders section (where it
-         emerges, drifts right, weaves through the page, etc).
+         HERO — full-width cinematic video banner (2026-05-27).
+         Replaces the previous creek-clipped split hero + sibling
+         hero-media-mask. The looping video fills the full width
+         behind a left-anchored dark overlay; the copy column sits
+         on the left. Layout + styling match Brees'
+         homepage-mockup.html exactly. All copy preserved verbatim
+         from the prior hero (brand line → eyebrow, tagline → h1,
+         both buttons, founder signature).
          ======================================================== -->
-    <section class="hero" aria-label="Cement Creek Veterinary Hospital">
-      <div class="hero__copy" data-reveal>
-        <h1 class="hero__title">
-          <span class="hero__title-brand">Cement Creek Veterinary Hospital</span>
-          <span class="hero__title-tagline">Rooted in the <span class="hero__title-mark">Gunnison Valley.</span> Built for Crested Butte pets.</span>
-        </h1>
-        <div class="hero__actions">
-          <a href="#" class="btn btn--primary btn--arrow" data-todo="Book an appointment URL">Book an appointment</a>
-          <a href="#everything-intentional" class="btn btn--ghost">See how we built it</a>
+    <section class="hero-banner" aria-label="Cement Creek Veterinary Hospital">
+      <!-- Hero loop video. Autoplay + muted + playsinline so it
+           starts silently on every device. Poster is shown while
+           loading (and as a fallback if autoplay is blocked). -->
+      <video
+        data-hero-video
+        autoplay muted loop playsinline
+        preload="metadata"
+        poster="assets/videos/hero-video-poster.jpg"
+        aria-hidden="true">
+        <source src="assets/videos/hero-video.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-overlay">
+        <div class="hero-text" data-reveal>
+          <div class="hero-eyebrow">Cement Creek Veterinary Hospital</div>
+          <h1>Rooted in the Gunnison Valley. Built for Crested Butte pets.</h1>
+          <div class="hero-ctas">
+            <a href="#" class="btn-white" data-todo="Book an appointment URL">Book an appointment</a>
+            <a href="#everything-intentional" class="btn-ghost">See how we built it</a>
+          </div>
+          <!-- Founder signature — preserved from the prior hero. -->
+          <p class="hero-signature">
+            <span class="hero-signature-mark" aria-hidden="true"></span>
+            Founded by <strong>Dr. Kara Erickson</strong> &amp; <strong>Shawna Castillo</strong>
+          </p>
         </div>
-        <!-- Hero signature — small founder credit that grounds the
-             column, echoes the founders section, and gives the hero
-             a human footer instead of buttons hanging in space. -->
-        <p class="hero__signature">
-          <span class="hero__signature-mark" aria-hidden="true"></span>
-          Founded by <strong>Dr. Kara Erickson</strong> &amp; <strong>Shawna Castillo</strong>
-        </p>
       </div>
     </section>
-
-
-    <!-- ========================================================
-         HERO MEDIA MASK — video, clipped to a creek silhouette
-         and positioned to bleed across the hero/founders boundary.
-         Sits BETWEEN hero and founders in the DOM so:
-           - on desktop: position:absolute makes it overlap both
-             sections (top of hero through ~25vh of founders)
-           - on mobile: position:static, normal flow, sits between
-             the hero text and the founders text without the clip
-         ======================================================== -->
-    <aside class="hero-media-mask" aria-hidden="true">
-      <div class="hero-media-mask__inner">
-        <!-- Hero loop video. Autoplay + muted + playsinline so it
-             starts silently on every device. Poster frame is shown
-             while the video loads (and as a fallback if autoplay
-             is blocked by the browser). -->
-        <video
-          data-hero-video
-          autoplay muted loop playsinline
-          preload="metadata"
-          poster="assets/videos/hero-video-poster.jpg"
-          aria-hidden="true">
-          <source src="assets/videos/hero-video.mp4" type="video/mp4" />
-        </video>
-      </div>
-    </aside>
 
 
     <!-- ========================================================

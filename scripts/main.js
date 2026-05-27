@@ -317,9 +317,24 @@
     }
   }
 
+  // Sticky header — turns to frosted translucent powder-blue once
+  // the page scrolls past the hero (matches the homepage mockup).
+  // Idempotent: the header arrives via the partial mount, so this
+  // can be called from both boot() and partials:mounted; the
+  // scroll listener binds exactly once via the dataset guard.
+  function initHeader() {
+    const header = document.querySelector('[data-header]');
+    if (!header || header.dataset.scrollBound) return;
+    header.dataset.scrollBound = '1';
+    const update = () => header.classList.toggle('is-scrolled', window.scrollY > 80);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+
   function boot() {
     initReveals();
     initHeroVideo();
+    initHeader();
     initIntentionalTabs();
     initServicesMarquee();
     initServicesRail();
@@ -338,5 +353,6 @@
   // settled.
   document.addEventListener('partials:mounted', () => {
     initReveals();
+    initHeader();
   });
 })();
