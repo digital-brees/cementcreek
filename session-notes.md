@@ -4,8 +4,42 @@
 **Location:** 60 Glacier Street, Crested Butte South, CO 81224 (Gunnison Valley)
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
-**Last update:** 2026-05-27
-**Status:** v12 — Homepage migrated to the `homepage-mockup.html` blue design system (sitewide). Hero is now a full-width video banner; palette, gradients, dark intentional section, gentler waves, and a frosted sticky header all match the mockup. Poppins retained; all copy unchanged.
+**Last update:** 2026-05-28
+**Status:** v2 design track established — homepage-2.html, services-2.html, team-2.html exist alongside v1, with fully isolated CSS (main-2.css), partials (header-2.html, footer-2.html), and loader (load-partials-2.js). Brees provided a Design Revision Brief (`C:\Users\brees\Downloads\Cement Creek - Homepage Copy.pdf`). v2 follows the brief 100%: Montserrat throughout, per-section fixed-px gradients, SVG wave dividers, flat Midnight Cove CTAs, new typography scale (H1 48/800, H2 38/700, CTA 42/700, body 17/400). Homepage-2 has: longer-format founders section (2 paragraphs + navy mission card + powder-blue values pills), centered intentional section with wave-mark squiggle + "How we practice" eyebrow + full-width tab panel, single rotating services rail (1:1 square cards, ~25% shorter than the previous 3:4 pills), 3-column Google Reviews section (placeholder copy), FAQ with navy callout in Q1, flat Midnight Cove closer with "Proudly serving" dot-list + white pill CTA. Wave-mark also added above the closer headline. v1 (`index.html`, etc.) reverted to pre-v2 state — untouched live baseline. All copy on v2 unchanged from v1.
+
+**v13 (2026-05-28) — v2 design track per Design Revision Brief**
+
+Phase A (global foundations):
+  - **Files isolated for v2:** copied `index.html`/`team.html`/`services.html` → `homepage-2.html`/`team-2.html`/`services-2.html`; copied `styles/main.css` → `styles/main-2.css`; copied `includes/header.html`/`footer.html`/`load-partials.js` → `header-2.html`/`footer-2.html`/`load-partials-2.js`. v2 loader hardcodes the `-2` partial paths; v2 partials' nav links route between v2 pages.
+  - **Font swap (v2 only):** Poppins → Montserrat (weights 300/400/500/600/700/800). HTML font link updated in all 3 v2 pages.
+  - **Type scale tuned to brief peaks:** `--fs-h1` 48px / `--fs-h2` 38px / `--fs-h3` 30px / `--fs-cta` 42px / body 17px / eyebrows 13px+0.14em+700 / topbar 13px+600 / footer headings 13px+700+uppercase / footer body 16px+400-500. `h1, h2, h3, h4, h5` base weight set to 700 (h1 overrides to 800). All section H2 titles (services-strip / faq / intentional) explicitly use `var(--fs-h2)` + weight 700 — were previously 400-500 weight at oversized clamps, creating visual inconsistency.
+  - **Top bar accent line:** added 2.5px solid `--creek-deep` (#0d96d4) bottom border on `.topbar` — brief calls it "the bookend with the footer."
+  - **Footer columns restructured:** brand + Visit + Services (deep-links to services-2 anchors) + Contact (phone/text/email/portal/pharmacy). Was brand + Visit + Reach us + Site.
+  - **Footer text color fix:** sitewide replaced `rgba(244, 235, 218, ...)` → `rgba(255, 255, 255, ...)` (26 occurrences). The 244,235,218 was the OLD v1 paper hex (#F4EBDA, warm cream) that stayed hardcoded in rgba() calls after v12's palette migration; on dark navy footer it read brown/beige instead of white per brief.
+
+Phase B (homepage-2 sections):
+  - **Hero:** verified white pill primary + ghost secondary already matched brief.
+  - **Founders (sec2):** widened to full section width via `.founders > .container { max-width: none; padding-inline: clamp(1.5rem, 4vw, 60px) }` (drops the 1280px container cap). Grid: 1fr 1fr, 80px gap. Founders image: capped at `clamp(360px, 42vw, 500px)` (was 3:4 aspect which stretched too tall in the wide section). Two-paragraph lede (natural break at em-dash). Mission card: padding tightened to 24px/28px + 12px radius matching mockup; pledge max-width removed so it fills the card width. Values tags: separate pill row below navy card (was inside it).
+  - **Intentional (dark band):** widened the same way as founders (full section width). Removed the old hand-drawn marker underline under "intentional." em. Added centered wave-mark squiggle + "HOW WE PRACTICE" powder-blue eyebrow above the title. Title: 38px / 700, no italic (em accent set to normal weight). Whole stack (wave / eyebrow / title / intro / tabs) center-aligned. **Tab panel below tabs:** dropped `max-width: 1080px` so img/text grid spans full section width like founders, 1fr 1fr columns with 80px gap.
+  - **Services strip:** brief called for 5-column grid; Brees reverted to single rotating rail (the v2 pre-brief state) — pill cards with prev/next arrows, drag/swipe, hidden scrollbar. Cards changed from 3:4 aspect to 1:1 square (exact 25% height reduction per Brees).
+  - **Google Reviews — NEW section:** inserted between services and FAQ. 3-column white cards on warm off-white, Vivid Mid stars, italic quote, "Google Review" source + name footer. Placeholder reviews flagged `data-todo="Replace placeholder reviews with real Google Reviews"`.
+  - **FAQ Q1 pricing callout:** added new patient exam callout inside the first FAQ item ("What can I expect at my first visit?"). Initial style was Pale Powder Blue left-bordered inset (brief spec), then restyled to match the sec2 navy mission card per Brees: ink fill, 20px radius, soft shadow, powder-blue eyebrow label, paper-white body. Exam fee shows as `$[XX]` placeholder (data-todo flagged).
+  - **Closer/CTA:** removed dog photo bg, removed `mask-image` wavy-top architecture, removed `.closer::before` scrim, removed radial vignette. Flat Midnight Cove section. White pill CTA (white bg / Midnight Cove text / paper-warm hover). Town pills replaced with "Proudly serving" powder-cyan eyebrow label + dot-separated inline list ("CB South · Crested Butte · Mt. Crested Butte · Almont · Gunnison · and surrounding areas of the Gunnison Valley"). Wave-mark squiggle added above the headline. `.faq::after` SVG wave divider added (fills `--ink`) — replaces the mask-based wave architecture.
+  - **Services-2 and Team-2 closers:** inherit the flat treatment automatically (their photo overrides neutralized).
+  - **Footer credit ("Digital Empathy"):** underline removed; link inherits the credit-line color and matches the rest of the legal block tonally.
+
+Cache buster `?v=NN` on `styles/main-2.css?v=N` bumped 1→20 over the iteration session to force CSS reloads (browser was caching aggressively across hard refreshes).
+
+v1 baseline reverted before v2 isolation:
+  - `index.html` founders section restored to 1-paragraph lede + pillars-inside-mission-card (the longer format moved to v2 only).
+  - `styles/main.css` `.values-tags` rule removed (lives only in main-2.css now).
+  - `assets/images/founders-portrait.jpg` re-cropped to focus on Kara + Shawna (488×610, 4:5 ratio) earlier in session — this change is shared between v1 and v2 since it's an asset not a CSS file.
+
+Phase C (services-2) and Phase D (team-2) are pending — v2 copies exist but haven't been worked through the brief's services/team page sections yet.
+
+---
+
+**Status (2026-05-27):** v12 — Homepage migrated to the `homepage-mockup.html` blue design system (sitewide). Hero is now a full-width video banner; palette, gradients, dark intentional section, gentler waves, and a frosted sticky header all match the mockup. Poppins retained; all copy unchanged.
 
 **v12 (2026-05-27) — homepage-mockup.html migration (hero + palette + waves + header)**
   Source of truth for this pass: `C:\Users\brees\Downloads\homepage-mockup.html` (a full homepage redesign in a new blue design language). Brees asked to adopt its hero, colors, gradients, and sticky header — but keep our Poppins font and never change our existing copy. Verified: NO text changed anywhere on the site.

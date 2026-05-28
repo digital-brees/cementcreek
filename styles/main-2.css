@@ -25,20 +25,25 @@
   --white: #FFFFFF;        /* mockup --bg-card — cards, lifted surfaces */
   --border: #E8E4DF;       /* mockup --border — warm subtle hairline */
 
-  /* Type — Poppins for everything, italic 1,400 used where the
-     previous Instrument Serif italic was the headline accent. */
-  --font-display: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-body: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Type — Montserrat throughout per the v2 design brief
+     (weights 300, 400, 500, 600, 700, 800). No serif face used
+     anywhere on the site. Italic 400/500 covers the editorial
+     italic moments (hero/closer emphasis spans). */
+  --font-display: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  /* Fluid type scale */
-  --fs-display: clamp(3rem, 2rem + 5vw, 7rem);
-  --fs-h1: clamp(2.5rem, 1.6rem + 4vw, 5.25rem);
-  --fs-h2: clamp(2rem, 1.3rem + 2.4vw, 3.5rem);
-  --fs-h3: clamp(1.5rem, 1.2rem + 1vw, 2rem);
-  --fs-h4: clamp(1.25rem, 1.05rem + 0.6vw, 1.5rem);
-  --fs-body: 1.0625rem;
-  --fs-body-lg: 1.1875rem;
-  --fs-small: 0.875rem;
+  /* Fluid type scale — peaks at brief's specified pixel sizes on
+     wide desktop, scales down on narrow screens. Brief: H1 48/800,
+     H2 38/700, H3 30/700, CTA 42/700, FAQ q 18/600, body 17/400. */
+  --fs-display: clamp(2.5rem, 1.8rem + 2.4vw, 3rem);     /* 40-48px hero/page H1 */
+  --fs-h1: clamp(2.5rem, 1.8rem + 2.4vw, 3rem);          /* 40-48px page H1 */
+  --fs-h2: clamp(1.875rem, 1.4rem + 1.6vw, 2.375rem);    /* 30-38px section H2 */
+  --fs-h3: clamp(1.5rem, 1.2rem + 1vw, 1.875rem);        /* 24-30px tab H3 */
+  --fs-h4: clamp(1.125rem, 1rem + 0.4vw, 1.25rem);       /* 18-20px */
+  --fs-cta: clamp(2rem, 1.5rem + 2vw, 2.625rem);         /* 32-42px CTA heading */
+  --fs-body: 1.0625rem;                                  /* 17px body */
+  --fs-body-lg: 1.1875rem;                               /* 19px lede */
+  --fs-small: 0.8125rem;                                 /* 13px eyebrows/topbar/captions */
 
   /* Spacing (8px base) */
   --space-1: 0.5rem; --space-2: 1rem; --space-3: 1.5rem; --space-4: 2rem;
@@ -113,11 +118,12 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; col
 
 h1, h2, h3, h4, h5 {
   font-family: var(--font-display);
-  font-weight: 500;            /* Poppins medium — confident without being heavy */
+  font-weight: 700;            /* Montserrat 700 per brief — H2/H3/H4/H5 default. H1 bumps to 800 (set per-element). */
   line-height: 1.1;
   letter-spacing: -0.018em;
   color: var(--ink); margin: 0;
 }
+h1 { font-weight: 800; }      /* Brief: H1 = 48px / 800 weight. */
 /* Italic accents inside headings drop to light weight (300) for an
    editorial contrast within the same line — bold-then-airy rhythm. */
 h1 em, h2 em, h3 em, h4 em {
@@ -144,8 +150,9 @@ p:last-child { margin-bottom: 0; }
 
 .eyebrow {
   font-family: var(--font-body);
-  font-size: 0.8125rem; font-weight: 600;
-  letter-spacing: 0.18em; text-transform: uppercase;
+  /* Brief: section eyebrow labels — 13px / 700 / 0.14em tracking. */
+  font-size: 0.8125rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--ink);
   /* Stack the wave-mark pseudo ABOVE the text (vertical flex-column)
      instead of placing it as a horizontal dash to the left. Matches
@@ -238,6 +245,81 @@ p:last-child { margin-bottom: 0; }
 .btn--primary:hover { background: var(--ink); transform: translateY(-2px); box-shadow: var(--shadow-md); }
 .btn--ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
 .btn--ghost:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+/* Vivid Mid outline pill (brief): used for "View all services" below
+   the homepage services grid + similar low-prominence CTAs. Fills
+   to Vivid Mid on hover. */
+.btn--outline {
+  background: transparent;
+  color: var(--creek-deep);
+  border: 1.5px solid var(--creek-deep);
+}
+.btn--outline:hover { background: var(--creek-deep); color: var(--white); transform: translateY(-2px); }
+
+/* GOOGLE REVIEWS section (brief — "From the community"). Three
+   white cards in a centered grid on flat warm off-white. Vivid
+   Mid star row, italic body, source + name footer. Placeholder
+   copy in the HTML (data-todo) until real reviews land. */
+.reviews {
+  background: var(--paper);
+  padding-block: clamp(3rem, 8vw, 88px);
+  position: relative;
+}
+.reviews__head {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto clamp(1.75rem, 3vw, 2.5rem);
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+.reviews__head .eyebrow { align-items: center; }
+.reviews__title {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  margin: 0.75rem auto 0;
+  max-width: 22ch;
+}
+.reviews__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+.review-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: clamp(1.5rem, 2.5vw, 2rem) clamp(1.25rem, 2.25vw, 1.75rem);
+}
+.review-card__stars {
+  color: var(--creek-deep);
+  font-size: 1.0625rem;
+  letter-spacing: 3px;
+  margin-bottom: 0.875rem;
+}
+.review-card__quote {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--stone-warm, var(--charcoal));
+  font-style: italic;
+  margin: 0 0 1.125rem;
+}
+.review-card__source {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  margin: 0;
+}
+.review-card__name {
+  font-size: 0.9375rem;
+  color: var(--stone-warm, var(--charcoal));
+  margin: 0.125rem 0 0;
+}
+
+@media (max-width: 900px) {
+  .reviews__grid { grid-template-columns: 1fr; max-width: 560px; }
+}
 .btn--text {
   background: transparent; color: var(--ink); padding: 0; border-radius: 0;
   border-bottom: 1px solid currentColor; padding-bottom: 2px; font-weight: 600;
@@ -264,7 +346,20 @@ p:last-child { margin-bottom: 0; }
   z-index: 50;
 }
 
-.topbar { background: var(--ink); color: var(--paper); font-size: 0.8125rem; letter-spacing: 0.02em; position: relative; z-index: 50; }
+.topbar {
+  background: var(--ink);
+  color: var(--paper);
+  /* Brief: top bar — 13px / 600 weight. */
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  position: relative;
+  z-index: 50;
+  /* 2.5px Vivid Mid hairline per brief — the "bookend with the
+     footer" detail that ties the dark top bar to the nav CTA + the
+     dark footer base. Do not remove. */
+  border-bottom: 2.5px solid var(--creek-deep);
+}
 .topbar__inner {
   max-width: var(--container-wide); margin-inline: auto;
   padding: 0.55rem clamp(1.25rem, 4vw, 2.5rem);
@@ -302,12 +397,12 @@ p:last-child { margin-bottom: 0; }
   width: 28px; height: 28px;
   display: inline-flex; align-items: center; justify-content: center;
   border-radius: 50%;
-  color: rgba(244, 235, 218, 0.85);
+  color: rgba(255, 255, 255, 0.85);
   transition: color 0.2s var(--ease-out), background-color 0.2s var(--ease-out), transform 0.2s var(--ease-out);
 }
 .topbar__social-link:hover {
   color: var(--creek);
-  background: rgba(244, 235, 218, 0.08);
+  background: rgba(255, 255, 255, 0.08);
   transform: translateY(-1px);
 }
 .topbar__social-link svg { display: block; }
@@ -654,11 +749,19 @@ p:last-child { margin-bottom: 0; }
    The text column on the left flows from the top as normal.
    ----------------------------------------------------------- */
 .founders {
-  /* Mockup section gradient — powder blue fading to off-white. */
+  /* Per-section fixed-px gradient per brief. */
   background: linear-gradient(to bottom, var(--paper-warm) 0px, var(--paper) 600px);
-  padding-block: clamp(5rem, 9vw, 8rem);
+  padding-block: clamp(5rem, 9vw, 88px);
   position: relative;
   overflow: hidden;
+}
+/* Widen the founders section to match the mockup — drop the
+   1280px container cap and use section-level horizontal padding
+   (max 60px per side) so the image+copy grid breathes the full
+   viewport width on big screens. */
+.founders > .container {
+  max-width: none;
+  padding-inline: clamp(1.5rem, 4vw, 60px);
 }
 /* Wavy section divider — sits at the bottom of founders, filled
    with the dark intentional bg (--ink #0f4060). The wavy top edge
@@ -678,9 +781,10 @@ p:last-child { margin-bottom: 0; }
 }
 .founders__grid {
   display: grid;
-  /* Image LEFT, text RIGHT (swapped from the previous layout). */
-  grid-template-columns: 1fr 1.05fr;
-  gap: clamp(2rem, 5vw, 5rem);
+  /* Equal columns per mockup so image + copy each get half the
+     widened section. */
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 80px);
   align-items: center;
   /* The hero video no longer bleeds into founders (banner hero
      replaced the creek mask, 2026-05-27), so the offset that
@@ -689,7 +793,7 @@ p:last-child { margin-bottom: 0; }
   padding-top: 0;
 }
 .founders__copy {
-  max-width: 540px;
+  max-width: none;
   margin-left: 0;
 }
 .founders__title { font-size: var(--fs-h2); margin: 1.25rem 0 1.75rem; }
@@ -769,12 +873,26 @@ p:last-child { margin-bottom: 0; }
    so the section has real visual hierarchy on the new v12 palette. */
 .mission--navy {
   background: var(--ink);
-  border-radius: 20px;
-  padding: clamp(1.75rem, 2.5vw, 2.5rem) clamp(1.75rem, 3vw, 2.5rem);
+  border-radius: 12px;          /* Mockup: 12px (was 20px in v2) */
+  /* Padding tightened to mockup spec (24px / 28px). Previous
+     clamp peaked at 40px which left a tall empty zone below the
+     pledge inside the now-wider founders section. */
+  padding: 1.5rem 1.75rem;
   border-top: none; /* override default hairline rule on .mission */
   box-shadow:
-    0 1px 2px rgba(15, 64, 96, 0.10),
-    0 22px 48px rgba(15, 64, 96, 0.18);
+    0 1px 2px rgba(15, 64, 96, 0.08),
+    0 14px 32px rgba(15, 64, 96, 0.14);
+}
+/* Pledge inside the navy card fills the card width — the global
+   .mission__quote max-width: 22ch was forcing a narrow column
+   inside the wider card, leaving an awkward dead zone to the
+   right and below. Override here so the pledge breathes the full
+   card width. */
+.mission--navy .mission__quote {
+  max-width: none;
+  font-size: 1.125rem;          /* Mockup: 18px / 600 weight */
+  font-weight: 600;
+  line-height: 1.55;
 }
 .mission--navy .mission__eyebrow {
   color: var(--creek); /* powder-blue eyebrow reads on dark */
@@ -799,11 +917,38 @@ p:last-child { margin-bottom: 0; }
   padding-bottom: 2px;
 }
 .mission--navy .mission__pillar {
-  color: rgba(244, 235, 218, 0.78); /* warm off-white, slightly dimmed */
+  color: rgba(255, 255, 255, 0.78); /* warm off-white, slightly dimmed */
 }
 .mission--navy .mission__pillar:not(:last-child)::after {
   background: var(--creek-deep);
   opacity: 1;
+}
+
+/* v2 — VALUES TAGS — pill row below the mission card (matches the
+   homepage-mockup `.values-tags` structure). Light powder-blue
+   chips with ink text + subtle ink border so they sit on the
+   light section bg as scannable values. The mission navy card +
+   these chips together replace v1's "pillars inside the card"
+   layout — separated rhythm reads as: pledge, then values. */
+.values-tags {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.values-tags li {
+  background: var(--paper-warm);
+  color: var(--ink);
+  border: 1px solid rgba(15, 64, 96, 0.18);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
 }
 /* Single image on the left (replaces the stacked polaroids).
    Rounded corners + soft shadow — no polaroid tilt or border. */
@@ -812,16 +957,15 @@ p:last-child { margin-bottom: 0; }
 }
 .founders__image {
   margin: 0;
-  border-radius: 20px;
+  border-radius: 16px;          /* Brief mockup: 16px image radius */
   overflow: hidden;
-  box-shadow:
-    0 1px 2px rgba(15, 64, 96, 0.06),
-    0 18px 36px rgba(15, 64, 96, 0.10),
-    0 40px 90px rgba(15, 64, 96, 0.08);
-  /* Matches the founders-portrait.jpg source ratio (768x1024 = 3:4)
-     so the full "COMING SOON" composition (mountains + Kara/Shawna
-     + banner) displays without object-fit trimming top/bottom. */
-  aspect-ratio: 3 / 4;
+  box-shadow: 0 8px 40px rgba(15, 64, 96, 0.12);
+  /* Brief mockup: 100% wide × fixed 500px tall (no aspect-ratio).
+     Aspect-ratio dropped because the 3:4 source ratio combined
+     with the widened section makes the image stretch comically
+     tall on big screens. Fixed height + object-fit cover crops
+     the COMING SOON banner image to the visible band. */
+  height: clamp(360px, 42vw, 500px);
   background: var(--paper-warm);
 }
 .founders__image img {
@@ -839,7 +983,7 @@ p:last-child { margin-bottom: 0; }
   }
   .founders__media { order: 2; }
   .founders__copy { order: 1; }
-  .founders__image { aspect-ratio: 4 / 3; }
+  .founders__image { height: clamp(280px, 60vw, 420px); }
 }
 
 /* -----------------------------------------------------------
@@ -880,28 +1024,61 @@ p:last-child { margin-bottom: 0; }
   pointer-events: none;
   z-index: 2;
 }
-.intentional > .container { position: relative; z-index: 1; }
+/* Widen the intentional section like the founders section per
+   Brees — drop the 1280px container cap and use section-level
+   padding (max 60px gutters). */
+.intentional > .container {
+  position: relative;
+  z-index: 1;
+  max-width: none;
+  padding-inline: clamp(1.5rem, 4vw, 60px);
+}
 
 .intentional__head {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: clamp(2rem, 5vw, 5rem);
-  align-items: end;
+  /* Single-column centered stack — wave + eyebrow + title + intro
+     center horizontally on the widened section. Override of the
+     stale 2-column grid; the second rule lower in the file does
+     the actual centering (max-width + margin-inline: auto +
+     text-align: center). */
+  display: block;
   margin-bottom: clamp(2.5rem, 4vw, 4rem);
 }
 .intentional__title {
-  font-size: var(--fs-h1); letter-spacing: -0.025em; line-height: 0.98;
-  max-width: 9ch;
+  /* Brief: section H2 — 38px / 700. Same scale as other section
+     headings (services-strip, founders, faq, reviews) so the
+     intentional headline doesn't visually overpower the others. */
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  max-width: 14ch;
 }
 .intentional__title em {
-  font-style: italic; color: var(--white); position: relative;
+  /* Brief: no editorial italic on v2 — em accent now reads as
+     a slightly lighter color on the same weight, not italic. */
+  font-style: normal;
+  font-weight: 700;
+  color: var(--white);
+  position: relative;
   white-space: nowrap;
 }
-.intentional__title em::after {
-  /* hand-drawn marker underline under "intentional" */
-  content: ''; position: absolute; left: 2%; right: -2%; bottom: 0.05em; height: 0.18em;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'><path d='M2 8 Q 30 2 60 7 T 120 6 T 198 5' stroke='%230d96d4' stroke-width='3.5' fill='none' stroke-linecap='round'/></svg>");
-  background-repeat: no-repeat; background-size: 100% 100%;
+/* Wave-mark + "How we practice" eyebrow above the section title
+   (brief + mockup). Powder Blue on the dark Midnight Cove band. */
+.intentional__wave-mark {
+  display: block;
+  /* margin-inline: auto centers the block-level SVG within the
+     centered head (text-align doesn't apply to blocks). */
+  margin: 0 auto 12px;
+  color: var(--creek);   /* inherited by stroke="currentColor" */
+}
+.intentional__eyebrow {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--creek);   /* Powder Blue eyebrow on dark per brief */
 }
 .intentional__intro {
   font-size: var(--fs-body-lg); color: var(--stone-warm);
@@ -1040,17 +1217,24 @@ p:last-child { margin-bottom: 0; }
    still apply; the rules here only style the new tab structure.
    ----------------------------------------------------------- */
 .intentional__head {
-  /* Override the 2-column grid from the old mosaic — center the
-     head instead, since the tabs sit on their own row below. */
+  /* Full-section-width head per Brees — drop the 720px cap so the
+     head breathes the full intentional band like the founders
+     section. Inner elements (title with 14ch cap, intro with 56ch
+     cap, tabs) still center via their own margin-inline: auto, so
+     the centered layout is preserved; only the head container
+     itself expands to fill the section. */
   display: block;
   text-align: center;
-  max-width: 720px;
-  margin-inline: auto;
+  max-width: none;
+  margin-inline: 0;
   margin-bottom: clamp(2rem, 3.5vw, 3rem);
 }
 .intentional__title {
-  max-width: none;
-  font-size: clamp(2.25rem, 1.5rem + 2.5vw, 3.75rem);
+  max-width: 14ch;
+  margin-inline: auto;   /* center the capped-width title within the centered head */
+  /* Brief: section H2 — 38px / 700. The previous big clamp peak
+     of 3.75rem was overriding the global --fs-h2 scale. */
+  font-size: var(--fs-h2);
   /* White on the dark band. */
   color: var(--white);
   /* Breathe between the title and the intro paragraph below.
@@ -1115,15 +1299,24 @@ p:last-child { margin-bottom: 0; }
 }
 .tab-panel.is-active {
   display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr);
-  gap: clamp(2rem, 4vw, 3.5rem);
+  /* Full-section-width img/text grid per Brees (matches the
+     founders section layout). Was capped at 1080px which made
+     the panel feel narrow on the wide intentional section. Now
+     fills the container with 1fr 1fr columns and an 80px gap like
+     founders. Inner content stays naturally centered because both
+     columns expand evenly. */
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 80px);
   align-items: center;
-  max-width: 1080px;
-  margin-inline: auto;
+  max-width: none;
+  margin-inline: 0;
   opacity: 1;
 }
 .tab-panel--has-photo.is-active {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  /* photo variant uses the same 1fr 1fr as the default panel
+     since the section is now full-width and the image / copy
+     balance the row evenly. */
+  grid-template-columns: 1fr 1fr;
 }
 
 /* Large rounded thumbnail on the left of each tab-panel.
@@ -1132,12 +1325,16 @@ p:last-child { margin-bottom: 0; }
    matching corner radius to other rounded cards on the site. */
 .tab-panel__display {
   width: 100%;
-  max-width: 360px;
+  /* Brief: img fills its column in the tab-panel grid (matches
+     founders layout). Was capped at 360px square — now expands to
+     fill the column width, capped at a sensible 540px so it never
+     overshadows the copy on ultrawide viewports. */
+  max-width: 540px;
   aspect-ratio: 1 / 1;
   border-radius: var(--radius-lg);
   object-fit: cover;
   display: block;
-  justify-self: center;
+  justify-self: start;
   box-shadow: var(--shadow-md);
 }
 .tab-panel__body { min-width: 0; }
@@ -1202,21 +1399,77 @@ p:last-child { margin-bottom: 0; }
    auto-motion. Sections breathes ~clamp(4-6rem) of padding.
    ----------------------------------------------------------- */
 .services-strip {
-  /* Solid powder-blue (no gradient) so the section reads as one
-     continuous warm band through the service cards. FAQ below
-     then handles the powder→off-white fade as a SINGLE sweep —
-     previously both sections independently restarted the same
-     gradient, creating a visible "powder, fade, powder, fade"
-     repeat at the section seam. Services + FAQ now feel like
-     one shared backdrop that gradually cools toward off-white
-     before hitting the dark closer.
-     (Wave divider above the closer was removed too — see
-     .closer in section 10 for the mask-based replacement.) */
-  background: var(--paper-warm);
+  /* Per-section fixed-px gradient per brief. Padding tightened
+     to 88px peak so the section is short-and-wide like the mockup
+     (was 8rem of vertical padding for the tall pill rail). */
+  background: linear-gradient(to bottom, var(--paper-warm) 0px, var(--paper) 600px);
   position: relative;
-  padding-block: clamp(3rem, 5vw, 4.5rem);
+  padding-block: clamp(3rem, 8vw, 88px);
   display: flex;
   flex-direction: column;
+}
+/* Widen the services section to match the mockup so the 5-col
+   grid breathes the full viewport width (capped at 60px gutters). */
+.services-strip > * {
+  width: 100%;
+  max-width: none;
+  margin-inline: auto;
+  padding-inline: clamp(1.5rem, 4vw, 60px);
+}
+/* 5-COLUMN photo card grid (brief). Replaces the previous tall
+   horizontal-scroll pill rail. Two rows × 5 cards = all 10
+   services visible at once on desktop. */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-top: clamp(1.5rem, 2.5vw, 2.25rem);
+}
+.services-grid .service-card.photo-print {
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+  box-shadow: 0 2px 12px rgba(15, 64, 96, 0.08);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.services-grid .service-card.photo-print img {
+  width: 100%;
+  height: 200px;            /* brief: short cards, photo-led */
+  aspect-ratio: auto;       /* override the 3:4 pill aspect */
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s var(--ease);
+}
+.services-grid .service-card.photo-print:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(15, 64, 96, 0.14);
+}
+.services-grid .service-card.photo-print:hover img { transform: scale(1.04); }
+/* Caption — brief specifies gradient label overlay (already styled
+   globally on .photo-print__caption). Compact padding inside the
+   smaller 200px cards. */
+.services-grid .photo-print__caption {
+  padding: 1.75rem 0.875rem 0.875rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+/* "View all services" pill row below the grid (brief). */
+.services-strip__more {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(1.5rem, 2.5vw, 2.25rem);
+}
+
+/* Responsive collapse for narrower screens. */
+@media (max-width: 1100px) {
+  .services-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 700px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 420px) {
+  .services-grid { grid-template-columns: 1fr; }
 }
 
 /* Wave divider removed from services-strip — the FAQ section now
@@ -1240,10 +1493,12 @@ p:last-child { margin-bottom: 0; }
 }
 .services-strip__title {
   font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.85rem, 1.3rem + 1.6vw, 2.6rem);
+  /* Brief: all section H2 headings — 38px / 700 weight via the
+     shared --fs-h2 scale + the base h2 weight: 700 rule. */
+  font-weight: 700;
+  font-size: var(--fs-h2);
   letter-spacing: -0.015em;
-  line-height: 1.05;
+  line-height: 1.1;
   margin: 0.35rem 0 0;
   color: var(--ink);
 }
@@ -1332,7 +1587,12 @@ p:last-child { margin-bottom: 0; }
   /* Re-uses .photo-print (now a clean rounded card) — caption
      overlays the photo bottom with a solid ink scrim. */
 }
-.service-card.photo-print img { aspect-ratio: 3 / 4; }   /* tall pill */
+.service-card.photo-print img {
+  /* Brief was 3/4 tall pill (~373px tall at 280px wide). Brees
+     asked for ~25% shorter — 1/1 square brings ~280px tall, the
+     exact 25% reduction while keeping the rail format. */
+  aspect-ratio: 1 / 1;
+}
 
 /* Softer card shadow than the base --shadow-md so the row of
    cards doesn't pool a visible darker band into the cream bg
@@ -1357,158 +1617,75 @@ p:last-child { margin-bottom: 0; }
    shrunk + softened to support the headline without dominating.
    ----------------------------------------------------------- */
 .closer {
-  /* Wave height shared by the mask + the padding/margin math.
-     Same range as the previous .faq::after divider so the visual
-     wave depth doesn't change. */
-  --wave-h: clamp(48px, 7vw, 88px);
-
-  /* Wide cinematic photo background with ink-deep fallback color.
-     The image lives under a dark scrim (set via ::before) so the
-     headline + pills + CTA still read clearly. */
-  background-color: var(--ink-deep);
-  background-image: url('../assets/images/closer-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  /* Brief: full Midnight Cove section (flat ink, no photo, no
+     scrim, no mask). The wavy top edge is now provided by a
+     stamped SVG divider on the section above (`.faq::after`)
+     rather than the closer itself. Same applies to .closer--services
+     and .closer--team — overrides removed below so all 3 page
+     closers read as one flat Midnight Cove band per brief. */
+  background-color: var(--ink);
   color: var(--paper);
-  position: relative; overflow: hidden; text-align: center;
-
-  /* Pull the section up by wave-h so its wavy top edge overlaps
-     the section above (FAQ on homepage, services-page on services,
-     team-section on team). The wave's opaque regions show the
-     closer's bg image + scrim; the wave's transparent regions
-     reveal the section above. Replaces the previous .faq::after
-     stamped wave so the closer OWNS its own top edge — no separate
-     decorative element, no drop-shadow color-matching problems,
-     the photo naturally bleeds INTO the wave shape because the
-     wave IS the photo's edge. */
-  margin-top: calc(var(--wave-h) * -1);
-
-  /* Symmetric visual padding + extra padding-top to clear the
-     wave's deepest crests so the headline doesn't get clipped. */
-  padding-top: calc(var(--wave-h) + clamp(5rem, 8vw, 7rem));
-  padding-bottom: clamp(5rem, 8vw, 7rem);
-
+  position: relative;
+  text-align: center;
+  padding-block: clamp(5rem, 9vw, 8rem);
   isolation: isolate;
-
-  /* WAVY TOP EDGE via mask-image — two-layer mask:
-       1) The wave SVG occupies the top var(--wave-h) of the
-          section (transparent above the curve, opaque below it),
-          so the closer's top edge takes the wave shape.
-       2) A solid linear-gradient fills everything below the wave,
-          keeping the rest of the closer fully visible.
-     Default mask-composite is `add`, so the two layers union to
-     form: wavy top + solid below. Black fill chosen because mask
-     defaults to `alpha` mode where opacity (not color) determines
-     visibility — #000 is fully opaque so the closer paints. */
-  -webkit-mask-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 70' preserveAspectRatio='none'><path d='M0,28 C240,65 480,5 720,35 C960,65 1200,10 1440,38 L1440,70 L0,70 Z' fill='%23000'/></svg>"),
-    linear-gradient(#000, #000);
-          mask-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 70' preserveAspectRatio='none'><path d='M0,28 C240,65 480,5 720,35 C960,65 1200,10 1440,38 L1440,70 L0,70 Z' fill='%23000'/></svg>"),
-    linear-gradient(#000, #000);
-  -webkit-mask-size: 100% var(--wave-h), 100% calc(100% - var(--wave-h));
-          mask-size: 100% var(--wave-h), 100% calc(100% - var(--wave-h));
-  -webkit-mask-position: top center, bottom center;
-          mask-position: top center, bottom center;
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
 }
-/* Dark scrim — top is intentionally PARTIAL opacity so the
-   closer-bg image bleeds up through the wave divider's edges,
-   blending wave + photo into one warm-dark moment instead of the
-   wave reading as a stark silhouette on a solid dark wall. The
-   scrim still ramps down through the middle for headline contrast,
-   and lifts back up at the bottom for footer-seam separation.
-   The radial vignette keeps attention focused on the headline. */
-.closer::before {
-  content: ''; position: absolute; inset: 0;
-  background:
-    linear-gradient(to bottom,
-      rgba(7, 30, 48, 0.55) 0%,
-      rgba(15, 64, 96, 0.62) 6%,
-      rgba(15, 64, 96, 0.70) 18%,
-      rgba(15, 64, 96, 0.70) 88%,
-      rgba(15, 64, 96, 0.88) 100%),
-    radial-gradient(ellipse at center,
-      rgba(15, 64, 96, 0.45) 0%,
-      rgba(15, 64, 96, 0.75) 100%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Team page closer — white Samoyed photo (the previous team hero,
-   moved here). Wide landscape so default `center` works well.
-   Scrim lightened ~15-20 pts vs the homepage closer so the dog
-   reads through clearly as a meet-the-people moment rather than
-   just ambiance — headline + CTA still get the contrast they need. */
-/* Services page closer — brown/white dog with pink harness lying
-   on tile. Wide landscape (1600x900) fits the closer's banner
-   aspect cleanly. Dog's face sits at source y=14-31% (upper-left
-   quadrant), so background-position is biased UPWARD so the face
-   stays visible in the cover-cropped strip regardless of viewport. */
-.closer--services {
-  background-image: url('../assets/images/services-closer-bg.jpg');
-  background-position: center 15%;
-}
-/* Services CTA scrim — dark→darker gradient over the dog photo,
-   echoing the services-mockup footer's `linear-gradient(to bottom,
-   #0f4060, #071e30)`. The top stops are partial opacity so the
-   image bleeds up through the wave-masked top edge (no harsh
-   silhouette where the wave meets the photo). The bottom ramps
-   to nearly-opaque --ink-deep so the band closes out in the same
-   "darker" tone the mockup ends on. Radial vignette dropped from
-   the base scrim — the linear gradient does the focus work here. */
-.closer--services::before {
-  background: linear-gradient(
-    to bottom,
-    rgba(15, 64, 96, 0.55) 0%,
-    rgba(15, 64, 96, 0.72) 28%,
-    rgba(15, 64, 96, 0.85) 58%,
-    rgba(7, 30, 48, 0.95) 100%
-  );
-}
-
-.closer--team {
-  background-image: url('../assets/images/team-closer-bg.jpg');
-  /* Original 768x328 dog photo at full width — cover-cropped to
-     fill 100% of the closer's width. Some vertical clipping is
-     accepted as the trade-off (the dog photo is squat-landscape
-     and the closer is wider 3:1ish, so cover-fit favors width).
-     Position biased slightly upward so the dog's head and mouth
-     stay in the visible strip without the bottom collar/ground
-     dominating. */
-  background-position: center 35%;
-}
-.closer--team::before {
-  background:
-    linear-gradient(to bottom,
-      var(--ink-deep) 0%,
-      rgba(15, 64, 96, 0.78) 5%,
-      rgba(15, 64, 96, 0.55) 14%,
-      rgba(15, 64, 96, 0.50) 86%,
-      rgba(15, 64, 96, 0.80) 100%),
-    radial-gradient(ellipse at center,
-      rgba(15, 64, 96, 0.20) 0%,
-      rgba(15, 64, 96, 0.55) 100%);
+/* Variants neutralized — no photo, no scrim, flat ink for all
+   three page closers per brief. Selectors kept (still apply to
+   services-2 and team-2 markup) so we can re-introduce variant
+   treatments later via the same hooks if needed. */
+.closer--services,
+.closer--team { background-image: none; background-position: initial; }
+/* Wave-mark squiggle above the closer headline (brief + mockup).
+   Powder Blue stroke on dark Midnight Cove, centered, sits ~18px
+   above the H2 per mockup. */
+.closer__wave-mark {
+  display: block;
+  margin: 0 auto 18px;
+  color: var(--creek);  /* powder blue — inherited by stroke="currentColor" */
 }
 .closer__title {
-  /* Tighter than `--fs-display`: peaks at 3.5rem instead of 7rem so
-     the closing line is emphatic without filling the viewport. */
-  font-size: clamp(2rem, 1.5rem + 2.4vw, 3.5rem);
-  font-style: italic;
-  font-weight: 500;
-  color: var(--paper); line-height: 1.08; letter-spacing: -0.02em;
+  /* Brief: CTA heading 42px / 700 weight. Italic + light-weight
+     em pattern dropped per brief (Montserrat throughout, no serif
+     or editorial italic on v2). */
+  font-size: var(--fs-cta);
+  font-style: normal;
+  font-weight: 700;
+  color: var(--paper); line-height: 1.15; letter-spacing: -0.015em;
   margin: 0 auto 2rem;
   max-width: 22ch;
   position: relative;
 }
-.closer__title em { color: var(--creek); font-style: italic; font-weight: 300; }
+.closer__title em { color: var(--creek); font-style: normal; font-weight: 700; }
 
 /* Service-area pills — small rounded chips listing where they serve.
    Outlined cream on the dark ink-deep band so the row feels light + airy.
    The "+ the rest of the Valley" pill uses a slightly different style
    (no border, italic, dimmer) so it reads as a tail / continuation. */
+/* Closer "Proudly serving" label + town list — per brief, a small
+   uppercase label above an inline dot-separated town list (no
+   pills, no flexbox grid — just inline text with · separators). */
+.closer__serving-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--creek);
+  margin: 0 0 0.625rem;
+}
+.closer__towns {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 60ch;
+  margin: 0 auto clamp(2rem, 3.5vw, 3rem);
+}
+/* (Legacy v1 town-pill styles kept below so they don't break v1.) */
 .closer__areas {
   list-style: none; padding: 0;
   margin: 0 auto clamp(2rem, 3.5vw, 3rem);
@@ -1523,29 +1700,26 @@ p:last-child { margin-bottom: 0; }
   letter-spacing: 0.01em;
   padding: 0.45rem 1rem;
   border-radius: 999px;
-  border: 1px solid rgba(244, 235, 218, 0.35);
-  color: rgba(244, 235, 218, 0.92);
-  background: rgba(244, 235, 218, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.04);
   transition: background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
 }
 .closer__area-pill--more {
   font-style: italic;
   border-color: transparent;
   background: transparent;
-  color: rgba(244, 235, 218, 0.6);
+  color: rgba(255, 255, 255, 0.6);
   padding-inline: 0.5rem;
 }
 
 .closer__cta { font-size: 1rem; padding: 1.1rem 2rem; position: relative; }
-/* Unified blue: closer CTA uses the same vivid blue as the header
-   CTA (--creek-deep #0d96d4). Previously this used the lighter
-   --creek (#6bbfdb) for "creek accent on dark photo" thematics,
-   but Brees wants all blue CTAs across the site to read as ONE
-   button color, not a family of blues. White text for contrast
-   on the vivid blue; hover lifts to darker --ink so the button
-   stays distinct on the dark closer bg without going to cream. */
-.closer__cta.btn--primary { background: var(--creek-deep); color: var(--white); }
-.closer__cta.btn--primary:hover { background: var(--ink); color: var(--white); }
+/* Brief: primary CTA on the homepage closer is a WHITE pill button
+   (white bg, Midnight Cove text) — high contrast on the flat dark
+   ink section. Hover lifts to powder blue for warmth without
+   breaking the white-on-dark hierarchy. */
+.closer__cta.btn--primary { background: var(--white); color: var(--ink); }
+.closer__cta.btn--primary:hover { background: var(--paper-warm); color: var(--ink); }
 
 /* -----------------------------------------------------------
    11 — After-hours emergency callout
@@ -1602,15 +1776,17 @@ p:last-child { margin-bottom: 0; }
 }
 .site-footer__heading {
   font-family: var(--font-body); font-weight: 700;
-  font-size: 0.75rem; letter-spacing: 0.22em; text-transform: uppercase;
+  /* Brief: footer column headings — 13px / 700 / uppercase / 0.14em. */
+  font-size: 0.8125rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--creek); margin: 0 0 1.25rem;
 }
-.site-footer__address { font-style: normal; line-height: 1.55; color: rgba(244, 235, 218, 0.85); margin-bottom: 0.75rem; }
-.site-footer__hours { color: rgba(244, 235, 218, 0.85); margin: 0 0 1.25rem; }
+/* Brief: footer body / links — 16px / 400-500 weight. */
+.site-footer__address { font-style: normal; font-size: 1rem; font-weight: 400; line-height: 1.55; color: rgba(255, 255, 255, 0.85); margin-bottom: 0.75rem; }
+.site-footer__hours { font-size: 1rem; font-weight: 500; color: rgba(255, 255, 255, 0.85); margin: 0 0 1.25rem; }
 .site-footer__after-hours {
   margin: 0;
   padding-top: 1rem;
-  border-top: 1px solid rgba(244, 235, 218, 0.14);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
   display: flex; flex-direction: column; gap: 0.25rem;
 }
 .site-footer__after-hours-label {
@@ -1622,7 +1798,7 @@ p:last-child { margin-bottom: 0; }
   color: var(--creek);
 }
 .site-footer__after-hours-link {
-  color: rgba(244, 235, 218, 0.92);
+  color: rgba(255, 255, 255, 0.92);
   font-size: 0.9375rem;
   font-weight: 500;
   transition: color 0.2s var(--ease-out);
@@ -1635,7 +1811,7 @@ p:last-child { margin-bottom: 0; }
   font-family: var(--font-body);
   font-size: 0.8125rem;
   font-weight: 400;
-  color: rgba(244, 235, 218, 0.65);
+  color: rgba(255, 255, 255, 0.65);
   transition: color 0.2s var(--ease-out);
 }
 .site-footer__after-hours-phone:hover { color: var(--creek); }
@@ -1651,8 +1827,8 @@ p:last-child { margin-bottom: 0; }
   width: 38px; height: 38px;
   border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center;
-  color: rgba(244, 235, 218, 0.85);
-  border: 1px solid rgba(244, 235, 218, 0.28);
+  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   transition: background-color 0.2s var(--ease-out),
               color 0.2s var(--ease-out),
               border-color 0.2s var(--ease-out),
@@ -1669,16 +1845,16 @@ p:last-child { margin-bottom: 0; }
 .site-footer__contact,
 .site-footer__links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem; }
 .site-footer__contact a,
-.site-footer__links a { color: rgba(244, 235, 218, 0.85); transition: color 0.2s var(--ease-out); font-size: 0.9375rem; }
+.site-footer__links a { color: rgba(255, 255, 255, 0.85); transition: color 0.2s var(--ease-out); font-size: 0.9375rem; }
 .site-footer__contact a:hover,
 .site-footer__links a:hover { color: var(--creek); }
-.site-footer__small { color: rgba(244, 235, 218, 0.5); font-size: 0.8125rem; }
+.site-footer__small { color: rgba(255, 255, 255, 0.5); font-size: 0.8125rem; }
 
 .site-footer__service-area {
-  border-top: 1px solid rgba(244, 235, 218, 0.14);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
   padding: 1.75rem clamp(1.25rem, 4vw, 2.5rem);
   text-align: center; font-size: 0.875rem;
-  color: rgba(244, 235, 218, 0.7);
+  color: rgba(255, 255, 255, 0.7);
   max-width: var(--container-wide); margin: 0 auto;
 }
 /* Bottom legal/credit block — kept tight so it reads as a
@@ -1692,30 +1868,29 @@ p:last-child { margin-bottom: 0; }
   flex-direction: column;
   align-items: center;
   gap: 0.15rem;
-  color: rgba(244, 235, 218, 0.55);
+  color: rgba(255, 255, 255, 0.55);
 }
 .site-footer__wave {
   width: 36px; height: 6px;
-  color: rgba(244, 235, 218, 0.4);
+  color: rgba(255, 255, 255, 0.4);
   margin-bottom: 0.1rem;
 }
 .site-footer__credit {
   margin: 0;
   font-size: 0.78rem;
   letter-spacing: 0.02em;
-  color: rgba(244, 235, 218, 0.7);
+  color: rgba(255, 255, 255, 0.7);
 }
 .site-footer__credit-link {
-  /* Match the parent "Designed by" color (paper at 70%) so the
-     link sits as the same tonal weight as the surrounding text
-     rather than punching brighter than the credit line itself.
-     The underline + creek-cyan hover are kept so it still reads
-     as an interactive link, just quietly. */
+  /* Inherits the "Designed by" color (white at parent opacity)
+     and just bolds slightly for the link. No underline — Brees
+     wanted the link to read as part of the credit line, not as
+     a styled link. Creek-cyan hover preserved for affordance. */
   color: inherit;
   font-weight: 600;
-  border-bottom: 1px solid rgba(244, 235, 218, 0.35);
-  padding-bottom: 1px;
-  transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+  border-bottom: none;
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out);
 }
 .site-footer__credit-link:hover {
   color: var(--creek);
@@ -1728,7 +1903,7 @@ p:last-child { margin-bottom: 0; }
      line above it. */
   font-size: 0.6875rem;
   letter-spacing: 0.04em;
-  color: rgba(244, 235, 218, 0.38);
+  color: rgba(255, 255, 255, 0.38);
 }
 
 /* Button override inside the footer — the dark ink footer background
@@ -1884,7 +2059,7 @@ p:last-child { margin-bottom: 0; }
   color: var(--creek);
 }
 .page-hero--banner .page-hero__lede {
-  color: rgba(244, 235, 218, 0.90);
+  color: rgba(255, 255, 255, 0.90);
 }
 
 /* Services-page banner — override bg image to the cat-on-exam-table
@@ -2188,7 +2363,7 @@ p:last-child { margin-bottom: 0; }
    muted paper tone instead of stone so the disabled link still
    reads as a footer item, just dimmed. */
 .site-footer__links a.nav-disabled {
-  color: rgba(244, 235, 218, 0.40) !important;
+  color: rgba(255, 255, 255, 0.40) !important;
   opacity: 1;
 }
 /* Disabled link inside a dropdown parent — keep the caret visible
@@ -2492,13 +2667,61 @@ p:last-child { margin-bottom: 0; }
    height.
    ----------------------------------------------------------- */
 .faq {
-  /* Mockup section gradient — powder blue fading to off-white. */
+  /* Per brief: each light section runs its own fixed-px gradient
+     (Pale Powder Blue → Warm Off-White over 600px). */
   background: linear-gradient(to bottom, var(--paper-warm) 0px, var(--paper) 600px);
   /* Asymmetric block padding so the wavy bottom divider has
      clearance below the accordion before the wave starts. */
   padding-block: clamp(4rem, 8vw, 7rem) clamp(5.5rem, 9vw, 8rem);
   position: relative;
   overflow: hidden;
+}
+/* FAQ pricing callout — styled to match the sec2 `.mission--navy`
+   card: navy fill (--ink), rounded corners, white body, powder-
+   blue eyebrow label. Sits inside an open .faq__item for fees or
+   quick-reference asides. Reusable anywhere a navy callout makes
+   sense (services panels, team participation, etc.). */
+.faq__callout {
+  margin: 1.5rem 0 0.5rem;
+  padding: clamp(1.25rem, 2vw, 1.75rem) clamp(1.5rem, 2.25vw, 2rem);
+  background: var(--ink);
+  border-radius: 20px;
+  box-shadow:
+    0 1px 2px rgba(15, 64, 96, 0.10),
+    0 22px 48px rgba(15, 64, 96, 0.18);
+}
+.faq__callout-label {
+  margin: 0 0 0.625rem;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--creek);
+}
+.faq__callout-body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--paper);
+}
+
+/* WAVE divider — FAQ → CTA per brief. Fills with Midnight Cove
+   (--ink) so the dark CTA section reads as rising up through the
+   warm-paper FAQ via a creek-bank silhouette. Negative bottom
+   inset bites into the closer below by 2px to prevent any visible
+   sub-pixel hairline at the seam. */
+.faq::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: clamp(48px, 7vw, 88px);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 70' preserveAspectRatio='none'><path d='M0,28 C240,65 480,5 720,35 C960,65 1200,10 1440,38 L1440,70 L0,70 Z' fill='%230f4060'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 2;
 }
 .faq > .container {
   position: relative;
@@ -2530,16 +2753,19 @@ p:last-child { margin-bottom: 0; }
 }
 .faq__title {
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem);
-  line-height: 1.05;
+  /* Brief: section H2 — 38px / 700. */
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  line-height: 1.1;
   letter-spacing: -0.02em;
   color: var(--ink);
   margin: 0.25rem 0 0;
 }
 .faq__title em {
-  font-style: italic;
-  font-weight: 300;
+  /* Brief: no editorial italic / no light-weight em on v2.
+     Em accent dropped to normal weight matching the headline. */
+  font-style: normal;
+  font-weight: 700;
   color: var(--ink);
 }
 .faq__closing {
@@ -2572,9 +2798,10 @@ p:last-child { margin-bottom: 0; }
   cursor: pointer;
   list-style: none;
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(1.05rem, 0.95rem + 0.3vw, 1.25rem);
-  line-height: 1.3;
+  /* Brief: FAQ questions — 18px / 600 weight. */
+  font-weight: 600;
+  font-size: 1.125rem;
+  line-height: 1.4;
   color: var(--ink);
   transition: color 0.2s var(--ease);
   user-select: none;

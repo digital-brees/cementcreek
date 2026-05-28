@@ -9,9 +9,9 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles/main.css?v=13" />
+  <link rel="stylesheet" href="styles/main-2.css?v=21" />
   <link rel="icon" type="image/png" href="assets/CEMENT CREEK MAIN LOGO_BADGE.png" />
 </head>
 <body>
@@ -80,24 +80,34 @@
           <div class="founders__copy">
             <span class="eyebrow" data-reveal>The Founders</span>
             <h2 class="founders__title" id="founders-title" data-reveal>Built with Purpose.</h2>
+            <!-- Two-paragraph lede (matches the homepage-mockup
+                 "longer format"). Natural break at the em-dash
+                 sentence boundary. Copy is unchanged — just split. -->
             <p class="founders__lede" data-reveal>
-              Cement Creek Vet is a small-animal practice built from scratch by Dr. Kara Erickson and Shawna Castillo, business partners and besties with over 35 combined years of experience in veterinary medicine. We each spent the last few decades working in the industry and taking notes &mdash; on what worked, what didn't, and what a really good vet visit could actually feel like for both you and your pet.
+              Cement Creek Vet is a small-animal practice built from scratch by Dr. Kara Erickson and Shawna Castillo, business partners and besties with over 35 combined years of experience in veterinary medicine.
             </p>
-            <!-- MISSION — pulled out of body flow and treated as a
-                 designed statement: small "Our Mission" eyebrow,
-                 large italic pledge sentence, then the three
-                 pillars rendered as a separated trio underneath. -->
+            <p class="founders__lede" data-reveal>
+              We each spent the last few decades working in the industry and taking notes &mdash; on what worked, what didn't, and what a really good vet visit could actually feel like for both you and your pet.
+            </p>
+            <!-- MISSION callout — navy card with eyebrow + pledge only.
+                 The three pillars were pulled OUT into the .values-tags
+                 row below (matches the homepage-mockup structure where
+                 the mission card stays focused on the pledge and the
+                 values read as separate, scannable chips). -->
             <figure class="mission mission--navy" data-reveal>
               <span class="mission__eyebrow">Our Mission</span>
               <blockquote class="mission__quote">
                 To leave every patient, client, and interaction <em>better than we found it.</em>
               </blockquote>
-              <ul class="mission__pillars" aria-label="How we deliver on our mission">
-                <li class="mission__pillar">Honest medicine</li>
-                <li class="mission__pillar">Empathy</li>
-                <li class="mission__pillar">Real conversations</li>
-              </ul>
             </figure>
+            <!-- VALUES TAGS — the three pillars as a pill row below
+                 the mission card. Matches the mockup's `.values-tags`
+                 pattern, recolored to our palette tokens. -->
+            <ul class="values-tags" aria-label="How we deliver on our mission" data-reveal>
+              <li>Honest medicine</li>
+              <li>Empathy</li>
+              <li>Real conversations</li>
+            </ul>
           </div>
 
         </div>
@@ -117,6 +127,13 @@
       <div class="container">
 
         <header class="intentional__head">
+          <!-- Wave-mark squiggle + "How we practice" eyebrow per
+               brief + mockup. Powder Blue stroke on dark Midnight
+               Cove via currentColor inheritance. -->
+          <svg class="intentional__wave-mark" aria-hidden="true" width="44" height="12" viewBox="0 0 44 12" fill="none" data-reveal>
+            <path d="M1 8C5 3 10 3 14 8C18 13 23 13 27 8C31 3 36 3 40 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <p class="intentional__eyebrow" data-reveal>How we practice</p>
           <h2 class="intentional__title" id="intentional-title" data-reveal>
             Everything is <em>intentional.</em>
           </h2>
@@ -327,15 +344,15 @@
               </svg>
             </button>
           </div>
-          <a href="services.html" class="services-strip__cta" data-reveal>
+          <a href="services-2.html" class="services-strip__cta" data-reveal>
             See all services &rarr;
           </a>
         </div>
       </header>
 
-      <!-- Horizontal scroll rail — no auto-motion. Drag, swipe, or
-           use the visible scrollbar to pan through services.
-           Cards are tall rounded pills with photo-fill + overlay caption. -->
+      <!-- Single horizontal scroll rail (restored per Brees) —
+           tall pill cards rotate horizontally via prev/next arrows
+           in the header, native drag/swipe, hidden scrollbar. -->
       <div class="services-rail" aria-label="Services available at Cement Creek">
 
         <article class="service-card photo-print">
@@ -399,6 +416,41 @@
         </article>
 
       </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         GOOGLE REVIEWS (brief — From the community)
+         Placeholder copy flagged via data-todo until real reviews
+         arrive. Structure: 3-column white cards on warm off-white,
+         Vivid Mid stars, italic body, source + name footer.
+         ======================================================== -->
+    <section class="reviews" aria-labelledby="reviews-title" data-todo="Replace placeholder reviews with real Google Reviews">
+      <header class="reviews__head">
+        <span class="eyebrow" data-reveal>From the community</span>
+        <h2 class="reviews__title" id="reviews-title" data-reveal>What Crested Butte pet owners are saying.</h2>
+      </header>
+      <div class="reviews__grid">
+        <article class="review-card" data-reveal>
+          <div class="review-card__stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-card__quote">"Dr. Erickson took more time explaining my dog's diagnosis than any vet I've ever seen. You can feel they genuinely care about getting it right &mdash; not just getting through the appointment."</p>
+          <p class="review-card__source">Google Review</p>
+          <p class="review-card__name">Sarah M. &middot; Crested Butte</p>
+        </article>
+        <article class="review-card" data-reveal>
+          <div class="review-card__stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-card__quote">"We were so nervous moving to a new area with our senior cat. Cement Creek made us feel like family on the very first visit. I don't think we'll ever go anywhere else."</p>
+          <p class="review-card__source">Google Review</p>
+          <p class="review-card__name">Tom &amp; Lisa R. &middot; Mt. Crested Butte</p>
+        </article>
+        <article class="review-card" data-reveal>
+          <div class="review-card__stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-card__quote">"The happy visit concept is genius. My anxious rescue actually wags his tail going in now. I didn't think that was possible after years of vet anxiety."</p>
+          <p class="review-card__source">Google Review</p>
+          <p class="review-card__name">Jenn K. &middot; Gunnison</p>
+        </article>
+      </div>
     </section>
 
 
@@ -460,6 +512,14 @@
                   might need over the next year. If we recommend anything beyond
                   the wellness check, we'll tell you what and why.
                 </p>
+                <!-- Pricing callout (brief: Pale Powder Blue left-bordered
+                     inset). $[XX] is a placeholder until exam-fee confirmed. -->
+                <aside class="faq__callout" data-todo="Confirm new-patient exam fee with Shawna/Kara">
+                  <p class="faq__callout-label">New patient exam</p>
+                  <p class="faq__callout-body">
+                    A full 30-minute, nose-to-tail evaluation &mdash; not a 15-minute checklist. Exam fee is $[XX]. We're upfront about what you're paying for and why.
+                  </p>
+                </aside>
               </div>
             </details>
 
@@ -614,17 +674,27 @@
     <section class="closer" aria-labelledby="closer-title">
 
       <div class="container container--narrow">
+        <!-- Wave-mark squiggle above the CTA headline (brief +
+             mockup). Powder Blue stroke on the dark Midnight Cove
+             section per the dark-section convention. -->
+        <svg class="closer__wave-mark" aria-hidden="true" width="44" height="12" viewBox="0 0 44 12" fill="none" data-reveal>
+          <path d="M1 8C5 3 10 3 14 8C18 13 23 13 27 8C31 3 36 3 40 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
         <h2 class="closer__title" id="closer-title" data-reveal>
           Where pets are neighbors <em>and neighbors are friends.</em>
         </h2>
-        <ul class="closer__areas" data-reveal aria-label="Service area">
-          <li class="closer__area-pill">CB South</li>
-          <li class="closer__area-pill">Crested Butte</li>
-          <li class="closer__area-pill">Mt. Crested Butte</li>
-          <li class="closer__area-pill">Almont</li>
-          <li class="closer__area-pill">Gunnison</li>
-          <li class="closer__area-pill closer__area-pill--more">+ the rest of the Valley</li>
-        </ul>
+
+        <!-- Brief: "Proudly serving" label + dot-separated town
+             list (no pills). Uses the same town names as the
+             previous v2 pill list — copy unchanged, just reshaped
+             into label + inline list per the brief spec. -->
+        <p data-reveal>
+          <span class="closer__serving-label">Proudly serving</span>
+          <span class="closer__towns">
+            CB South &middot; Crested Butte &middot; Mt. Crested Butte &middot; Almont &middot; Gunnison &middot; and surrounding areas of the Gunnison Valley
+          </span>
+        </p>
+
         <div data-reveal>
           <a href="#" class="btn closer__cta btn--primary" data-todo="Book an appointment URL">Book an appointment</a>
         </div>
@@ -635,7 +705,7 @@
 
   <div id="global-footer"></div>
 
-  <script src="includes/load-partials.js"></script>
+  <script src="includes/load-partials-2.js"></script>
   <script src="scripts/main.js"></script>
 </body>
 </html>
