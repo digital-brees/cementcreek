@@ -5,7 +5,26 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-29
-**Status:** v2 design is now the canonical site on the `v2-design` branch (v16, below). Earlier passes (v15, v14, v13) follow.
+**Status:** v2 design is now the canonical site, merged to `main` = production = the client review link `https://cement-creek-vet.vercel.app/` (see Workflow section). Latest polish in v17 below. Cache buster `styles/main.css?v=48`.
+
+**v17 (2026-05-29) — workflow reset + layout/spacing polish (on `main`)**
+
+  *Workflow reset (see the "Workflow (FINAL)" section below for the full model):* the `-2`→canonical rename was merged to `main`; `main` is now the new design = production = the single public client link (`cement-creek-vet.vercel.app`). The `v2-design` branch + the `cement-creek-vet-v2.vercel.app` alias were deleted. Old v11.6 design lives only in git history. `.vercelignore` keeps `session-notes.md`/`*.md`/`*.py`/scratch mockups/`ccv*.png`/`assets/brief`+`assets/copy` out of every deploy (verified 404 on the live URL). Production is public (no login wall). CLI deploys via `vercel deploy --prod --yes` (repo linked, `.vercel/` gitignored).
+
+  *Header + topbar (full-width):*
+  - **Header** → full-width `1fr auto 1fr` grid: logo hard left, nav at TRUE page center, call icon + Book button hard right. Dropped the 1280px cap + the old margin-left:auto right-cluster.
+  - **Topbar** → full-width too: chips centered on the page, Instagram/Facebook icons pushed to the true right edge (was capped at container). Header + topbar share the same edge gutter `clamp(1.5rem,3vw,2.75rem)`.
+
+  *Spacing trims (kept content close under the wavy section seams):*
+  - Homepage **founders** top padding `clamp(5rem,9vw,88px)` → `clamp(1.75rem,3vw,2.75rem)` (asymmetric, smaller bottom too).
+  - **Intentional** band: added `padding-block: clamp(2.25rem,4vw,3.5rem) clamp(3.5rem,6vw,5.5rem)` (was base ~7rem).
+  - **Reviews** band: top trimmed, **bottom increased** to `clamp(5.5rem,9vw,8rem)` so cards clear the wave.
+  - **Services sec2** (`.services-page`) top trimmed to `clamp(1.5rem,2.5vw,2.5rem)` to balance the deeper bottom.
+  - **Team founders** (`.team-section`) top trimmed to `clamp(1.75rem,3vw,2.75rem)`.
+
+  *One-line text:* reviews title "What Crested Butte pet owners are saying." and the closer town list both forced to one line (`white-space: nowrap`, with mobile wrap fallbacks at 760px / 992px).
+
+  *Hero positioning match:* team + services page banners (`.page-hero--banner`) now mirror the homepage hero exactly — vertically centered (`display:flex; align-items:center`), 80px left inset (`padding: 0 80px`, 28px on mobile), 560px text block — instead of the old top-pinned centered-1280-container layout.
 
 **v16 (2026-05-29) — renamed `-2` files to canonical names on `v2-design`**
   - Now that the new design lives on its own branch (production `main` = old v11.6 design), the parallel `-2` naming is gone. On `v2-design` the new design IS the site: `homepage-2.html → index.html`, `services-2.html → services.html`, `team-2.html → team.html`, `styles/main-2.css → styles/main.css`, `includes/{header,footer}-2.html → {header,footer}.html`, `includes/load-partials-2.js → load-partials.js` (git mv -f, overwriting the old v1 files on the branch — v1 still lives on `main` + git history).
