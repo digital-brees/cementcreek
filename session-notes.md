@@ -379,7 +379,8 @@ Cement Creek/
 
 - **Local preview:** `py -3 -m http.server 4322 --directory "C:/Users/brees/Claude Projects/Cement Creek"` → http://localhost:4322/
 - **GitHub:** `digital-brees/cementcreek`
-- **Vercel:** Not yet connected.
+- **Vercel: LIVE — `https://cement-creek-vet.vercel.app/`** (auto-deploys from `main`).
+- **Branch workflow (adopted 2026-05-29):** `main` = production (auto-deploys to the live URL above). All ongoing v2 work happens on the **`v2-design`** branch — Vercel builds a preview deployment per push to the branch. Merge `v2-design` → `main` only at client-approved milestones to ship to production. Do NOT commit directly to `main`.
 
 ---
 
