@@ -524,14 +524,14 @@ p:last-child { margin-bottom: 0; }
   box-shadow: 0 6px 24px rgba(15, 64, 96, 0.10);
 }
 .site-header__inner {
-  max-width: var(--container-wide); margin-inline: auto;
-  padding: 1rem clamp(1.25rem, 4vw, 2.5rem);
-  /* Logo anchored to the LEFT. Everything else (nav links + phone +
-     CTA + hamburger) pushed to the RIGHT as a single cluster via
-     margin-left:auto on the nav. The nav and actions sit next to
-     each other with a small gap, so the right side reads as one
-     unit: Home Team Services Contact · 📞 · Book an appointment. */
-  display: flex; align-items: center;
+  /* Full-width header: logo hard left, nav centered, actions (phone +
+     Book) hard right. 3-column grid — outer columns size to content,
+     the center column flexes and centers the nav within it. */
+  max-width: none;
+  padding: 1rem clamp(1.5rem, 3vw, 2.75rem);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
   gap: clamp(1rem, 2.5vw, 2rem);
 }
 .site-header__brand { display: inline-flex; align-items: center; }
@@ -540,11 +540,8 @@ p:last-child { margin-bottom: 0; }
 .site-header__logo { width: 76px; height: 76px; transition: transform 0.4s var(--ease-out); }
 .site-header__brand:hover .site-header__logo { transform: rotate(-3deg) scale(1.04); }
 
-/* Nav is the first child of the right-side cluster. margin-left:auto
-   pushes it (and everything after it) all the way to the right edge,
-   leaving the logo alone on the left. The actions cluster (phone +
-   CTA + hamburger) follows immediately after with its own small gap. */
-.site-header__nav { display: flex; justify-content: flex-end; margin-left: auto; }
+/* Nav sits in the center column and is centered within it. */
+.site-header__nav { display: flex; justify-content: center; justify-self: center; }
 .site-header__menu {
   list-style: none; margin: 0; padding: 0;
   display: flex;
@@ -636,7 +633,7 @@ p:last-child { margin-bottom: 0; }
 /* Phone icon + Book button hug each other (0.6rem internal gap).
    margin-left:auto removed so they sit right after the nav rather
    than getting shoved to the far right edge of the header. */
-.site-header__actions { display: flex; align-items: center; gap: 0.6rem; }
+.site-header__actions { display: flex; align-items: center; gap: 0.6rem; justify-self: end; }
 .site-header__icon-link {
   width: 42px; height: 42px; border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center;
