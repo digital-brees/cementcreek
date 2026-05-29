@@ -2157,7 +2157,12 @@ p:last-child { margin-bottom: 0; }
   position: relative;
   /* ~50vh tall, capped so it doesn't dominate at any viewport */
   min-height: clamp(360px, 50vh, 520px);
-  padding-block: clamp(4rem, 7vw, 6rem) clamp(5.5rem, 9vw, 8rem);
+  /* Match the homepage hero's text positioning: vertically centered,
+     left inset 80px (was top-pinned via padding-block inside a
+     centered container). */
+  display: flex;
+  align-items: center;
+  padding: 0 80px;
   text-align: left;
   isolation: isolate;
   color: var(--paper);
@@ -2197,8 +2202,15 @@ p:last-child { margin-bottom: 0; }
   z-index: 2;
   align-items: flex-start;
   text-align: left;
-  max-width: var(--container);
-  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+  /* Match homepage .hero-text: 560px block, left-aligned (no centered
+     container) — the 80px inset comes from the section padding above. */
+  max-width: 560px;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+/* Match the homepage hero's mobile inset. */
+@media (max-width: 800px) {
+  .page-hero--banner { padding: 0 28px; }
 }
 .page-hero--banner .page-hero__title {
   color: var(--paper);
@@ -2248,7 +2260,9 @@ p:last-child { margin-bottom: 0; }
    ----------------------------------------------------------- */
 .team-section {
   background: var(--paper-warm);
-  padding-block: clamp(4rem, 8vw, 7rem) clamp(6rem, 10vw, 9rem);
+  /* Tighter top so content sits closer under the hero wave (was
+     clamp(4rem,8vw,7rem)); bottom keeps room before the wave to the closer. */
+  padding-block: clamp(1.75rem, 3vw, 2.75rem) clamp(5rem, 9vw, 7rem);
   position: relative;
   overflow: hidden;
 }
@@ -2552,7 +2566,9 @@ p:last-child { margin-bottom: 0; }
 
 .services-page {
   background: var(--paper-warm);
-  padding-block: clamp(3rem, 6vw, 5.5rem) clamp(5rem, 9vw, 8rem);
+  /* Less top padding so content sits closer under the hero wave and
+     balances the (deeper) bottom space before the wave to the closer. */
+  padding-block: clamp(1.5rem, 2.5vw, 2.5rem) clamp(5rem, 9vw, 8rem);
   position: relative;
   overflow: hidden;
 }
