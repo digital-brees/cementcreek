@@ -1,0 +1,21 @@
+# Internal files — never deploy to the client-facing site.
+# (These stay in the git repo; they're just excluded from Vercel uploads.)
+
+# Session notes / internal docs
+session-notes.md
+*.md
+
+# One-off utility scripts
+*.py
+
+# Scratch / rejected mockups
+hero-preview.html
+services-wave-mockup.html
+
+# Internal design screenshots
+ccv-*.png
+ccv2-*.png
+
+# Client brief + copy source documents
+assets/brief/
+assets/copy/

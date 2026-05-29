@@ -380,6 +380,18 @@ Cement Creek/
 
 ---
 
+## Workflow (FINAL — adopted 2026-05-29, supersedes the earlier branch/preview notes below)
+
+The domain `cementcreekvet.com` is NOT live anywhere yet, so there is no production site to protect. Setup is deliberately simple:
+
+- **`main` = the design the client reviews = production.** The new (v2) design lives on `main` with canonical filenames (`index.html` etc.). The old pre-redesign design is NOT deployed — it lives only in git history (recoverable).
+- **One clean client link:** `https://cement-creek-vet.vercel.app/` (production, public, no login wall, clean paths `/`, `/services.html`, `/team.html`). This is the ONLY link given to the client. It always shows the latest `main`.
+- **Substantial / risky changes:** branch off `main` (e.g., `git checkout -b round-2`). Vercel auto-builds a private preview for that branch (for Brees only). Merge to `main` only once approved — the client's link then updates. The client never juggles URLs.
+- **Small edits:** commit straight to `main` (client link updates on push). 
+- **Repo hygiene:** `.vercelignore` excludes `session-notes.md`, `*.md`, `*.py`, scratch mockups, `ccv*.png` screenshots, and `assets/brief/` + `assets/copy/` PDFs from every deploy. So the client never sees internal files — at review OR launch.
+- **Launch:** point `cementcreekvet.com` at this Vercel project's production. Deploy is already clean, so only the final design goes live. Swap `robots.txt` (block) → `robots.production.txt` (allow) at launch.
+- Retired: the `cement-creek-vet-v2.vercel.app` manual alias and the protected branch-preview approach (added friction; production URL is simpler + public).
+
 ## Preview & Deploy
 
 - **Local preview:** `py -3 -m http.server 4322 --directory "C:/Users/brees/Claude Projects/Cement Creek"` → http://localhost:4322/
