@@ -11,8 +11,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles/main-2.css?v=26" />
+  <link rel="stylesheet" href="styles/main-2.css?v=40" />
   <link rel="icon" type="image/png" href="assets/CEMENT CREEK MAIN LOGO_BADGE.png" />
+
+  <!-- Feedbucket — client feedback widget (Cement Creek project) -->
+  <script type="text/javascript">
+    (function(k) {
+        let s=document.createElement('script');s.defer=true;
+        s.src="https://cdn.feedbucket.app/assets/feedbucket.js";
+        s.dataset.feedbucket=k;document.head.appendChild(s);
+    })('0OCWwyM0vDK1iGGIJFXx')
+  </script>
 </head>
 <body>
 
@@ -89,25 +98,20 @@
             <p class="founders__lede" data-reveal>
               We each spent the last few decades working in the industry and taking notes &mdash; on what worked, what didn't, and what a really good vet visit could actually feel like for both you and your pet.
             </p>
-            <!-- MISSION callout — navy card with eyebrow + pledge only.
-                 The three pillars were pulled OUT into the .values-tags
-                 row below (matches the homepage-mockup structure where
-                 the mission card stays focused on the pledge and the
-                 values read as separate, scannable chips). -->
+            <!-- MISSION callout — navy card with eyebrow + pledge, and
+                 the three values as an inline dot-separated list inside
+                 the same card (per Brees — felt detached outside). -->
             <figure class="mission mission--navy" data-reveal>
               <span class="mission__eyebrow">Our Mission</span>
               <blockquote class="mission__quote">
                 To leave every patient, client, and interaction <em>better than we found it.</em>
               </blockquote>
+              <ul class="values-tags" aria-label="How we deliver on our mission">
+                <li>Honest medicine</li>
+                <li>Empathy</li>
+                <li>Real conversations</li>
+              </ul>
             </figure>
-            <!-- VALUES TAGS — the three pillars as a pill row below
-                 the mission card. Matches the mockup's `.values-tags`
-                 pattern, recolored to our palette tokens. -->
-            <ul class="values-tags" aria-label="How we deliver on our mission" data-reveal>
-              <li>Honest medicine</li>
-              <li>Empathy</li>
-              <li>Real conversations</li>
-            </ul>
           </div>
 
         </div>

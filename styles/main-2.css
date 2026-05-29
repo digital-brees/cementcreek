@@ -124,11 +124,13 @@ h1, h2, h3, h4, h5 {
   color: var(--ink); margin: 0;
 }
 h1 { font-weight: 800; }      /* Brief: H1 = 48px / 800 weight. */
-/* Italic accents inside headings drop to light weight (300) for an
-   editorial contrast within the same line — bold-then-airy rhythm. */
-h1 em, h2 em, h3 em, h4 em {
-  font-weight: 300;
-  font-style: italic;
+/* Brief: headings are a SINGLE weight + color — no accent words.
+   em inside any heading inherits the heading's weight/color and is
+   never italic. (Was an editorial light-italic treatment in v1.) */
+h1 em, h2 em, h3 em, h4 em, h5 em, h6 em {
+  font-weight: inherit;
+  font-style: normal;
+  color: inherit;
 }
 h1 { font-size: var(--fs-h1); }
 h2 { font-size: var(--fs-h2); }
@@ -708,6 +710,22 @@ p:last-child { margin-bottom: 0; }
   height: 580px;
   overflow: hidden;
 }
+/* Wavy bottom divider — same creek-bank seam the team/services
+   page heroes have (.page-hero--banner::after). Fills with the
+   founders section's top color (--paper-warm #d8edf5) so the hero
+   flows into the founders section with a water-ripple edge instead
+   of a hard straight cut. */
+.hero-banner::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: clamp(48px, 7vw, 88px);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 70' preserveAspectRatio='none'><path d='M0,28 C240,65 480,5 720,35 C960,65 1200,10 1440,38 L1440,70 L0,70 Z' fill='%23d8edf5'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 3;
+}
 .hero-banner video {
   position: absolute;
   inset: 0;
@@ -726,6 +744,14 @@ p:last-child { margin-bottom: 0; }
 .hero-text {
   color: #fff;
   max-width: 560px;
+}
+/* Signature wave-mark squiggle above the hero H1 — same 3-hump
+   mark used above the intentional / reviews / closer headings.
+   Powder cyan on the dark hero overlay, left-aligned with the copy. */
+.hero-wave-mark {
+  display: block;
+  color: #6bbfdb;
+  margin-bottom: 14px;
 }
 .hero-eyebrow {
   font-family: var(--font-display);
@@ -907,9 +933,11 @@ p:last-child { margin-bottom: 0; }
   max-width: 22ch;
 }
 .mission__quote em {
-  font-style: italic;
-  font-weight: 300;
-  color: var(--ink);
+  /* Brief: mission statement is plain (white) text in the navy card
+     — no editorial italic / light-weight / accent. */
+  font-style: normal;
+  font-weight: inherit;
+  color: inherit;
 }
 .mission__pillars {
   list-style: none;
@@ -979,21 +1007,8 @@ p:last-child { margin-bottom: 0; }
 .mission--navy .mission__quote em {
   color: var(--paper); /* off-white pledge */
 }
-.mission--navy .mission__quote em {
-  /* Vivid-blue underline behind the italic phrase, same accent
-     language as the hero "Gunnison Valley." marker. Drawn as a
-     bottom-anchored sliver via background-image so it doesn't
-     interfere with descenders or line-wrapping. */
-  background-image: linear-gradient(
-    to top,
-    rgba(13, 150, 212, 0.55) 0,
-    rgba(13, 150, 212, 0.55) 4px,
-    transparent 4px
-  );
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  padding-bottom: 2px;
-}
+/* Brief: no accent underline on the mission statement — plain white
+   text in the navy card. (Vivid-blue underline removed.) */
 .mission--navy .mission__pillar {
   color: rgba(255, 255, 255, 0.78); /* warm off-white, slightly dimmed */
 }
@@ -1002,31 +1017,57 @@ p:last-child { margin-bottom: 0; }
   opacity: 1;
 }
 
-/* v2 — VALUES TAGS — pill row below the mission card (matches the
-   homepage-mockup `.values-tags` structure). Light powder-blue
-   chips with ink text + subtle ink border so they sit on the
-   light section bg as scannable values. The mission navy card +
-   these chips together replace v1's "pillars inside the card"
-   layout — separated rhythm reads as: pledge, then values. */
+/* v2 — VALUES — inline editorial list below the mission card (per
+   Brees: no pills). The three values read as Midnight Cove text
+   separated by a small Vivid Mid dot, matching the site's
+   typographic voice rather than chip chrome. */
 .values-tags {
   list-style: none;
   margin: 1.5rem 0 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.85rem;
 }
 .values-tags li {
-  background: var(--paper-warm);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
   color: var(--ink);
-  border: 1px solid rgba(15, 64, 96, 0.18);
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
   font-family: var(--font-body);
-  font-size: 0.8125rem;
+  font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.01em;
   white-space: nowrap;
+}
+/* Vivid Mid dot separator between values (not after the last). */
+.values-tags li:not(:last-child)::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--creek-deep);
+}
+/* Inside the navy mission card — the values echo the "Our Mission"
+   eyebrow style (powder-blue, uppercase, tracked) so they read as a
+   distinct labeled element framing the pledge, differentiated by
+   treatment rather than a divider line. */
+.mission--navy .values-tags {
+  margin-top: 1.5rem;
+  gap: 0.7rem;
+}
+.mission--navy .values-tags li {
+  color: var(--creek);            /* powder blue, like "Our Mission" */
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.mission--navy .values-tags li:not(:last-child)::after {
+  width: 4px;
+  height: 4px;
+  background: var(--creek);
 }
 /* Single image on the left (replaces the stacked polaroids).
    Rounded corners + soft shadow — no polaroid tilt or border. */
@@ -1132,12 +1173,11 @@ p:last-child { margin-bottom: 0; }
   max-width: 14ch;
 }
 .intentional__title em {
-  /* Brief: no editorial italic on v2 — em accent now reads as
-     a slightly lighter color on the same weight, not italic. */
+  /* Brief: headings are a single color + weight — no accent words.
+     em inherits the title's color/weight, non-italic. */
   font-style: normal;
-  font-weight: 700;
-  color: var(--white);
-  position: relative;
+  font-weight: inherit;
+  color: inherit;
   white-space: nowrap;
 }
 /* Wave-mark + "How we practice" eyebrow above the section title
@@ -1434,9 +1474,10 @@ p:last-child { margin-bottom: 0; }
   margin-bottom: 0.65rem;
 }
 .tab-panel__heading {
-  font-family: var(--font-display); font-weight: 400;
-  font-size: clamp(1.65rem, 1.25rem + 1.3vw, 2.4rem);
-  letter-spacing: -0.015em; line-height: 1.08;
+  /* Brief: Tab section heading (H3) — 30px / 700. */
+  font-family: var(--font-display); font-weight: 700;
+  font-size: var(--fs-h3);
+  letter-spacing: -0.015em; line-height: 1.12;
   color: var(--white);
   margin: 0 0 0.85rem;
 }
@@ -1714,7 +1755,9 @@ p:last-child { margin-bottom: 0; }
   color: var(--paper);
   position: relative;
   text-align: center;
-  padding-block: clamp(5rem, 9vw, 8rem);
+  /* Tightened per Brees — was clamp(5rem, 9vw, 8rem) (80–128px),
+     then 2.75–4.25rem; trimmed again for a more compact CTA band. */
+  padding-block: clamp(1.75rem, 3.5vw, 3rem);
   isolation: isolate;
 }
 /* Variants neutralized — no photo, no scrim, flat ink for all
@@ -1728,7 +1771,7 @@ p:last-child { margin-bottom: 0; }
    above the H2 per mockup. */
 .closer__wave-mark {
   display: block;
-  margin: 0 auto 18px;
+  margin: 0 auto 12px;
   color: var(--creek);  /* powder blue — inherited by stroke="currentColor" */
 }
 .closer__title {
@@ -1739,11 +1782,11 @@ p:last-child { margin-bottom: 0; }
   font-style: normal;
   font-weight: 700;
   color: var(--paper); line-height: 1.15; letter-spacing: -0.015em;
-  margin: 0 auto 2rem;
+  margin: 0 auto 1.5rem;
   max-width: 22ch;
   position: relative;
 }
-.closer__title em { color: var(--creek); font-style: normal; font-weight: 700; }
+.closer__title em { color: inherit; font-style: normal; font-weight: inherit; }
 
 /* Service-area pills — small rounded chips listing where they serve.
    Outlined cream on the dark ink-deep band so the row feels light + airy.
@@ -1770,7 +1813,7 @@ p:last-child { margin-bottom: 0; }
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.78);
   max-width: 60ch;
-  margin: 0 auto clamp(2rem, 3.5vw, 3rem);
+  margin: 0 auto clamp(1.25rem, 2.5vw, 1.75rem);
 }
 /* (Legacy v1 town-pill styles kept below so they don't break v1.) */
 .closer__areas {
@@ -1932,7 +1975,7 @@ p:last-child { margin-bottom: 0; }
 .site-footer__contact,
 .site-footer__links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem; }
 .site-footer__contact a,
-.site-footer__links a { color: rgba(255, 255, 255, 0.85); transition: color 0.2s var(--ease-out); font-size: 0.9375rem; }
+.site-footer__links a { color: rgba(255, 255, 255, 0.85); transition: color 0.2s var(--ease-out); font-size: 1rem; }
 .site-footer__contact a:hover,
 .site-footer__links a:hover { color: var(--creek); }
 .site-footer__small { color: rgba(255, 255, 255, 0.5); font-size: 0.8125rem; }
@@ -2058,18 +2101,23 @@ p:last-child { margin-bottom: 0; }
   gap: 1.25rem;
 }
 .page-hero__title {
+  /* Brief: page H1 48px / 800, Montserrat, no editorial italic.
+     em accents are recolored (not italicized) — matches the
+     homepage closer/intentional title treatment. */
   font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(2.25rem, 1.4rem + 2.8vw, 4rem);
-  line-height: 1.05;
-  letter-spacing: -0.022em;
+  font-style: normal;
+  font-weight: 800;
+  font-size: var(--fs-h1);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
   color: var(--ink);
   margin: 0;
 }
 .page-hero__title em {
-  font-style: italic;
-  font-weight: 300;
+  /* Brief: single-color headings — em inherits title color/weight. */
+  font-style: normal;
+  font-weight: inherit;
+  color: inherit;
 }
 .page-hero__lede {
   font-size: var(--fs-body-lg);
@@ -2084,15 +2132,11 @@ p:last-child { margin-bottom: 0; }
    in cream. Bottom edge is a wavy creek-bank silhouette
    (paper-warm fill) flowing into the team section below. */
 .page-hero--banner {
-  background-color: var(--ink-deep);
-  background-image: url('../assets/images/team-page-hero.jpg');
-  background-size: cover;
-  /* New team hero is portrait (768x1024) — biased lower so the
-     founders themselves (faces + branded shirts) sit in the visible
-     horizontal strip, with the branded tent banner still peeking
-     overhead at the top edge. */
-  background-position: center 55%;
-  background-repeat: no-repeat;
+  /* Brief: page banner = solid Midnight Cove background with the
+     photo at ~15% opacity / luminosity blend (a faint tonal texture,
+     not a full visible photo). The image lives on ::before below. */
+  background-color: var(--ink);
+  position: relative;
   /* ~50vh tall, capped so it doesn't dominate at any viewport */
   min-height: clamp(360px, 50vh, 520px);
   padding-block: clamp(4rem, 7vw, 6rem) clamp(5.5rem, 9vw, 8rem);
@@ -2100,18 +2144,17 @@ p:last-child { margin-bottom: 0; }
   isolation: isolate;
   color: var(--paper);
 }
-/* Dark scrim over the photo so the overlaid text reads cleanly. */
+/* Brief: banner photo at ~15% opacity, luminosity blend over the
+   Midnight Cove background — faint texture behind the headline. */
 .page-hero--banner::before {
   content: '';
   position: absolute; inset: 0;
-  background:
-    linear-gradient(to right,
-      rgba(15, 64, 96, 0.78) 0%,
-      rgba(15, 64, 96, 0.55) 50%,
-      rgba(15, 64, 96, 0.45) 100%),
-    linear-gradient(to bottom,
-      rgba(15, 64, 96, 0.20) 0%,
-      rgba(15, 64, 96, 0.55) 100%);
+  background-image: url('../assets/images/team-page-hero.jpg');
+  background-size: cover;
+  background-position: center 55%;
+  background-repeat: no-repeat;
+  opacity: 0.15;
+  mix-blend-mode: luminosity;
   pointer-events: none;
   z-index: 0;
 }
@@ -2143,20 +2186,31 @@ p:last-child { margin-bottom: 0; }
   color: var(--paper);
 }
 .page-hero--banner .page-hero__title em {
-  color: var(--creek);
+  color: inherit;   /* single-color heading per brief */
 }
 .page-hero--banner .page-hero__lede {
   color: rgba(255, 255, 255, 0.90);
 }
 
-/* Services-page banner — override bg image to the cat-on-exam-table
-   photo. Position biased toward the lower-middle so the cat's
-   face stays centered in the visible horizontal strip after
-   CSS center-cropping. */
-.page-hero--services {
-  background-image: url('../assets/images/services-page-hero.jpg');
-  background-position: center 50%;
+/* Services-page banner — white Samoyed (the dog from the old CTA
+   section, per Brees), set as the faint ::before texture per brief. */
+.page-hero--services::before {
+  background-image: url('../assets/images/team-closer-bg.jpg');
+  background-position: center 40%;
 }
+
+/* Signature wave-mark squiggle above the page-hero H1 (services) —
+   same 3-hump mark + powder cyan as the homepage hero + section
+   headings, left-aligned with the banner copy. */
+.page-hero__wave-mark {
+  display: block;
+  color: var(--creek);
+  margin-bottom: 0.6rem;
+}
+/* When the standalone wave-mark is present, suppress the eyebrow's
+   own inline dash so the hero shows a single (prominent) wave, not
+   two stacked ones — matches the reviews/intentional stacking. */
+.page-hero__wave-mark + .eyebrow--on-dark::before { display: none; }
 
 /* Eyebrow on dark — paper-colored text + creek-cyan wave so it
    still reads against the dark scrim. */
@@ -2204,18 +2258,25 @@ p:last-child { margin-bottom: 0; }
   align-items: center;
   gap: 1rem;
 }
+/* Center the eyebrow's wave-mark above its text (the eyebrow defaults
+   to left-aligning its stacked squiggle) so it sits centered over
+   "Co-Founders" in this centered head. */
+.team-section__head .eyebrow { align-items: center; }
 .team-section__title {
+  /* Brief: section H2 38px / 700, Montserrat, no editorial italic. */
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  line-height: 1.1;
+  letter-spacing: -0.018em;
   color: var(--ink);
   margin: 0;
 }
 .team-section__title em {
-  font-style: italic;
-  font-weight: 300;
+  /* Brief: single-color headings — em inherits title color/weight. */
+  font-style: normal;
+  font-weight: inherit;
+  color: inherit;
 }
 .team-section__intro {
   font-size: var(--fs-body-lg);
@@ -2278,21 +2339,24 @@ p:last-child { margin-bottom: 0; }
   flex: 1;
 }
 .founder-card__name {
+  /* Brief: Bio name 34px / 400 weight, Montserrat. */
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(1.5rem, 1.15rem + 1vw, 2rem);
+  font-weight: 400;
+  font-size: 2.125rem;        /* 34px */
   line-height: 1.1;
   letter-spacing: -0.018em;
   color: var(--ink);
   margin: 0;
 }
 .founder-card__title {
+  /* Brief: Bio role 16px / 500 weight, Mid Gray (#4a4850).
+     Not uppercase, not the vivid-blue eyebrow treatment. */
   font-family: var(--font-body);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--creek-deep);
+  font-size: 1rem;            /* 16px */
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--stone);        /* Mid Gray */
   margin: 0 0 0.5rem;
 }
 .founder-card__intro {
@@ -2321,7 +2385,7 @@ p:last-child { margin-bottom: 0; }
   cursor: pointer;
   list-style: none;
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.9375rem;        /* Brief: bio summary 15px / 600 */
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -2395,29 +2459,21 @@ p:last-child { margin-bottom: 0; }
   border-top: 1px solid rgba(22, 59, 108, 0.12);
 }
 .founder-card__breed-q {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 400;
-  font-size: 0.95rem;
+  /* Brief: Fun Q&A question label — 12px uppercase, Midnight Cove.
+     Reads as a label (not an italic editorial line). */
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.75rem;          /* 12px */
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   line-height: 1.4;
-  color: var(--ink);
-  margin: 0 0 0.6rem;
-  display: flex;
-  align-items: baseline;
-  gap: 0.55rem;
-}
-.founder-card__breed-q::before {
-  content: '';
-  flex-shrink: 0;
-  width: 22px; height: 6px;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 8' preserveAspectRatio='none'><path d='M0 4 Q 4 0, 8 4 T 16 4 T 24 4 T 32 4' stroke='%230d96d4' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  position: relative;
-  top: -0.25em;
+  color: var(--ink);           /* Midnight Cove */
+  margin: 0 0 0.5rem;
 }
 .founder-card__breed-a {
-  font-size: 0.92rem;
+  /* Brief: Fun Q&A answer — 16px. */
+  font-size: 1rem;             /* 16px */
   line-height: 1.6;
   color: var(--charcoal);
   margin: 0;
@@ -2497,12 +2553,25 @@ p:last-child { margin-bottom: 0; }
   z-index: 2;
 }
 
-/* Two-column layout — sticky 280px menu, fluid focus pane */
+/* Open the services section to full width (per Brees — client
+   dislikes the capped site-width look). Drops the 1280px container
+   cap, matching the homepage founders section. */
+.services-page > .container {
+  max-width: none;
+  padding-inline: clamp(1.5rem, 4vw, 60px);
+}
+
+/* Three-column rhythm at full width: menu 20% | image 40% | text 40%.
+   Built as a nested grid — layout = menu(20%) + focus(80%); each
+   panel inside = image(50%) + copy(50%) = 40% of the total each. */
 .services-page__layout {
   display: grid;
-  grid-template-columns: minmax(220px, 280px) 1fr;
-  gap: clamp(2.5rem, 5vw, 5rem);
-  align-items: flex-start;
+  grid-template-columns: minmax(200px, 20%) 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  /* Center the menu against the image/focus pane so their vertical
+     centers align (per Brees) rather than the menu top-pinning and
+     hanging below the shorter image. */
+  align-items: center;
   position: relative;
   z-index: 1;
 }
@@ -2511,7 +2580,10 @@ p:last-child { margin-bottom: 0; }
 .services-menu {
   position: sticky;
   top: 140px; /* clears the sticky header stack (topbar + main header) */
-  align-self: start;
+  /* Centered against the focus/image per Brees (was top-pinned).
+     The section barely scrolls, so the centered rest position is
+     what reads; sticky still catches any small scroll. */
+  align-self: center;
   height: fit-content;
 }
 .services-menu__label {
@@ -2594,11 +2666,13 @@ p:last-child { margin-bottom: 0; }
 /* ---- Focus pane ---- */
 .services-focus {
   position: relative;
-  min-height: 480px; /* steadies layout while panels swap */
+  min-height: 440px; /* steadies layout while panels swap (matches image height) */
 }
 .services-panel {
   display: none;
-  grid-template-columns: minmax(0, 380px) 1fr;
+  /* 50/50 within the 80% focus pane = ~40% image / ~40% text of the
+     full-width section (the menu takes the other 20%). */
+  grid-template-columns: 1fr 1fr;
   gap: clamp(2rem, 4vw, 3.5rem);
   align-items: center;
   animation: services-fade 0.45s var(--ease-out) both;
@@ -2613,7 +2687,10 @@ p:last-child { margin-bottom: 0; }
 
 .services-panel__media {
   margin: 0;
-  aspect-ratio: 3 / 4;
+  /* Fixed-height crop — kept short so the image roughly matches the
+     height of the menu column beside it (per Brees), rather than
+     overflowing above + below it. */
+  height: clamp(340px, 26vw, 440px);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -2632,10 +2709,11 @@ p:last-child { margin-bottom: 0; }
   align-items: flex-start;
 }
 .services-panel__title {
+  /* Brief: service detail heading (H3) — 30px / 700. */
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(2rem, 1.3rem + 1.8vw, 2.875rem);
-  line-height: 1.05;
+  font-weight: 700;
+  font-size: var(--fs-h3);
+  line-height: 1.12;
   letter-spacing: -0.02em;
   color: var(--ink);
   margin: 0;
@@ -2661,11 +2739,10 @@ p:last-child { margin-bottom: 0; }
 }
 
 .services-panel__cta {
-  margin-top: 0.5rem;
-  /* Per-panel CTAs hidden — the closer at the bottom of the
-     services page is the single point of conversion. Keeping the
-     markup in case we want to re-enable them later. */
-  display: none;
+  /* Per-panel "Book an appointment" CTA (Vivid Mid pill per brief).
+     Sits below the copy, left-aligned with the body content. */
+  margin-top: 0.75rem;
+  align-self: flex-start;
 }
 
 /* ---- Mobile: stack the layout, convert menu to a horizontal
@@ -2741,6 +2818,7 @@ p:last-child { margin-bottom: 0; }
     gap: 1.5rem;
   }
   .services-panel__media {
+    height: auto;            /* let the mobile aspect-ratio govern */
     aspect-ratio: 4 / 3;
     max-width: 520px;
   }
@@ -2849,11 +2927,10 @@ p:last-child { margin-bottom: 0; }
   margin: 0.25rem 0 0;
 }
 .faq__title em {
-  /* Brief: no editorial italic / no light-weight em on v2.
-     Em accent dropped to normal weight matching the headline. */
+  /* Brief: single-color headings — em inherits title color/weight. */
   font-style: normal;
-  font-weight: 700;
-  color: var(--ink);
+  font-weight: inherit;
+  color: inherit;
 }
 .faq__closing {
   font-size: 1.0625rem;

@@ -5,7 +5,23 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-29
-**Status:** v2 design track — homepage-2 polish pass (v14, below). Earlier v2 setup (v13) summary follows.
+**Status:** v2 design track — brief-compliance audit + services/team polish (v15, below). Earlier passes (v14, v13) follow.
+
+**v15 (2026-05-29) — brief audit, Feedbucket, services + team polish**
+
+  *Design Revision Brief re-read in full (`C:\Users\brees\Downloads\Cement Creek - Homepage Copy.pdf`) and the site audited against it.*
+
+  - **Two-tone titles removed (brief: single weight + color per heading).** A global rule `h1 em…{font-weight:300;font-style:italic}` plus 6 per-section em rules were recoloring accent words blue + italic. Neutralized globally (`h1–h6 em { font-weight: inherit; font-style: normal; color: inherit }`) and per-section (intentional/closer/page-hero/team-section/faq/mission). All headings now one color/weight.
+  - **Type scale corrected to brief:** tab-panel H3 + services-panel H3 → 700/`--fs-h3` (30px) (were 400-500/oversized); **bio name → 34px/400** (Montserrat), **bio role → 16px/500 Mid Gray** (was uppercase vivid-blue), bio summary → 15px/600, **dog-breed Q&A question → 12px uppercase Midnight Cove** (was italic display), answer → 16px; footer links 15→16px. Verified hero H1 48/800, H2 38/700, CTA 42/700, FAQ q 18/600, eyebrows 13/700/0.14em, nav 15/500, topbar 13/600 + 2.5px Vivid Mid accent — all already correct.
+  - **Mission statement em** de-styled (was italic 300 + vivid-blue underline) → plain white per brief.
+  - **H2 color confirmed:** brief doesn't assign a heading color explicitly; mapping = Midnight Cove (`--ink`) on light sections, white on dark. Already correct.
+  - **Feedbucket** client-feedback widget added to `<head>` of homepage-2, services-2, team-2 (key `0OCWwyM0vDK1iGGIJFXx`). NOT on v1 pages.
+  - **Services page:** removed the repeated "Care we provide" eyebrow from all 10 panels; hero subtext → "Honest medicine, real conversations, and care that meets every pet where they are."; **section opened to full width (20% menu / 40% img / 40% text)** — `.services-page > .container` uncapped, layout `minmax(200px,20%) 1fr`, panel `1fr 1fr`, image height capped `clamp(340px,26vw,440px)`; **per-panel "Book an appointment" CTAs unhidden + switched to Vivid Mid pill** (brief's services primary action) — 7 say "Book an appointment", 3 keep context copy (Urgent Care tel "Call or text us", End of Life "Reach out when you're ready", Pharmacy "Log in or order online"); **menu vertically centered** to the image (`align-items: center` + menu `align-self: center`).
+  - **Inner-page heroes → brief treatment:** services + team banners are now solid **Midnight Cove bg + photo at 15% opacity / `mix-blend-mode: luminosity`** (image moved to `::before`, old visible-photo+scrim removed). Services hero image = white Samoyed (`team-closer-bg.jpg`, the dog from the old CTA; 768×328 so faint/soft — higher-res from Drive still TODO). Team hero reverted to `team-page-hero.jpg`.
+  - **Values (founders mission):** dropped the bordered powder pills → moved INSIDE the navy mission card as an inline dot-separated list styled like the "Our Mission" eyebrow (powder-blue, uppercase, tracked, Vivid Mid dots), divider-free.
+  - **CTAs (closers) tightened** sitewide: padding-block `clamp(5rem,9vw,8rem)` → `clamp(1.75rem,3.5vw,3rem)`, wave-mark gap 18→12px, title margin 2rem→1.5rem, town-list→button gap reduced. Added the **wave-mark squiggle above the headline on services + team closers** (matching homepage). Removed the wave-mark squiggle from the **homepage hero** (kept on services hero).
+  - **Squiggle centered** above the "Co-Founders" eyebrow in team sec2 (`.team-section__head .eyebrow { align-items: center }`).
+  - Cache buster `styles/main-2.css?v=41` (current).
 
 **v14 (2026-05-29) — homepage-2 intentional + testimonials polish**
   - **Intentional tab-panel image now fills its full 50% column** like the founders (sec2) image. `.tab-panel__display` was capped `max-width: 540px` + `aspect-ratio: 1/1` + `justify-self: start` (small, left-aligned with empty space beside it). Now `width: 100%`, fixed-height crop `height: clamp(360px, 42vw, 500px)`, `justify-self: stretch` — true 50/50 split matching founders. Mobile still stacks single-column.
