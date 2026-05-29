@@ -269,7 +269,9 @@ p:last-child { margin-bottom: 0; }
    between the light services / FAQ sections. */
 .reviews {
   background: var(--ink);
-  padding-block: clamp(3.5rem, 8vw, 96px);
+  /* Tighter top so the wave-mark/eyebrow sit closer under the wavy
+     seam; bottom keeps clearance before the wave into the FAQ. */
+  padding-block: clamp(2.25rem, 4vw, 3.5rem) clamp(3.5rem, 6vw, 5rem);
   position: relative;
 }
 .reviews__head {
@@ -298,8 +300,13 @@ p:last-child { margin-bottom: 0; }
   font-size: var(--fs-h2);
   font-weight: 700;
   margin: 0.75rem auto 0;
-  max-width: 22ch;
+  /* One line per Brees (was capped at 22ch which wrapped it). */
+  max-width: none;
+  white-space: nowrap;
   color: var(--white);          /* white on the dark band */
+}
+@media (max-width: 760px) {
+  .reviews__title { white-space: normal; max-width: 22ch; }
 }
 .reviews__grid {
   position: relative;
@@ -1120,6 +1127,10 @@ p:last-child { margin-bottom: 0; }
      are flipped to read on dark (see overrides below). */
   background: var(--ink);
   position: relative; overflow: hidden;
+  /* Tighter top padding so the wave-mark/eyebrow sit closer under the
+     wavy seam (was the base ~7rem top); bottom keeps clearance before
+     the wave into the services section. */
+  padding-block: clamp(2.25rem, 4vw, 3.5rem) clamp(3.5rem, 6vw, 5.5rem);
 }
 .intentional::before {
   /* Soft vivid-blue "pool of light" on the right side, dropped
@@ -1814,8 +1825,13 @@ p:last-child { margin-bottom: 0; }
   font-weight: 400;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.78);
-  max-width: 60ch;
+  /* One line per Brees (was capped at 60ch which wrapped after "and"). */
+  max-width: none;
+  white-space: nowrap;
   margin: 0 auto clamp(1.25rem, 2.5vw, 1.75rem);
+}
+@media (max-width: 992px) {
+  .closer__towns { white-space: normal; max-width: 60ch; }
 }
 /* (Legacy v1 town-pill styles kept below so they don't break v1.) */
 .closer__areas {
