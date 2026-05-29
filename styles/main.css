@@ -855,7 +855,10 @@ p:last-child { margin-bottom: 0; }
 .founders {
   /* Per-section fixed-px gradient per brief. */
   background: linear-gradient(to bottom, var(--paper-warm) 0px, var(--paper) 600px);
-  padding-block: clamp(5rem, 9vw, 88px);
+  /* Tighter TOP padding so content sits close under the hero's wavy
+     edge (was clamp(5rem,9vw,88px) top+bottom = a big empty band);
+     bottom keeps room before the wave into the intentional band. */
+  padding-block: clamp(1.75rem, 3vw, 2.75rem) clamp(4rem, 8vw, 6rem);
   position: relative;
   overflow: hidden;
 }
