@@ -441,12 +441,11 @@ p:last-child { margin-bottom: 0; }
   border-bottom: 2.5px solid var(--creek-deep);
 }
 .topbar__inner {
-  max-width: var(--container-wide); margin-inline: auto;
-  padding: 0.55rem clamp(1.25rem, 4vw, 2.5rem);
-  /* 3-column grid: spacer (L) | chips (centered M) | social (R).
-     The spacer + social columns are equal-width so chips stay
-     visually centered within the topbar even though the social
-     icons sit on the right. */
+  /* Full-width to match the header: chips centered on the PAGE,
+     social icons pushed to the true right edge. spacer + social are
+     equal-width (1fr) so the chips stay page-centered. */
+  max-width: none;
+  padding: 0.55rem clamp(1.5rem, 3vw, 2.75rem);
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -529,11 +528,14 @@ p:last-child { margin-bottom: 0; }
      the center column flexes and centers the nav within it. */
   max-width: none;
   padding: 1rem clamp(1.5rem, 3vw, 2.75rem);
+  /* 1fr auto 1fr → nav sits at the TRUE page center regardless of the
+     logo / actions widths; logo hard left, actions hard right. */
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: clamp(1rem, 2.5vw, 2rem);
 }
+.site-header__brand { justify-self: start; }
 .site-header__brand { display: inline-flex; align-items: center; }
 /* Logo scaled up ~30% from 58px → 76px so it carries more
    presence in the sticky header. */
