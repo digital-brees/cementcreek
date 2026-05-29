@@ -381,7 +381,9 @@ Cement Creek/
 - **GitHub:** `digital-brees/cementcreek`
 - **Vercel project:** `brees-projects-61eb3847/cement-creek-vet`. Production = `https://cement-creek-vet.vercel.app/` (auto-deploys from `main`).
 - **Production currently = v11.6 (commit `64613fc`, 5/22)** — `main` was rolled back 2026-05-29 so the live site shows the pre-redesign design. All redesign work (v12→v15) lives on `v2-design` only.
-- **`v2-design` preview URL (stable, always latest branch build):** `https://cement-creek-vet-git-v2-design-brees-projects-61eb3847.vercel.app` — new design at `/homepage-2.html`, `/services-2.html`, `/team-2.html`. Share this with the client.
+- **`v2-design` SHORT preview URL (share with client):** `https://cement-creek-vet-v2.vercel.app` — new design at `/homepage-2.html`, `/services-2.html`, `/team-2.html`.
+  - This is a manual CLI alias → it points to a FIXED deployment; it does NOT auto-update on push. **After pushing new work to `v2-design`, re-point it:** `vercel alias set $(vercel inspect cement-creek-vet-git-v2-design-brees-projects-61eb3847.vercel.app 2>&1 | grep -oE 'https://cement-creek-[a-z0-9]+-brees-projects-61eb3847.vercel.app' | head -1) cement-creek-vet-v2.vercel.app`
+  - Auto-updating (long) alias if ever needed: `https://cement-creek-vet-git-v2-design-brees-projects-61eb3847.vercel.app`
 - **Branch workflow (adopted 2026-05-29):** `main` = production. All ongoing v2 work happens on **`v2-design`** (Vercel preview per push). Merge `v2-design` → `main` only at client-approved milestones. Do NOT commit directly to `main`.
 
 ---
