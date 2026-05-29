@@ -1,6 +1,8 @@
 // ============================================================
-// load-partials.js — fetches shared header + footer into pages
-// Drop placeholders into pages:
+// load-partials.js — v2 variant of the partial loader.
+// Fetches includes/header.html + includes/footer.html so
+// the v2 design track stays isolated from v1's header/footer.
+// Drop placeholders into v2 pages:
 //   <div id="global-header"></div>
 //   <div id="global-footer"></div>
 // ============================================================
@@ -47,8 +49,9 @@
     const current = location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.site-header__link, .mobile-menu__link').forEach((link) => {
       const href = link.getAttribute('href');
-      const matchHome = current === '' || current === 'index.html' || current === '/';
-      const isHome = href === '/' || href === 'index.html';
+      // v2 "home" is index.html (not / or index.html, which belong to v1).
+      const matchHome = current === '' || current === 'index.html';
+      const isHome = href === 'index.html';
       if ((matchHome && isHome) || href === current) {
         link.setAttribute('data-nav-current', '');
       } else {

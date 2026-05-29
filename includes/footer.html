@@ -62,24 +62,35 @@
       </p>
     </div>
 
+    <!-- SERVICES column per brief — deep-links into the services
+         page panels (anchors map to services.html sidebar IDs).
+         Service names match the existing services list 1:1, no
+         new copy introduced. -->
     <div class="site-footer__col">
-      <h3 class="site-footer__heading">Reach us</h3>
+      <h3 class="site-footer__heading">Services</h3>
+      <ul class="site-footer__links">
+        <li><a href="services.html#happy-visits">Happy Visits</a></li>
+        <li><a href="services.html#wellness">Wellness &amp; Preventive Care</a></li>
+        <li><a href="services.html#dentistry">Dentistry</a></li>
+        <li><a href="services.html#surgery">Surgery</a></li>
+        <li><a href="services.html#diagnostics">Diagnostics</a></li>
+        <li><a href="services.html#urgent-care">Urgent Care</a></li>
+        <li><a href="services.html">View all services</a></li>
+      </ul>
+    </div>
+
+    <!-- CONTACT column per brief — phone/text/email/portal/pharmacy
+         folded into the explicit "Contact" column. Header nav still
+         carries the page-level navigation so dropping Site here is
+         a no-op for findability. -->
+    <div class="site-footer__col">
+      <h3 class="site-footer__heading">Contact</h3>
       <ul class="site-footer__contact">
         <li><a href="tel:" data-todo="Phone number">Phone <span class="site-footer__small">— coming soon</span></a></li>
         <li><a href="sms:" data-todo="Texting number">Text <span class="site-footer__small">— coming soon</span></a></li>
         <li><a href="mailto:ccvh@cementcreekvet.com">ccvh@cementcreekvet.com</a></li>
         <li><a href="#" data-todo="Pet portal URL">Pet portal</a></li>
         <li><a href="#" data-todo="Online pharmacy URL">Online pharmacy</a></li>
-      </ul>
-    </div>
-
-    <div class="site-footer__col">
-      <h3 class="site-footer__heading">Site</h3>
-      <ul class="site-footer__links">
-        <li><a href="/">Home</a></li>
-        <li><a href="team.html">Team</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="#" class="nav-disabled" aria-disabled="true" tabindex="-1">Contact</a></li>
       </ul>
     </div>
 

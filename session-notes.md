@@ -5,7 +5,12 @@
 **Domain:** cementcreekvet.com
 **Project started:** 2026-05-18
 **Last update:** 2026-05-29
-**Status:** v2 design track — brief-compliance audit + services/team polish (v15, below). Earlier passes (v14, v13) follow.
+**Status:** v2 design is now the canonical site on the `v2-design` branch (v16, below). Earlier passes (v15, v14, v13) follow.
+
+**v16 (2026-05-29) — renamed `-2` files to canonical names on `v2-design`**
+  - Now that the new design lives on its own branch (production `main` = old v11.6 design), the parallel `-2` naming is gone. On `v2-design` the new design IS the site: `homepage-2.html → index.html`, `services-2.html → services.html`, `team-2.html → team.html`, `styles/main-2.css → styles/main.css`, `includes/{header,footer}-2.html → {header,footer}.html`, `includes/load-partials-2.js → load-partials.js` (git mv -f, overwriting the old v1 files on the branch — v1 still lives on `main` + git history).
+  - All references updated (CSS links, loader partial paths, nav links across header/footer/pages). New homepage now loads at the **root `/`** of the preview. Cache buster `styles/main.css?v=42`.
+  - **NOTE for future sessions:** on `v2-design`, `index.html`/`services.html`/`team.html`/`main.css` ARE the v2 design. The old `-2` filenames no longer exist here. (`main` still has the v1-named files with the old design.)
 
 **v15 (2026-05-29) — brief audit, Feedbucket, services + team polish**
 
