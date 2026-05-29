@@ -259,66 +259,144 @@ p:last-child { margin-bottom: 0; }
    white cards in a centered grid on flat warm off-white. Vivid
    Mid star row, italic body, source + name footer. Placeholder
    copy in the HTML (data-todo) until real reviews land. */
+/* TESTIMONIALS — 3-up white notecards on the Midnight Cove band.
+   Keeps the box format the client liked, set on the deep navy
+   (--ink #0f4060) so it's cohesive with the intentional + closer
+   sections. White cards pop on the navy; wave seams on both sides
+   (see .services-strip::after + .reviews::after) nest the dark band
+   between the light services / FAQ sections. */
 .reviews {
-  background: var(--paper);
-  padding-block: clamp(3rem, 8vw, 88px);
+  background: var(--ink);
+  padding-block: clamp(3.5rem, 8vw, 96px);
   position: relative;
 }
 .reviews__head {
+  position: relative;
+  z-index: 1;
   text-align: center;
   max-width: 720px;
-  margin: 0 auto clamp(1.75rem, 3vw, 2.5rem);
+  margin: 0 auto clamp(2rem, 3.5vw, 3rem);
   padding-inline: clamp(1.25rem, 4vw, 2.5rem);
 }
-.reviews__head .eyebrow { align-items: center; }
+.reviews__wave-mark {
+  display: block;
+  margin: 0 auto 0.85rem;
+  color: var(--creek);          /* powder blue on the dark band */
+}
+.reviews__eyebrow {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--creek);
+}
 .reviews__title {
   font-size: var(--fs-h2);
   font-weight: 700;
   margin: 0.75rem auto 0;
   max-width: 22ch;
+  color: var(--white);          /* white on the dark band */
 }
 .reviews__grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: clamp(1.25rem, 2vw, 1.75rem);
   max-width: 1100px;
   margin: 0 auto;
   padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+  align-items: stretch;
 }
 .review-card {
+  display: flex;
+  flex-direction: column;
   background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: clamp(1.5rem, 2.5vw, 2rem) clamp(1.25rem, 2.25vw, 1.75rem);
+  border-radius: 20px;
+  padding: clamp(1.75rem, 2.5vw, 2.25rem);
+  /* Deeper shadow so the white cards lift cleanly off the navy. */
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.10),
+    0 18px 50px rgba(0, 0, 0, 0.22);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+.review-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.12),
+    0 26px 64px rgba(0, 0, 0, 0.28);
 }
 .review-card__stars {
   color: var(--creek-deep);
   font-size: 1.0625rem;
   letter-spacing: 3px;
-  margin-bottom: 0.875rem;
+  margin-bottom: 1rem;
 }
 .review-card__quote {
-  font-size: 1.0625rem;
-  line-height: 1.75;
-  color: var(--stone-warm, var(--charcoal));
+  /* Editorial italic, echoing the hero/closer voice — reads as a
+     quote, not a help-desk ticket. */
   font-style: italic;
-  margin: 0 0 1.125rem;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--charcoal);
+  margin: 0 0 1.5rem;
+  /* push the attribution to the card bottom so a row of cards lines
+     up regardless of quote length */
+  flex: 1 1 auto;
 }
-.review-card__source {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--ink);
-  margin: 0;
+.review-card__quote::before { content: '\201C'; }
+.review-card__quote::after  { content: '\201D'; }
+.review-card__by {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(15, 64, 96, 0.10);
 }
 .review-card__name {
+  font-weight: 700;
   font-size: 0.9375rem;
+  color: var(--ink);
+}
+.review-card__loc {
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
   color: var(--stone-warm, var(--charcoal));
-  margin: 0.125rem 0 0;
 }
 
 @media (max-width: 900px) {
-  .reviews__grid { grid-template-columns: 1fr; max-width: 560px; }
+  .reviews__grid { grid-template-columns: 1fr; max-width: 520px; }
+}
+
+/* Wave seam — bottom of services-strip, filled with the dark
+   reviews bg (--ink #0f4060) so the navy testimonial band reads as
+   rising up into the light services section. Mirrors founders::after. */
+.services-strip::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: clamp(48px, 7vw, 88px);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 70' preserveAspectRatio='none'><path d='M0,28 C240,65 480,5 720,35 C960,65 1200,10 1440,38 L1440,70 L0,70 Z' fill='%230f4060'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 3;
+}
+/* Wave seam — bottom of reviews, filled with the FAQ's top color
+   (--paper-warm #d8edf5) so the dark band lifts back into the light
+   FAQ section. Mirrors intentional::after. */
+.reviews::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: clamp(48px, 7vw, 88px);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 70' preserveAspectRatio='none'><path d='M0,28 C240,65 480,5 720,35 C960,65 1200,10 1440,38 L1440,70 L0,70 Z' fill='%23d8edf5'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 2;
 }
 .btn--text {
   background: transparent; color: var(--ink); padding: 0; border-radius: 0;
@@ -1230,8 +1308,13 @@ p:last-child { margin-bottom: 0; }
   margin-bottom: clamp(2rem, 3.5vw, 3rem);
 }
 .intentional__title {
-  max-width: 14ch;
-  margin-inline: auto;   /* center the capped-width title within the centered head */
+  /* Keep the title on a single line per Brees (was capped at 14ch
+     which forced "Everything is intentional." to wrap). nowrap holds
+     it on one line; the mobile breakpoint below re-enables wrapping
+     so it never overflows narrow phones. */
+  max-width: none;
+  white-space: nowrap;
+  margin-inline: auto;   /* center within the centered head */
   /* Brief: section H2 — 38px / 700. The previous big clamp peak
      of 3.75rem was overriding the global --fs-h2 scale. */
   font-size: var(--fs-h2);
@@ -1247,6 +1330,11 @@ p:last-child { margin-bottom: 0; }
   /* Soft white on the dark band. */
   color: rgba(255, 255, 255, 0.66);
   max-width: 56ch;
+}
+/* Re-enable wrapping on narrow phones so the single-line title
+   never overflows the viewport. */
+@media (max-width: 600px) {
+  .intentional__title { white-space: normal; }
 }
 
 .tab-strip {
@@ -1324,17 +1412,16 @@ p:last-child { margin-bottom: 0; }
    an image that echoes the tab pill's thumbnail. Square aspect,
    matching corner radius to other rounded cards on the site. */
 .tab-panel__display {
+  /* Brief + Brees: img fills its full 50% column exactly like the
+     founders (sec2) image — width 100%, fixed-height crop (no square
+     aspect-ratio cap, no max-width, no left-align). Stretches edge to
+     edge of its 1fr column so the panel reads as a true 50/50 split. */
   width: 100%;
-  /* Brief: img fills its column in the tab-panel grid (matches
-     founders layout). Was capped at 360px square — now expands to
-     fill the column width, capped at a sensible 540px so it never
-     overshadows the copy on ultrawide viewports. */
-  max-width: 540px;
-  aspect-ratio: 1 / 1;
+  height: clamp(360px, 42vw, 500px);
   border-radius: var(--radius-lg);
   object-fit: cover;
   display: block;
-  justify-self: start;
+  justify-self: stretch;
   box-shadow: var(--shadow-md);
 }
 .tab-panel__body { min-width: 0; }

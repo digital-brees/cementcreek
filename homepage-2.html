@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles/main-2.css?v=21" />
+  <link rel="stylesheet" href="styles/main-2.css?v=26" />
   <link rel="icon" type="image/png" href="assets/CEMENT CREEK MAIN LOGO_BADGE.png" />
 </head>
 <body>
@@ -421,34 +421,45 @@
 
 
     <!-- ========================================================
-         GOOGLE REVIEWS (brief — From the community)
-         Placeholder copy flagged via data-todo until real reviews
-         arrive. Structure: 3-column white cards on warm off-white,
-         Vivid Mid stars, italic body, source + name footer.
+         TESTIMONIALS (brief — From the community)
+         3-up cards, restyled as warm white notecards (the site's
+         signature material: soft layered shadow on warm paper, no
+         hard border) so they sit inside the design language. Wave-
+         mark + creek-blue stars + editorial italic quote.
+         Placeholder copy flagged via data-todo until real reviews.
          ======================================================== -->
-    <section class="reviews" aria-labelledby="reviews-title" data-todo="Replace placeholder reviews with real Google Reviews">
+    <section class="reviews section--dark" aria-labelledby="reviews-title" data-todo="Replace placeholder reviews with real Google Reviews">
       <header class="reviews__head">
-        <span class="eyebrow" data-reveal>From the community</span>
+        <svg class="reviews__wave-mark" aria-hidden="true" width="44" height="12" viewBox="0 0 44 12" fill="none" data-reveal>
+          <path d="M1 8C5 3 10 3 14 8C18 13 23 13 27 8C31 3 36 3 40 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <span class="reviews__eyebrow" data-reveal>From the community</span>
         <h2 class="reviews__title" id="reviews-title" data-reveal>What Crested Butte pet owners are saying.</h2>
       </header>
       <div class="reviews__grid">
         <article class="review-card" data-reveal>
           <div class="review-card__stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="review-card__quote">"Dr. Erickson took more time explaining my dog's diagnosis than any vet I've ever seen. You can feel they genuinely care about getting it right &mdash; not just getting through the appointment."</p>
-          <p class="review-card__source">Google Review</p>
-          <p class="review-card__name">Sarah M. &middot; Crested Butte</p>
+          <p class="review-card__quote">Dr. Erickson took more time explaining my dog's diagnosis than any vet I've ever seen. You can feel they genuinely care about getting it right &mdash; not just getting through the appointment.</p>
+          <footer class="review-card__by">
+            <span class="review-card__name">Sarah M.</span>
+            <span class="review-card__loc">Crested Butte &middot; Google Review</span>
+          </footer>
         </article>
         <article class="review-card" data-reveal>
           <div class="review-card__stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="review-card__quote">"We were so nervous moving to a new area with our senior cat. Cement Creek made us feel like family on the very first visit. I don't think we'll ever go anywhere else."</p>
-          <p class="review-card__source">Google Review</p>
-          <p class="review-card__name">Tom &amp; Lisa R. &middot; Mt. Crested Butte</p>
+          <p class="review-card__quote">We were so nervous moving to a new area with our senior cat. Cement Creek made us feel like family on the very first visit. I don't think we'll ever go anywhere else.</p>
+          <footer class="review-card__by">
+            <span class="review-card__name">Tom &amp; Lisa R.</span>
+            <span class="review-card__loc">Mt. Crested Butte &middot; Google Review</span>
+          </footer>
         </article>
         <article class="review-card" data-reveal>
           <div class="review-card__stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="review-card__quote">"The happy visit concept is genius. My anxious rescue actually wags his tail going in now. I didn't think that was possible after years of vet anxiety."</p>
-          <p class="review-card__source">Google Review</p>
-          <p class="review-card__name">Jenn K. &middot; Gunnison</p>
+          <p class="review-card__quote">The happy visit concept is genius. My anxious rescue actually wags his tail going in now. I didn't think that was possible after years of vet anxiety.</p>
+          <footer class="review-card__by">
+            <span class="review-card__name">Jenn K.</span>
+            <span class="review-card__loc">Gunnison &middot; Google Review</span>
+          </footer>
         </article>
       </div>
     </section>
