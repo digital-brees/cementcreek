@@ -270,8 +270,8 @@ p:last-child { margin-bottom: 0; }
 .reviews {
   background: var(--ink);
   /* Tighter top so the wave-mark/eyebrow sit closer under the wavy
-     seam; bottom keeps clearance before the wave into the FAQ. */
-  padding-block: clamp(2.25rem, 4vw, 3.5rem) clamp(3.5rem, 6vw, 5rem);
+     seam; more bottom room so the cards clear the wavy edge below. */
+  padding-block: clamp(2.25rem, 4vw, 3.5rem) clamp(5.5rem, 9vw, 8rem);
   position: relative;
 }
 .reviews__head {
